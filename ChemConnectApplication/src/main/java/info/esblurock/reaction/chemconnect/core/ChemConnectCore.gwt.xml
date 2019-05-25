@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  When updating your version of GWT, you should also update this DTD reference,
+  so that your app can take advantage of the latest GWT module capabilities.
+-->
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.1//EN"
+  "http://gwtproject.org/doctype/2.8.1/gwt-module.dtd">
+<module rename-to='chemconnectapplication'>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.activity.Activity" />
+	<inherits name="com.google.gwt.place.Place" />
+	<inherits name="com.google.gwt.http.HTTP" />
+	<inherits name="com.google.gwt.json.JSON" />
+	<inherits name="gwt.material.design.GwtMaterialBasicWithJQuery" />
+	<inherits name="gwt.material.design.addins.GwtMaterialAddins" />
+	<inherits name="gwt.material.design.GwtMaterialTable" />
+	<inherits name="gwt.material.design.GwtMaterialDesign" />
+  <!-- Other module inherits                                      -->
+
+	<inherits
+		name='info.esblurock.reaction.chemconnect.core.common.ChemConnectCoreClientServerCommon' />
+	<inherits
+		name='info.esblurock.reaction.chemconnect.core.ChemConnectCoreData' />
+
+	<inherits name='com.github.gwtd3.D3' />
+	<inherits name="gwt.material.design.themes.ThemeGrey"/>
+	<replace-with class="info.esblurock.reaction.chemconnect.core.client.activity.ClientFactoryImpl">
+		<when-type-is class="info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory" />
+	</replace-with>
+
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='info.esblurock.reaction.chemconnect.core.client.ChemConnectCore'/>
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client'/>
+  <source path='data'/>
+  
+  <!-- allow Super Dev Mode -->
+  <add-linker name="xsiframe"/>
+</module>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ChemConnectApplication-1.0">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="ChemConnectCoreServer-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreServer/ChemConnectCoreServer">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectOntology-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectOntology/ChemConnectOntology">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreClientServerCommon-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreClientServerCommon/ChemConnectCoreClientServerCommon">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreData-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreData/ChemConnectCoreData">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreRegisterData-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreRegisterData/ChemConnectCoreRegisterData">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="ChemConnectApplication"/>
+        <property name="java-output-path" value="/ChemConnectApplication/build/classes"/>
+    </wb-module>
+</project-modules>
