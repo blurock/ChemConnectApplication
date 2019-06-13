@@ -3,7 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.concepts;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 public class ConceptHierarchyCallback implements AsyncCallback<HierarchyNode> {
 

@@ -14,9 +14,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
+import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 
 
 public class ImageColumn extends Composite implements HasText {

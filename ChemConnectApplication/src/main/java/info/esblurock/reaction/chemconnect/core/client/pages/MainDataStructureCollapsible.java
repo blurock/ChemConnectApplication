@@ -18,6 +18,9 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
 import info.esblurock.reaction.chemconnect.core.client.administration.ListOfMainDataObjectCallback;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
@@ -29,16 +32,13 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.Mul
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 /**
  * @author edwardblurock

@@ -15,9 +15,9 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 
 
 public class UploadFileToGCS extends Composite implements DetermineBlobTargetInterface, InsertBlobContentInterface {

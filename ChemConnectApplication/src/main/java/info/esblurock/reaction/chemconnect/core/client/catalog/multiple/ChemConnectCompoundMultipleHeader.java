@@ -13,13 +13,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpCollapsibleItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ChemConnectCompoundMultipleHeader extends Composite implements CreateMultipleItemCallback {
 

@@ -7,8 +7,8 @@ import java.util.Comparator;
 import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
 public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStaging> {
 	

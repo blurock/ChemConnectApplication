@@ -4,7 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
 public class VisualizeMediaCallback implements AsyncCallback<DatabaseObjectHierarchy> {
 

@@ -8,9 +8,9 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCardTitle;
 import gwt.material.design.client.ui.MaterialLabel;
+import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.client.resources.DataTypeText;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
 public class ClassificationInformationCard extends CardModalInterface {
 

@@ -6,9 +6,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.UploadedFilesInterface;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
 public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFileInformation>> {
 

@@ -12,6 +12,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
@@ -20,9 +23,6 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
 public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromConceptHeirarchy, HierarchyNodeCallbackInterface {
 

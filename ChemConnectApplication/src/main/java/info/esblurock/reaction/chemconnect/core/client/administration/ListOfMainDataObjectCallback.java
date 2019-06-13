@@ -6,8 +6,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureInstanceCollapsible;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
 
 public class ListOfMainDataObjectCallback implements AsyncCallback<SingleQueryResult> {
 

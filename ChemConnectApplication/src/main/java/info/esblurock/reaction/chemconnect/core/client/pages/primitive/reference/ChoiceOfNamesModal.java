@@ -18,8 +18,8 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.client.catalog.reference.AuthorInformationHeader;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 
 public class ChoiceOfNamesModal extends Composite {
 

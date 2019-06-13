@@ -21,9 +21,9 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.Primi
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 public class StandardDatasetValueUnitsHeader extends Composite
 		implements PrimitiveValueUnitCallInterface, ChooseFromConceptHeirarchy {

@@ -14,10 +14,10 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.client.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
-import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 
 public class StandardDatasetDescriptionDataDataHeader extends Composite implements SetLineContentInterface {
 

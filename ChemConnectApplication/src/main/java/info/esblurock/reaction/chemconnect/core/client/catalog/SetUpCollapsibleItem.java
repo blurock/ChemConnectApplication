@@ -37,9 +37,9 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.matri
 import info.esblurock.reaction.chemconnect.core.client.device.observations.units.StandardDatasetValueUnitsHeader;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DescriptionDataData;
 
 public enum SetUpCollapsibleItem {
 	

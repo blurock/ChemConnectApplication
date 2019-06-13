@@ -12,6 +12,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
@@ -27,12 +31,8 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetS
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SpreadSheetMatrixBlockIsolateHeader extends Composite 
 	implements ChooseFromConceptHeirarchy, HierarchyNodeCallbackInterface, 

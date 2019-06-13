@@ -6,8 +6,8 @@ import java.util.Date;
 import com.google.gwt.user.client.Cookies;
 
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class SetUpUserCookies {
 	public static void setupDefaultGuestUserCookies() {

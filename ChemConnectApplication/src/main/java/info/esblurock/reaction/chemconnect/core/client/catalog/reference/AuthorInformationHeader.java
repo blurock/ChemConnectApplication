@@ -13,14 +13,14 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.base.contact.PersonalDescription;
+import info.esblurock.reaction.chemconnect.core.base.dataset.AuthorInformation;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.VisualizeCatalogObjectWindow;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.ChoiceOfNamesModal;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
-import info.esblurock.reaction.chemconnect.core.data.description.AuthorInformation;
 
 public class AuthorInformationHeader extends Composite {
 

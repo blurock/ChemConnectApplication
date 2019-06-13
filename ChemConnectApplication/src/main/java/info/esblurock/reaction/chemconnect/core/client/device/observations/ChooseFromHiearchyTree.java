@@ -13,9 +13,9 @@ import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
 public class ChooseFromHiearchyTree extends Composite {
 

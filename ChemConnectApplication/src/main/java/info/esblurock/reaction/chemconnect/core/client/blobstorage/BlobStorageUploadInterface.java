@@ -1,7 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.blobstorage;
 
-import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
-import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
+import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
 
 public interface BlobStorageUploadInterface {
 

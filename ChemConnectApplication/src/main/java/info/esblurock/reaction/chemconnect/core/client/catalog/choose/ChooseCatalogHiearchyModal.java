@@ -20,14 +20,14 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.client.ui.MaterialDialogFooter;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatasetCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ChooseCatalogHiearchyModal extends Composite implements SubCatagoryHierarchyCallbackInterface {
 

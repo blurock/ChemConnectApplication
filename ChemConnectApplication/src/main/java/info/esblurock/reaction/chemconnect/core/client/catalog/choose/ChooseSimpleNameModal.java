@@ -16,15 +16,15 @@ import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCallbackInterface {
 

@@ -21,13 +21,13 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.base.dataset.AuthorInformation;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataSetReference;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.description.AuthorInformation;
-import info.esblurock.reaction.chemconnect.core.data.description.DataSetReference;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class StandardDatasetDataSetReferenceHeader extends Composite {
 

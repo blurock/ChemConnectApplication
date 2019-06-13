@@ -9,6 +9,9 @@
         <dependent-module archiveName="ChemConnectOntology-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectOntology/ChemConnectOntology">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreDataBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreDataBase/ChemConnectCoreDataBase">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="ChemConnectCoreClientServerCommon-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreClientServerCommon/ChemConnectCoreClientServerCommon">
             <dependency-type>uses</dependency-type>
         </dependent-module>

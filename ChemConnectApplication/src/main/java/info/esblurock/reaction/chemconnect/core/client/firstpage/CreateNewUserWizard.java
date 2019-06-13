@@ -16,17 +16,17 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
+import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
 import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 
 public class CreateNewUserWizard extends Composite implements OKAnswerInterface {
 

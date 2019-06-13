@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 
 public class UploadedTextObject extends Composite implements InsertBlobTextContentInterface {
 

@@ -8,7 +8,7 @@ import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.TextAlign;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 public class ConvertToMaterialTree {
 	

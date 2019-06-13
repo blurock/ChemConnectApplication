@@ -4,7 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 
 public class GCSContentCallback implements AsyncCallback<GCSBlobContent> {
 

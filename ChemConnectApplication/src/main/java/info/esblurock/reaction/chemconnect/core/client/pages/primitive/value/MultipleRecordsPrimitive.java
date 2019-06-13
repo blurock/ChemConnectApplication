@@ -12,13 +12,13 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.Primitive
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 

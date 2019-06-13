@@ -25,11 +25,11 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.CreateMu
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
 public class StandardDatasetObjectHierarchyItem extends Composite 
 	implements CreateMultipleItemCallback {

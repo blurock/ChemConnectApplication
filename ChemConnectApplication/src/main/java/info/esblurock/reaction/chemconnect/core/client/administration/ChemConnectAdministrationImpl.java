@@ -20,6 +20,7 @@ import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
@@ -29,7 +30,6 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 public class ChemConnectAdministrationImpl extends Composite implements ChemConnectAdministrationView {
 
 	private static ChemConnectAdministrationImplUiBinder uiBinder = GWT

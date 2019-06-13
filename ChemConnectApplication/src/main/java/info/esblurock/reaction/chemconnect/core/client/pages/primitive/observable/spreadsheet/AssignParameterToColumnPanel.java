@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetTitleRowCorrespondence;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 public class AssignParameterToColumnPanel extends Composite {
 

@@ -20,11 +20,11 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
+import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.client.resources.ImageResources;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
-import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 
 public class UploadPhoto extends Composite implements HasText, BlobStorageUploadInterface {
 

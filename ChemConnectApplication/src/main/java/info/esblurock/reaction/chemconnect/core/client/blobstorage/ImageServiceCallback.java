@@ -4,7 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
-import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
+import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 
 
 public class ImageServiceCallback implements AsyncCallback<ImageServiceInformation>{

@@ -1,9 +1,9 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 public class PrimitiveParameterSpecification  extends PrimitiveDataStructureBase {
 

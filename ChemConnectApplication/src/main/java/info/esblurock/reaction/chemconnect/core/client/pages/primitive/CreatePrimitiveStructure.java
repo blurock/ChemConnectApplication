@@ -12,9 +12,9 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.Prim
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveParagraph;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveSetOfKeys;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveShortString;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 
 public enum CreatePrimitiveStructure {
 

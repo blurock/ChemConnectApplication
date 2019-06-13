@@ -14,8 +14,8 @@ import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.SimpleLoginCallback;
 import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstPageView;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 
 public class FirstPage extends Composite implements FirstPageView {
 

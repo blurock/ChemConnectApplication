@@ -35,8 +35,8 @@ import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionP
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.resources.info.about.InfoAboutResources;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 
 public class TopChemConnectPanel extends Composite {
 

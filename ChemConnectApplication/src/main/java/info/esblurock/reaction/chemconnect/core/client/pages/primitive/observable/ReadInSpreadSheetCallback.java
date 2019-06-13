@@ -4,8 +4,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ObservationsFromSpreadSheetInterface;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ReadInSpreadSheetCallback  implements AsyncCallback<DatabaseObjectHierarchy> {
 

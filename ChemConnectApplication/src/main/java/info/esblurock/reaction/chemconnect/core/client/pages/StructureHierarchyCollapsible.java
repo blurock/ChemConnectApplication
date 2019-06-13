@@ -11,8 +11,8 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
 public class StructureHierarchyCollapsible extends Composite implements HasText {
 

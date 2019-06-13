@@ -12,7 +12,7 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 
 public class QueryNameOfPersonModal extends Composite {
 
