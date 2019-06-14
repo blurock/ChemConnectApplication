@@ -15,14 +15,16 @@ import info.esblurock.reaction.chemconnect.core.base.client.about.AboutSummary;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppPlaceHistoryMapper;
+import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class ChemConnectApplicationBase implements EntryPoint {
-	private Place defaultPlace = new AboutSummaryPlace("About");
+	private Place defaultPlace = new FirstSiteLandingPagePlace("First");
 
 	/**
 	 * This is the entry point method.
@@ -41,7 +43,7 @@ public class ChemConnectApplicationBase implements EntryPoint {
 		// Start ActivityManager for the main widget with our ActivityMapper
 		ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
 		ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
-		BaseChemConnectPanel toppanel = new BaseChemConnectPanel();
+		BaseChemConnectPanel toppanel = new BaseChemConnectPanel(clientFactory);
 		activityManager.setDisplay(toppanel.getContentPanel());
 
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
@@ -50,7 +52,7 @@ public class ChemConnectApplicationBase implements EntryPoint {
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 		historyHandler.register(placeController, eventBus, defaultPlace);
 		
-		toppanel.getContentPanel().add(new AboutSummary());
+		toppanel.getContentPanel().add(new FirstSiteLandingPage());
 		
 		RootPanel.get().add(toppanel);
 		historyHandler.handleCurrentHistory();

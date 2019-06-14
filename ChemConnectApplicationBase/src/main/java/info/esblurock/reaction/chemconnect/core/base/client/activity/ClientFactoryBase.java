@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 
 import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
 
 
 public interface ClientFactoryBase {
@@ -13,5 +14,5 @@ public interface ClientFactoryBase {
 	void setInUser();
 
 	AboutSummaryView getAboutSummaryView();
-
+	FirstSiteLandingPageView getFirstSiteLandingPageView();
 }

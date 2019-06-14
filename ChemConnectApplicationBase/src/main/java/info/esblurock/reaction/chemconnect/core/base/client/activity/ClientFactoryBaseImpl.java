@@ -5,7 +5,9 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 
 import info.esblurock.reaction.chemconnect.core.base.client.about.AboutSummary;
+import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
 
 public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	private final SimpleEventBus eventBus = new SimpleEventBus();
@@ -13,6 +15,7 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	private final PlaceController placeController = new PlaceController(eventBus);
 
 	private final AboutSummaryView aboutSummaryView = new AboutSummary();
+	private final FirstSiteLandingPageView firstLandingSitePageView = new FirstSiteLandingPage();
 
 	@Override
 	public EventBus getEventBus() {
@@ -33,6 +36,11 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	@Override
 	public AboutSummaryView getAboutSummaryView() {
 		return aboutSummaryView;
+	}
+	
+	@Override
+	public FirstSiteLandingPageView getFirstSiteLandingPageView() {
+		return firstLandingSitePageView;
 	}
 
 }

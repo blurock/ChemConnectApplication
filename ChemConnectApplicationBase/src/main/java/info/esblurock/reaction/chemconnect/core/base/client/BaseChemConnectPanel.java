@@ -1,8 +1,11 @@
 package info.esblurock.reaction.chemconnect.core.base.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -10,8 +13,14 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
+import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 
 public class BaseChemConnectPanel extends Composite {
+	
+	ClientFactoryBase clientFactory;
+
 
 	private static BaseChemConnectPanelUiBinder uiBinder = GWT.create(BaseChemConnectPanelUiBinder.class);
 
@@ -42,8 +51,9 @@ public class BaseChemConnectPanel extends Composite {
 	@UiField
 	MaterialTooltip logintooltip;
 
-	public BaseChemConnectPanel() {
+	public BaseChemConnectPanel(ClientFactoryBase clientFactory) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.clientFactory = clientFactory;
 		init();
 	}
 
@@ -64,6 +74,28 @@ public class BaseChemConnectPanel extends Composite {
 	
 	public SimplePanel getContentPanel() {
 		return contentPanel;
+	}
+	
+	@UiHandler("home")
+	public void onHome(ClickEvent event) {
+		subtitle.setText("ChemConnect: The Intelligent Repository");
+		goTo(new FirstSiteLandingPagePlace("Home"));
+	}
+
+	@UiHandler("about")
+	public void onAboutClick(ClickEvent event) {
+		setSubTitle("About ChemConnect");
+		goTo(new AboutSummaryPlace("About ChemConnect"));
+	}
+	
+	private void goTo(Place place) {
+		clientFactory.getPlaceController().goTo(place);
+	}
+	public ClientFactoryBase getClientFactory() {
+		return clientFactory;
+	}
+	public void setSubTitle(String subtitletext) {
+		subtitle.setText(subtitletext);
 	}
 
 
