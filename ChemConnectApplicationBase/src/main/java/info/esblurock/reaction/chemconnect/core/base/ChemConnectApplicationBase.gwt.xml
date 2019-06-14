@@ -30,6 +30,9 @@
 	<inherits
 		name='info.esblurock.reaction.chemconnect.core.ChemConnectCoreDataBase' />
 
+	<replace-with class="info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBaseImpl">
+		<when-type-is class="info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase" />
+	</replace-with>
 
   <!-- Other module inherits                                      -->
 

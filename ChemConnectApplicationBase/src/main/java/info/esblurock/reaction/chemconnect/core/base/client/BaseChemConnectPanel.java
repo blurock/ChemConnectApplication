@@ -4,8 +4,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
 
@@ -15,6 +17,14 @@ public class BaseChemConnectPanel extends Composite {
 
 	interface BaseChemConnectPanelUiBinder extends UiBinder<Widget, BaseChemConnectPanel> {
 	}
+	@UiField
+	MaterialLabel title;
+	@UiField
+	MaterialLabel subtitle;
+	@UiField
+	SimplePanel contentPanel;
+	@UiField
+	SimplePanel footerpanel;
 	@UiField
 	MaterialLink loginchoice;
 	@UiField
@@ -52,5 +62,9 @@ public class BaseChemConnectPanel extends Composite {
 		loginchoice.setVisible(loginvisible);
 	}
 	
+	public SimplePanel getContentPanel() {
+		return contentPanel;
+	}
+
 
 }
