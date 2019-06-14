@@ -1,7 +1,6 @@
 package info.esblurock.reaction.core.server.base.db;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import com.googlecode.objectify.ObjectifyService;

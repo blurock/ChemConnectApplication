@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
-import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.base.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryResults;
-import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
 import info.esblurock.reaction.core.ontology.base.GenericSimpleQueries;
@@ -20,14 +17,21 @@ import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBa
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.base.dataset.DatasetCatalogHierarchy;
 
 public class ExtractCatalogInformation {
 	
+	/**
+	 * @param id  The identifier of the catalog item to 
+	 * @param type The (ontology) type of the catalog item (for example dataset:Organization)
+	 * @return The hierarchy of 
+	 * @throws IOException
+	 * 
+	 * Uses the type to get the name in InterpretBaseData to read (readElementFromDatabase) the top catalog item.
+	 * 
+	 * 
+	 */
 	public static DatabaseObjectHierarchy getTopCatalogObject(String id, String type) throws IOException {
 		DataElementInformation element = new DataElementInformation(type, 
 				null, true, 0, null, null,null);
@@ -40,6 +44,24 @@ public class ExtractCatalogInformation {
 		return hierarchy;
 	}
 	
+	/** findTopObject
+	 * This finds the top catalog object in the hierarchy, if the current object is not a catalog item (i.e., it is a record)
+	 * 
+	 * @param subobject  The single catalog object
+	 * @return
+	 * @throws IOException
+	 * 
+	 * <ul>
+	 * <li>If object is of type ChemConnectCompoundDataStructure, i.e. the object is not a catalog object, then 
+	 * the parent ID is retrieved. If it does not have a parent, then the same object is returned.
+	 * <li>The name of the class is used to find the parent objects types (DatasetOntologyParseBase.asSubObject)
+	 * <li>The database is searched for the class that has such an ID (InterpretBaseData to read database object, if no
+	 * exception, then the class was found).
+	 * <li> Recursive call to findTopObject
+	 * </ul>
+	 * 
+	 * 
+	 */
 	public static DatabaseObject findTopObject(DatabaseObject subobject) throws IOException {
 		DatabaseObject ans = subobject;
 		boolean assignable = info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure.class.isAssignableFrom(subobject.getClass());
@@ -67,15 +89,49 @@ public class ExtractCatalogInformation {
 		return ans;
 	}
 	
+	/** getCatalogObject: Find the hierarchy of a catalog item (top level call)
+	 * 
+	 * @param id  The identifier of the catalog object
+	 * @param type The (ontology) type of catalog item
+	 * @return The catalog hierarchy
+	 */
 	public static DatabaseObjectHierarchy getCatalogObject(String id, String type) {
 		DataElementInformation element = DatasetOntologyParseBase.getSubElementStructureFromIDObject(type);
 		return getDatabaseObjectAndSubElements(id,element,true);
 	}
 	
+	/** getDatabaseObjectAndSubElements: Find the hierarchy below the current object from DataElementInformation
+	 * 
+	 * @param id  The catalog ID
+	 * @param dataelement The class information about the hierarchy item
+	 * @param asSinglet true if a singlet
+	 * @return The hierarchy below the current object
+	 * 
+	 * Service routine for getObjectHierarchy
+	 */
 	public static DatabaseObjectHierarchy getDatabaseObjectAndSubElements(String id, 
 			DataElementInformation dataelement, boolean asSinglet) {
 		return getObjectHierarchy(id,dataelement.getDataElementName(),dataelement.getChemconnectStructure(),asSinglet);
 	}
+	/**
+	 * @param id The identifier
+	 * @param t The name of the class
+	 * @param type The class type (to be used with InterpretBaseData
+	 * @param asSinglet true if a singlet.
+	 * @return The hierarchy from the element
+	 * 
+	 * If singlet, call readSingletInformation
+	 * If multiple:
+	 * <ul>
+	 * <li> Get the ChemConnectCompoundMultiple database item with ID
+	 * <li> Start a new hierarchy (DatabaseObjectHierarchy)
+	 * <li> Get the parent ID from the read in ChemConnectCompoundMultiple
+	 * <li> Get the class information of the subitems of multiple items (for recursive call) List<DataElementInformation>
+	 * <li> Get all the database items having the parent ID of the original item (the parent ID of ChemConnectCompoundMultiple)
+	 * <li> Loop through the database items with readSingletInformation and add their subhierarchies to this one.
+	 * </ul>
+	 * 
+	 */
 	public static DatabaseObjectHierarchy getObjectHierarchy(String id, String t, String type, boolean asSinglet) {
 		List<DataElementInformation> substructures = DatasetOntologyParseBase.subElementsOfStructure(t);
 		DatabaseObjectHierarchy hierarchy = null;
@@ -115,16 +171,28 @@ public class ExtractCatalogInformation {
 		} catch(IOException ex) {
 			System.out.println("IOException: '" + type + "' with ID: '" + id + "' singlet(" + asSinglet + ")");
 			System.out.println(ex.toString());
-			
 		}
-		/*catch(Exception ex) {
-			System.out.println("Unknown Exception: " + classify.getDataType());
-			System.out.println("Unknown Exception: \n" + ex.toString());
-		}
-		*/
 		return hierarchy;
 	}
 
+	/** readSingletInformation: Process item from multiple list
+	 * @param obj The DatabaseObject
+	 * @param interpret How to process the object
+	 * @param substructures The set of sub items of this object
+	 * @return The hierarchy under this item
+	 * @throws IOException
+	 * 
+	 * <ul>
+	 * <li> Convert the current object to yaml (to find correspondence with DataElementInformation)
+	 * <ll> Loop through DataElementInformation and interpret with yaml information 
+	 * 		<ul> Get identifier from DataElementInformation
+	 * 		<li> Get yaml object with identifier
+	 * 		<li> If String: The object is an identifier and call getDatabaseObjectAndSubElements
+	 * 		<li> Otherwise, nothing (actually an error.
+	 * 		<ul>
+	 * <ul>
+	 * 
+	 */
 	private static DatabaseObjectHierarchy readSingletInformation(DatabaseObject obj, 
 			InterpretBaseData interpret,
 			List<DataElementInformation> substructures) throws IOException {
@@ -162,253 +230,5 @@ public class ExtractCatalogInformation {
 		}
 		return hierarchy;
 	}
-/*
-	public static DatasetInformationFromOntology extract(String identifier, String dataElementName) throws IOException {
-		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,
-				null);
-		ClassificationInformation classify = DatasetOntologyParseBase.getIdentificationInformation(null, dataelement);
-		List<DataElementInformation> substructures = DatasetOntologyParseBase.subElementsOfStructure(dataElementName);
-		InterpretBaseData interpret = InterpretBaseData.valueOf(classify.getDataType());
-		DatabaseObject obj = interpret.readElementFromDatabase(identifier);
-		DatasetInformationFromOntology yaml = new DatasetInformationFromOntology(dataElementName, obj, classify,
-				substructures);
-		return yaml;
-	}
-*/
-	/*
-	 * From a ChemConnectDataStructure (Catalog), the sub-elements are extracted.
-	 * The information is extracted from the DatabaseObject instance
-	 * (createYamlFromObject) to a map The sub-elements are looped: If a sub-element
-	 * is an ID pointing to a ChemConnectCompoundDataStructure - The identifier is
-	 * extracted from the DatabaseObject map - The corresponding
-	 * ChemConnectStructure is identified (element.getChemconnectStructure()) -
-	 * Through the InterpretData the corresponding DatabaseObject is read - If the
-	 * link type is a record, then the primitive structures are extracted
-	 * (extractCompoundDataStructure)
-	 * 
-	 */
-	/*
-	public static RecordInformation extractRecordElementsFromChemStructure(ClassificationInformation clsinfo,
-			ChemConnectCompoundDataStructure subelements, DatabaseObject object) throws IOException {
-		InterpretData interpret = InterpretData.valueOf(clsinfo.getDataType());
-		Map<String, Object> map = interpret.createYamlFromObject(object);
-		System.out.println("extractRecordElementsFromStructure: " + clsinfo.getIdName() + "(" + clsinfo.getIdName()
-				+ "): " + clsinfo.getDataType());
-		System.out.println("extractRecordElementsFromStructure: map: " + map);
-		ElementsOfASetOfMainStructure structure = new ElementsOfASetOfMainStructure(clsinfo.getIdName(),
-				clsinfo.getIdentifier(), clsinfo.getDataType());
-		for (DataElementInformation element : subelements) {
-			System.out.println("extractRecordElementsFromStructure: Element: " + element.toString());
-			String link = element.getLink();
-			if (link.compareTo("dcat:record") == 0) {
-				DataElementInformation subelement = DatasetOntologyParseBase
-						.getSubElementStructureFromIDObject(element.getDataElementName());
-				System.out.println("extractRecordElementsFromStructure: ID: " + subelement.toString());
-				ClassificationInformation subclassify = DatasetOntologyParseBase
-						.getIdentificationInformation(subelement.getDataElementName());
-				System.out.println("extractRecordElementsFromStructure: ID: " + subclassify.toString());
-				if (element.isSinglet()) {
-					String identifier = (String) map.get(element.getIdentifier());
-					addStructure(identifier, subclassify, subelement, structure);
-				} else {
-					@SuppressWarnings("unchecked")
-					List<String> lst = (List<String>) map.get(element.getIdentifier());
-					for (String identifier : lst) {
-						addStructure(identifier, subclassify, subelement, structure);
-					}
-				}
-			} else {
-				System.out.println("extractRecordElementsFromStructure: link:");
-			}
-		}
-		RecordInformation record = new RecordInformation(object, clsinfo.getDataType(), object.getIdentifier(),
-				structure);
-		return record;
-	}
 
-	private static void addStructure(String identifier, ClassificationInformation subclassify,
-			DataElementInformation subelement, ElementsOfASetOfMainStructure structure) throws IOException {
-		System.out.println("extractRecordElementsFromStructure: begin");
-		System.out.println("extractRecordElementsFromStructure: subelement: " + subelement.toString());
-		System.out.println("extractRecordElementsFromStructure: Identifier: " + identifier);
-		String dataElementName = subclassify.getDataType();
-		System.out.println("extractRecordElementsFromStructure: dataElementName: " + dataElementName);
-		InterpretBaseData subinterpret = InterpretBaseData.valueOf(dataElementName);
-		System.out.println("extractRecordElementsFromStructure: dataElementName: " + subinterpret.canonicalClassName());
-		DatabaseObject obj = null;
-		try {
-			obj = subinterpret.readElementFromDatabase(identifier);
-		} catch (IOException ex) {
-			System.out.println("No structure found for identifier: " + identifier);
-		}
-		if (obj != null) {
-			System.out.println(
-					"extractRecordElementsFromStructure: dataElementName: " + obj.getClass().getCanonicalName());
-			System.out.println("extractRecordElementsFromStructure: dcat:record " + subelement.getIdentifier());
-			System.out.println("extractRecordElementsFromStructure: dcat:record " + obj.getClass().getCanonicalName());
-			Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
-			CompoundDataStructureInformation substructures = extractCompoundDataStructure(obj, submap, subelement);
-			substructures.setObject(obj);
-			System.out.println("extractRecordElementsFromStructure: Substructures " + substructures);
-			structure.addCompoundStructure(substructures);
-		} else {
-			System.out.println("No structure added");
-		}
-
-	}
-*/
-	/*
-	 * From a ChemConnectCompoundDataStructure the set of primitive objects are
-	 * collected
-	 * 
-	 */
-	/*
-	private static CompoundDataStructureInformation extractCompoundDataStructure(DatabaseObject obj,
-			Map<String, Object> map, DataElementInformation element) throws IOException {
-		ChemConnectCompoundDataStructure primitives = DatasetOntologyParsing
-				.subElementsOfStructure(element.getDataElementName());
-		CompoundDataStructureInformation compound = new CompoundDataStructureInformation(
-				element.getChemconnectStructure(), element.getDataElementName());
-		for (DataElementInformation primitive : primitives) {
-			System.out.println("extractCompoundDataStructure primitive=\n" + primitive);
-			String valueType = primitive.getDataElementName();
-			List<String> primitivetype = DatasetOntologyParseBase
-					.getPrimitiveStructureType(primitive.getDataElementName());
-			String primitiveclass = DatasetOntologyParseBase.getPrimitiveStructureClass(primitive.getDataElementName());
-			String objid = obj.getIdentifier() + "-" + primitive.getSuffix();
-			System.out.println("extractCompoundDataStructure primitive id=" + objid);
-			String simplestructure = MetaDataKeywords.chemConnectPrimitiveDataStructure;
-			String compoundstructure = MetaDataKeywords.chemConnectPrimitiveCompound;
-			if (primitivetype.contains(simplestructure)) {
-				if (primitive.isSinglet()) {
-					String value = (String) map.get(primitive.getIdentifier());
-					if (value != null) {
-						if (value.length() > 0) {
-							StringTokenizer tok = new StringTokenizer(value, ",");
-							while (tok.hasMoreTokens()) {
-								String subvalue = tok.nextToken();
-								DatabaseObject baseobj = new DatabaseObject(obj);
-								baseobj.setIdentifier(objid);
-								PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
-										baseobj, valueType, primitiveclass, subvalue);
-								compound.addPrimitive(primitivedata);
-							}
-						} else {
-							DatabaseObject baseobj = new DatabaseObject(obj);
-							baseobj.setIdentifier(objid);
-							PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
-									baseobj, valueType, primitiveclass, value);
-							compound.addPrimitive(primitivedata);
-						}
-					} else {
-						System.out.println("dataset:ChemConnectPrimitiveDataStructure: " + map);
-					}
-				} else {
-					DatabaseObject baseobj = new DatabaseObject(obj);
-					baseobj.setIdentifier(objid);
-					Object mapobj = map.get(primitive.getIdentifier());
-					if (mapobj != null) {
-						String valueS = (String) mapobj.toString();
-						PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(baseobj,
-								valueType, primitiveclass, valueS);
-						compound.addPrimitive(primitivedata);
-					}
-				}
-			} else if (primitivetype.contains(compoundstructure)) {
-				InterpretBaseData subinterpret = InterpretBaseData.valueOf(primitive.getChemconnectStructure());
-				if (subinterpret != null) {
-					try {
-						DatabaseObject subobj = subinterpret.readElementFromDatabase(objid);
-						PrimitiveDataStructureInformation subprimitive = new PrimitiveDataStructureInformation(subobj,
-								primitive.getDataElementName(), primitive.getChemconnectStructure(), objid);
-						PrimitiveInterpretedInformation interpreted = new PrimitiveInterpretedInformation(subprimitive,
-								subobj);
-						compound.addPrimitive(interpreted);
-					} catch (IOException ex) {
-						System.out.println("No elements found:   " + ex.toString());
-					}
-				} else {
-					System.out
-							.println("Sub object not found to be interpreted: " + primitive.getChemconnectStructure());
-					@SuppressWarnings("unchecked")
-					Map<String, Object> submap = (Map<String, Object>) map.get(primitive.getIdentifier());
-					InterpretBaseData objinterpret = InterpretBaseData.valueOf("DatabaseObject");
-					DatabaseObject subobj = objinterpret.fillFromYamlString(obj, submap, obj.getSourceID());
-					CompoundDataStructureInformation subcompound = extractCompoundDataStructure(subobj, submap,
-							primitive);
-					compound.addCompound(subcompound);
-				}
-			}
-		}
-		return compound;
-
-	}
-
-	public static ElementsOfASetOfMainStructure extract(ClassificationInformation classify, SingleQueryResult result)
-			throws IOException {
-		ElementsOfASetOfMainStructure structures = null;
-		String dataElementName = classify.getIdName();
-		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
-		InterpretData interpret = InterpretData.valueOf(classify.getDataType());
-		for (DatabaseObject obj : result.getResults()) {
-			Map<String, Object> map = interpret.createYamlFromObject(obj);
-			for (DataElementInformation info : substructures) {
-				String chemconnectStructure = info.getChemconnectStructure();
-				String id = info.getIdentifier();
-				Object subobj = map.get(id);
-				System.out.println("Structure: " + chemconnectStructure);
-				System.out.println("Structure: " + subobj);
-			}
-		}
-
-		return structures;
-	}
-	
-	public static DatabaseObjectHierarchy getDatabaseObjectHierarchy(String catid) throws IOException {
-		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, 
-				MetaDataKeywords.datasetCatalogHierarchy);
-		if(hierarchy != null) {
-		InterpretData interpret = InterpretData.valueOf("DatasetCatalogHierarchy");
-		//String classname = interpret.canonicalClassName();
-		Map<String,Object> mapping = interpret.createYamlFromObject(hierarchy.getObject());
-		//Set<String> keys = mapping.keySet();
-		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);
-		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
-		for(DatabaseObjectHierarchy subhier : multihier.getSubobjects()) {
-				DataObjectLink lnk = (DataObjectLink) subhier.getObject();
-				String type = lnk.getLinkConcept();
-				if(type.compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
-					String subid = lnk.getDataStructure();
-					DatabaseObjectHierarchy subhierarchy = getDatabaseObjectHierarchy(subid);
-					hierarchy.addSubobject(subhierarchy);
-				}
-		}
-		} else {
-			throw new IOException("DatasetCatalogHierarchy not found: " + catid);
-		}
-		return hierarchy;
-	}
-	*/
-	/*
-	 * id: The id of the super catagory hierarchy
-	 * obj: The base class, used to get new id
-	 * catagorytype: The type of catalog hierarchy
-	 * sourceID: The new source ID (overrides sourceID of obj)
-	 * onelinedescription: Goes into the title.
-	 */
-	/*
-	public static DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj,
-			String simpleName,
-			String id, String onelinedescription,String sourceID, String catagorytype)
-			throws IOException {
-		DatabaseObject newobj = new DatabaseObject(obj);
-		newobj.setSourceID(sourceID);
-		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
-		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
-				id);
-		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, simpleName, newobj,
-				onelinedescription,catagorytype);
-		return subs;
-	}
-*/
 }

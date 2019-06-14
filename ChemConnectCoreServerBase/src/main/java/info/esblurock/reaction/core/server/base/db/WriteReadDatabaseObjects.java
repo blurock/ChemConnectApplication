@@ -15,7 +15,6 @@ import com.google.cloud.storage.StorageOptions;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.query.ListOfQueries;
@@ -39,6 +38,13 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.core.server.base.services.util.ParseUtilities;
 
+/**
+ * @author edwardblurock
+ * 
+ * These are the routines dedicated to querying the database
+ * 
+ *
+ */
 public class WriteReadDatabaseObjects {
 	public static Storage storage = null;
 	static {
