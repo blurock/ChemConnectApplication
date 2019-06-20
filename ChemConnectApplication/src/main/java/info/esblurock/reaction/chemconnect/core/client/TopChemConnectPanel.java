@@ -21,16 +21,16 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
 import info.esblurock.reaction.chemconnect.core.client.firstpage.StandardFooter;
 import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
@@ -164,27 +164,7 @@ public class TopChemConnectPanel extends Composite {
 	}
 	@UiHandler("googleLogin")
 	void onClickGoogle(ClickEvent e) {
-		String CLIENT_ID = "571384264595-am69s6l6nuu1hg4o2vmlcmaj63pscd3d.apps.googleusercontent.com";
-		String SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
-		
-		String secretState = "google" + new Random().nextInt(999_999);
-		Cookies.setCookie("secret", secretState);
-		
-		String authurl = "https://accounts.google.com/o/oauth2/v2/auth?";
-		String redirect = callbackWithServer();
-		
-		String reststr =
-				"scope=" + SCOPE + "&" + 
-				"access_type=offline&" + 
-				"include_granted_scopes=true&" + 
-				"state=" + secretState + "&" + 
-				"redirect_uri=" + redirect + "&" + 
-				"response_type=code&" + 
-				"client_id=" + CLIENT_ID;
-		String urlS = authurl + reststr;
-		setLoginVisibility(false);
-
-		Window.open(urlS, "_blank", "");
+		GoogleAuthentification google = new GoogleAuthentification(this);
 		
 	}
 	

@@ -13,16 +13,16 @@ import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.DefaultPrimiiveDataStructure;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.CreatePrimitiveStructure;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.MapToChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.transfer.PrimitiveDataStructureInformation;
 
 public class RecordStructureCollapsible extends Composite {
 

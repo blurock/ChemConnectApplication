@@ -3,8 +3,12 @@ package info.esblurock.reaction.chemconnect.core.base.client.activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 
+import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.DatabasePersonDefinitionView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
 
 
 public interface ClientFactoryBase {
@@ -15,4 +19,9 @@ public interface ClientFactoryBase {
 
 	AboutSummaryView getAboutSummaryView();
 	FirstSiteLandingPageView getFirstSiteLandingPageView();
-}
+	FirstPageView getFirstPageView();
+	DatabasePersonDefinitionView getDatabasePersonDefinitionView();
+
+	AuthentificationTopPanelInterface getTopPanel();
+	OrganizationDefinitionView getOrganizationDefinitionView();
+	}

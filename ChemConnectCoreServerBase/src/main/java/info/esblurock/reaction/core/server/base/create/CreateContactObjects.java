@@ -3,6 +3,7 @@ package info.esblurock.reaction.core.server.base.create;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
@@ -30,13 +31,18 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.DatabaseKeys;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardTextStatements;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectDataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectRecordInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.CompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
 //import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 //import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
+import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseDataUtilities;
 
@@ -425,6 +431,54 @@ public class CreateContactObjects {
 
 		return hierarchy;
 
+	}
+	public static DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple) {
+		String dataType = multiple.getType();
+		String numS = String.valueOf(multiple.getNumberOfElements());
+		DatabaseObject obj = new DatabaseObject(multiple);
+		obj.nullKey();
+		ClassificationInformation info = DatasetOntologyParseBase.getIdentificationInformation(dataType);
+		String structureName = info.getDataType();
+		InterpretBaseData interpret = InterpretBaseData.valueOf(structureName);
+		DatabaseObjectHierarchy hierarchy = interpret.createEmptyObject(obj);
+		String uid = hierarchy.getObject().getIdentifier() + numS;
+		hierarchy.getObject().setIdentifier(uid);
+		return hierarchy;
+	}
+	public ChemConnectRecordInformation getChemConnectRecordInformation(DatabaseObject obj) throws IOException {
+		
+		String structureS = DatasetOntologyParseBase.dataTypeOfStructure(obj);
+		CompoundDataStructure structure = getChemConnectCompoundDataStructure(structureS);
+		String objecttype = obj.getClass().getSimpleName();
+		InterpretBaseData interpret = InterpretBaseData.valueOf(objecttype);
+		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
+		ChemConnectRecordInformation info = new ChemConnectRecordInformation(obj,structureS,structure,mapping);
+		
+		return info;
+	}
+	/*
+	public ChemConnectDataElementInformation getChemConnectDataStructure(String identifier, String structureS) {
+		ChemConnectDataElementInformation structure = DatasetOntologyParseBase.getChemConnectDataStructure(identifier, structureS);
+		if(structure.getIdentifier() == null) {
+			DatabaseObject obj = getBaseUserDatabaseObject();
+			structure.setIdentifier(obj);
+		}
+		return structure;
+	}
+	public DatabaseObject getBaseUserDatabaseObject() {
+		ContextAndSessionUtilities context = getUtilities();
+		String username = context.getUserName();
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		DatabaseObject obj = new DatabaseObject();
+		obj.setOwner(username);
+		obj.setSourceID(sourceID);
+		return obj;
+	}
+	*/
+	public CompoundDataStructure getChemConnectCompoundDataStructure(String dataElementName) {
+		CompoundDataStructure substructures = null;
+		substructures = DatasetOntologyParseBase.subElementsOfStructure(dataElementName);
+		return substructures;
 	}
 
 }

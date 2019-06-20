@@ -31,11 +31,13 @@ public interface LoginService extends RemoteService {
 
 	public UserSessionData loginGuestServer() throws IOException;
 
-	public void logout();
+	public UserSessionData logout();
 
 	public String removeUser(String key);
 
 	public UserAccount getAccount(String key);
 
 	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount, NameOfPerson person) throws IOException;
+	
+	public UserSessionData loginAsCurrentUser();
 }

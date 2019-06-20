@@ -13,13 +13,13 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
-import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
-import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
-import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObservationView;
-import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ChooseFullNameFromCatagoryRow;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 

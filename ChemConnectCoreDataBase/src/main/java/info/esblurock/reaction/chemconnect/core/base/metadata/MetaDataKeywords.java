@@ -113,4 +113,9 @@ public class MetaDataKeywords {
 	public static String numberOfObservations = "dataset:NumberOfObservations";
 	public static String multipleObservationSets = "dataset:MultipleObservationSets";
 	public static String oneObservationSet = "dataset:OneObservationSet";
+	
+	public static String yamlFileType = "dataset:FileTypeYaml";
+	public static String textFileType = "dataset:FileTypeText";
+	public static String delimitorS = "dataset:delimitor";
+
 }

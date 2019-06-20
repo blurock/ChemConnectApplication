@@ -19,26 +19,26 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.MapToChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
 import info.esblurock.reaction.chemconnect.core.client.administration.ListOfMainDataObjectCallback;
-import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
-import info.esblurock.reaction.chemconnect.core.client.cards.ClassificationInformationCard;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.DefaultPrimiiveDataStructure;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.MultipleRecordsPrimitive;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.CreatePrimitiveStructure;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.cards.CardModal;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.cards.ClassificationInformationCard;
+import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 
 /**
  * @author edwardblurock

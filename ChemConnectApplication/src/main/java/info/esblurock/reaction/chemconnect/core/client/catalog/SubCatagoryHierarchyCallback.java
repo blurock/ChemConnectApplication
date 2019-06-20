@@ -4,8 +4,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 
 public class SubCatagoryHierarchyCallback implements AsyncCallback<DatabaseObjectHierarchy> {
 

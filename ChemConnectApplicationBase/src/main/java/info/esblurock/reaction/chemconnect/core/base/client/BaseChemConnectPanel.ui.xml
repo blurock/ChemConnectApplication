@@ -104,6 +104,9 @@
 		<m:MaterialRow>
 			<g:SimplePanel ui:field="footerpanel" />
 		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialPanel ui:field="modalpanel" />
+		</m:MaterialRow>
 	</m:MaterialPanel>
 
 </ui:UiBinder> 

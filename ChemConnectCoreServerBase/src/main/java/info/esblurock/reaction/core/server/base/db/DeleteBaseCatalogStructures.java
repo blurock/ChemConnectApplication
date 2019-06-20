@@ -9,7 +9,7 @@ import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;

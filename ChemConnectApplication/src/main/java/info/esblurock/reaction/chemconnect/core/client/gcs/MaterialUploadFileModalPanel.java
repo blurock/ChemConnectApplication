@@ -13,7 +13,7 @@ import gwt.material.design.client.events.DragOverEvent;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
-import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
+import info.esblurock.reaction.chemconnect.core.base.gcs.GoogleCloudStorageConstants;
 
 public class MaterialUploadFileModalPanel extends Composite {
 

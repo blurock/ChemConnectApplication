@@ -45,12 +45,12 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		return sessionuser;
 	}
 	@Override
-	public void logout() {
+	public UserSessionData logout() {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
 		String ip = getThreadLocalRequest().getRemoteAddr();
 		String host = getThreadLocalRequest().getRemoteHost();
-		LoginUtilities.logout(sessionid,host,ip);
+		return LoginUtilities.logout(sessionid,host,ip);
 	}
 
 
@@ -70,8 +70,16 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		UserAccount account = WriteReadDatabaseObjects.getAccount(key);
 		return account;
 	}
-	
+	@Override
 	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount, NameOfPerson person) throws IOException {
 		return CreateContactObjects.createNewUser(uaccount, person);
+	}
+	
+	public UserSessionData loginAsCurrentUser() {
+		ContextAndSessionUtilities util = getUtilities();
+		String sessionid = util.getId();
+		String ip = getThreadLocalRequest().getRemoteAddr();
+		String host = getThreadLocalRequest().getRemoteHost();
+		return LoginUtilities.loginAsCurrentUser(sessionid, host, ip);
 	}
 }

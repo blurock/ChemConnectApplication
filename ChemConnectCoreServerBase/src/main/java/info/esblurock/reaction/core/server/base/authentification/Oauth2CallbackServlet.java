@@ -252,7 +252,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		Cookie accountNameC = new Cookie("account_name", authorizationinfo.getUseraccount());
 		accountNameC.setMaxAge(60 * 60);
 		resp.addCookie(accountNameC);
-		Cookie redirectC = new Cookie("redirect", authorizationinfo.getUseraccount());
+		Cookie redirectC = new Cookie("redirect", "info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace");
 		redirectC.setMaxAge(60 * 60);
 		resp.addCookie(redirectC);
 

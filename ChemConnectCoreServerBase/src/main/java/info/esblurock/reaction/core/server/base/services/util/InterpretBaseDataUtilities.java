@@ -16,7 +16,7 @@ import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 
 public class InterpretBaseDataUtilities {

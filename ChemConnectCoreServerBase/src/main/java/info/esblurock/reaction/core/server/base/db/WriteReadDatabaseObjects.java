@@ -24,7 +24,7 @@ import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyVal
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryResults;
 import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.QueryFactory;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;

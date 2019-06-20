@@ -25,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectObjectLi
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSInputFileInterpretation;
@@ -43,7 +44,6 @@ import info.esblurock.reaction.chemconnect.core.base.contact.OrganizationDescrip
 import info.esblurock.reaction.chemconnect.core.base.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccountInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 

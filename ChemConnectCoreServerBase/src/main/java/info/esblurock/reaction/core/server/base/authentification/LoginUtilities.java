@@ -98,7 +98,8 @@ public class LoginUtilities {
 		return sessionuser;
 	}
 	
-	public static UserAccount createANewUser(String username, String authorizationName, String authorizationType, String accountPrivilege) {
+	public static UserAccount createANewUser(String username, String authorizationName, 
+			String authorizationType, String accountPrivilege) {
 		ChemConnectDataStructure datastructure = new ChemConnectDataStructure();
 		UserAccount account = new UserAccount(datastructure, username, authorizationName, authorizationType, accountPrivilege);
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
@@ -145,10 +146,10 @@ public class LoginUtilities {
 	 * @param hostname  The current hostname
 	 * @param IP        The current IP
 	 */
-	public static void logout(String sessionid, String hostname, String IP) {
+	public static UserSessionData logout(String sessionid, String hostname, String IP) {
 		UserSessionData sessionuser = isSessionActive(sessionid);
 		DatabaseWriteBase.deleteUserSessionData(sessionuser);
-		newLoginAsGuest(sessionid, hostname, IP);
+		return newLoginAsGuest(sessionid, hostname, IP);
 	}
 	
 	/** suggestALoginName

@@ -9,16 +9,21 @@ import info.esblurock.reaction.chemconnect.core.base.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.base.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryResults;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
 import info.esblurock.reaction.core.ontology.base.GenericSimpleQueries;
 import info.esblurock.reaction.core.ontology.base.QueryFactory;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatasetCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 
 public class ExtractCatalogInformation {
 	
@@ -230,5 +235,49 @@ public class ExtractCatalogInformation {
 		}
 		return hierarchy;
 	}
-
+	public static DatabaseObjectHierarchy getDatabaseObjectHierarchy(String catid) throws IOException {
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, 
+				MetaDataKeywords.datasetCatalogHierarchy);
+		if(hierarchy != null) {
+		InterpretBaseData interpret = InterpretBaseData.DatasetCatalogHierarchy;
+		//String classname = interpret.canonicalClassName();
+		Map<String,Object> mapping = interpret.createYamlFromObject(hierarchy.getObject());
+		//Set<String> keys = mapping.keySet();
+		String objlinkid = (String) mapping.get(StandardDataKeywords.parameterObjectLinkS);
+		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
+		for(DatabaseObjectHierarchy subhier : multihier.getSubobjects()) {
+				DataObjectLink lnk = (DataObjectLink) subhier.getObject();
+				String type = lnk.getLinkConcept();
+				if(type.compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
+					String subid = lnk.getDataStructure();
+					DatabaseObjectHierarchy subhierarchy = getDatabaseObjectHierarchy(subid);
+					hierarchy.addSubobject(subhierarchy);
+				}
+		}
+		} else {
+			throw new IOException("DatasetCatalogHierarchy not found: " + catid);
+		}
+		return hierarchy;
+	}
+	
+	/*
+	 * id: The id of the super catagory hierarchy
+	 * obj: The base class, used to get new id
+	 * catagorytype: The type of catalog hierarchy
+	 * sourceID: The new source ID (overrides sourceID of obj)
+	 * onelinedescription: Goes into the title.
+	 */
+	public static DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj,
+			String simpleName,
+			String id, String onelinedescription,String sourceID, String catagorytype)
+			throws IOException {
+		DatabaseObject newobj = new DatabaseObject(obj);
+		newobj.setSourceID(sourceID);
+		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
+				id);
+		DatabaseObjectHierarchy subs = CreateContactObjects.fillDatasetCatalogHierarchy(catalog, simpleName, newobj,
+				onelinedescription,catagorytype);
+		return subs;
+	}
 }

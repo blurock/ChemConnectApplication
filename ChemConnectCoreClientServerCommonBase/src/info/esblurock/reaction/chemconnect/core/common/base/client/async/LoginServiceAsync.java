@@ -9,7 +9,7 @@ import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 
 
 public interface LoginServiceAsync {
-	public void logout(AsyncCallback<Void> callback);
+	void logout(AsyncCallback<UserSessionData> callback);
 
 	void removeUser(String key, AsyncCallback<String> callback);
 
@@ -18,6 +18,8 @@ public interface LoginServiceAsync {
 	void createNewUser(UserAccount uaccount, NameOfPerson person, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void loginGuestServer(AsyncCallback<UserSessionData> callback);
+
+	void loginAsCurrentUser(AsyncCallback<UserSessionData> callback);
 
 }
 

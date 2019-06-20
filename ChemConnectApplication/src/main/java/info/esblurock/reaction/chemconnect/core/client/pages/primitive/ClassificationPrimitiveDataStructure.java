@@ -6,7 +6,8 @@ import java.util.Iterator;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLink;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.base.transfer.PrimitiveDataStructureInformation;
 
 public class ClassificationPrimitiveDataStructure extends PrimitiveDataStructureBase {
 	ArrayList<String> classificationList;

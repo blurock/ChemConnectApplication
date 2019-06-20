@@ -7,8 +7,8 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import info.esblurock.reaction.chemconnect.core.client.place.FirstPagePlace;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstPageView;
+import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 
 public class FirstPageActivity extends AbstractActivity implements FirstPageView.Presenter {
 	private ClientFactory clientFactory;

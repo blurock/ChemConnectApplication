@@ -10,13 +10,13 @@ import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservat
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
-import info.esblurock.reaction.chemconnect.core.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
-import info.esblurock.reaction.chemconnect.core.client.place.FirstPagePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectPartnersPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ContactInformationPlace;
@@ -33,7 +33,6 @@ import info.esblurock.reaction.chemconnect.core.client.place.DataManagementPlace
 	IsolateMatrixBlockPlace.Tokenizer.class,
 	DeviceWithSubystemsDefinitionPlace.Tokenizer.class,
 	ChemConnectObservationPlace.Tokenizer.class,
-	DatabasePersonDefinitionPlace.Tokenizer.class,
 	UploadFileToBlobStoragePlace.Tokenizer.class,
 	ManageCatalogHierarchyPlace.Tokenizer.class,
 	OrganizationDefinitionPlace.Tokenizer.class,

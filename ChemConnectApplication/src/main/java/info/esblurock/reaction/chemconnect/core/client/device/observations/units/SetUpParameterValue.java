@@ -3,7 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.device.observations.unit
 import java.util.ArrayList;
 
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;
 

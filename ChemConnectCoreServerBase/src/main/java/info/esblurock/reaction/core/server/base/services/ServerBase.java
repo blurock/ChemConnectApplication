@@ -26,6 +26,10 @@ public class ServerBase  extends RemoteServiceServlet {
 		return util;
 	}
 	
+	public static String getAPIKey() {
+		return googleAPIKey;
+	}
+	
 	protected void register(String event, String eventinfo, int checklevel) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();

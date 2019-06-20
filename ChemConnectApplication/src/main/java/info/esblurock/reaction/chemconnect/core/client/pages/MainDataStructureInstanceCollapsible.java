@@ -13,11 +13,11 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.chemconnect.core.client.administration.CompoundDataStructureCallback;
-import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 
 public class MainDataStructureInstanceCollapsible extends Composite {

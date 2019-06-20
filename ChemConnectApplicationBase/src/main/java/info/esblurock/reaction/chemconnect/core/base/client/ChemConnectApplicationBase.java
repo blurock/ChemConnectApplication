@@ -8,15 +8,15 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import info.esblurock.reaction.chemconnect.core.base.client.about.AboutSummary;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppPlaceHistoryMapper;
+import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
-import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 
 
@@ -25,13 +25,28 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandi
  */
 public class ChemConnectApplicationBase implements EntryPoint {
 	private Place defaultPlace = new FirstSiteLandingPagePlace("First");
-
+	BaseChemConnectPanel toppanel;
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		Window.alert("onModuleLoad()");
+		String redirect = Cookies.getCookie("redirect");
+		String account_name = Cookies.getCookie("account_name");
+		Cookies.removeCookie("redirect");
+		boolean firsttime = true;
+		if(redirect == null || account_name == null) {
+			firsttime = true;
+		}  else if(redirect.compareTo(account_name) == 0) {
+			firsttime = false;
+		}
 		ClientFactoryBase clientFactory = GWT.create(ClientFactoryBase.class);
-		setUpInterface(clientFactory);
+		toppanel = new BaseChemConnectPanel(clientFactory);
+		setUpInterface(clientFactory);			
+		if(firsttime) {
+			LoginAsGuest glogin = new LoginAsGuest(toppanel);
+			glogin.login();
+		}
 	}
 	
 	
@@ -43,7 +58,6 @@ public class ChemConnectApplicationBase implements EntryPoint {
 		// Start ActivityManager for the main widget with our ActivityMapper
 		ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
 		ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
-		BaseChemConnectPanel toppanel = new BaseChemConnectPanel(clientFactory);
 		activityManager.setDisplay(toppanel.getContentPanel());
 
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper

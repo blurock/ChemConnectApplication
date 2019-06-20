@@ -8,7 +8,7 @@
 	<groupId>info.esblurock</groupId>
 	<artifactId>ChemConnectCoreDataBase</artifactId>
 	<version>1.0</version>
-	<name>info.esblurock.reaction.chemconnect.core.ChemConnectCoreDataBase</name>
+	<name>ChemConnectCoreDataBase</name>
 
 	<properties>
 

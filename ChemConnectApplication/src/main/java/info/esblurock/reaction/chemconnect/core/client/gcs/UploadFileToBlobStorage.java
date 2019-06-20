@@ -22,13 +22,13 @@ import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
-import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
-import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.UploadedFilesInterface;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.UploadFileToBlobStorageView;
-import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.InputLineModal;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 

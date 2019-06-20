@@ -11,9 +11,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.base.client.pages.first.CreateNewUserWizard;
+import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.client.SimpleLoginCallback;
 import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 

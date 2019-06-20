@@ -13,10 +13,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialLink;
-import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
-import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromListDialog;
-import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromListInterface;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.ChooseFromListDialog;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.ChooseFromListInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 
 public class MatrixSpecificationCorrespondenceHeader extends Composite implements ChooseFromListInterface {

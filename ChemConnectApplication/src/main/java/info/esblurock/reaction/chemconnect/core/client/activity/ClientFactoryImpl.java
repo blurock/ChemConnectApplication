@@ -4,12 +4,11 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 
+import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectAdministrationImpl;
 import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.ProtocolDefinition;
-import info.esblurock.reaction.chemconnect.core.client.contact.DatabasePersonDefinition;
-import info.esblurock.reaction.chemconnect.core.client.contact.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.IsolateMatrixBlock;
@@ -28,14 +27,11 @@ import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObserv
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectPartnersView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ContactInformationView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.DataManagementView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.DeviceWithSubystemsDefinitionView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstSiteLandingPageView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.IsolateMatrixBlockView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.MissionStatementView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.OrganizationDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ProtocolDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.TutorialExampleView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.UploadFileToBlobStorageView;
@@ -51,8 +47,6 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final ProtocolDefinitionView protocolDefinitionView = new ProtocolDefinition();
 	private final UploadFileToBlobStorageView uploadFileToBlobStorageView = new UploadFileToBlobStorage();
 	private final ManageCatalogHierarchyView manageCatalogHierarchyView = new ManageCatalogHierarchy();
-	private final OrganizationDefinitionView organizationDefinitionView = new OrganizationDefinition();
-	private final DatabasePersonDefinitionView databasePersonDefinitionView = new DatabasePersonDefinition();
 	private final TutorialExampleView tutorialExampleView = new TutorialExample();
 	private final FirstPageView firstPageView = new FirstPage();
 	private final FirstSiteLandingPageView firstLandingSitePageView = new FirstSiteLandingPage();
@@ -100,14 +94,6 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Override
 	public ManageCatalogHierarchyView getManageCatalogHierarchyView() {
 		return manageCatalogHierarchyView;
-	}
-	@Override
-	public OrganizationDefinitionView getOrganizationDefinitionView() {
-		return organizationDefinitionView;
-	}
-	@Override
-	public DatabasePersonDefinitionView getDatabasePersonDefinitionView() {
-		return databasePersonDefinitionView;
 	}
 	@Override
 	public TutorialExampleView getTutorialExampleView() {

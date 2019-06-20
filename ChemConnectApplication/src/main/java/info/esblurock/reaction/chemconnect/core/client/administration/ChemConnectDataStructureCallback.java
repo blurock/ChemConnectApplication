@@ -11,7 +11,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.utilities.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 
 public class ChemConnectDataStructureCallback implements AsyncCallback<ChemConnectDataStructure> {
 

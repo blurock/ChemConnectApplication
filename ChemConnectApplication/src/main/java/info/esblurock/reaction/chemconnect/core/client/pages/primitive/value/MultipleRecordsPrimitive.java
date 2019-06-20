@@ -7,18 +7,19 @@ import java.util.Set;
 
 
 import gwt.material.design.client.constants.Color;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.CreatePrimitiveStructure;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.MultipleRecordsPrimitiveRow;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.base.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.base.transfer.PrimitiveInterpretedInformation;
 
 public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 

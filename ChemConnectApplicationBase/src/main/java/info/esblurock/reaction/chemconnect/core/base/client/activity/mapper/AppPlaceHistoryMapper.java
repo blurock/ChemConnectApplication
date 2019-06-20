@@ -4,11 +4,13 @@ import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
 
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 
 
 @WithTokenizers( { 
 	FirstSiteLandingPagePlace.Tokenizer.class,
+	DatabasePersonDefinitionPlace.Tokenizer.class,
 	AboutSummaryPlace.Tokenizer.class
 })
 
