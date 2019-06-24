@@ -105,6 +105,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	@Override
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		StandardWindowVisualization.successWindowMessage("Code not activated yet");
 		async.deleteObject(item.getObject().getIdentifier(),
 				MetaDataKeywords.datasetCatalogHierarchy,
 				new AsyncCallback<Void>() {

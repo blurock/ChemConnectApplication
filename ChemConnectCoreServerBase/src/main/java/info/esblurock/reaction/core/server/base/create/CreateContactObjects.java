@@ -66,7 +66,12 @@ public class CreateContactObjects {
 				datid);
 		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(object, account, user.getObject().getIdentifier(),
 				datid);
+		
+		System.out.println("createNewUser: after fill, before write" + usercat.toString());
+		
 		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(usercat);
+
+		System.out.println("createNewUser: after fill, after write");
 
 		connectSubCatagory("PublishedResults", "Catagory for published results",
 				MetaDataKeywords.publishedResultsCatagory, usercat);
@@ -83,7 +88,7 @@ public class CreateContactObjects {
 		useraccount.setAccountPrivilege(uaccount.getAccountPrivilege());
 		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(user);
 		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(acchier);
-		return user;
+		return acchier;
 	}
 
 	static DatabaseObjectHierarchy fillDescriptionDataData(DatabaseObject obj, String onelinedescription,

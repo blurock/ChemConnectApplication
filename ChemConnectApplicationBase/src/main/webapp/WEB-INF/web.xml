@@ -4,9 +4,65 @@
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
-
+<context-param>
+		<param-name>callback</param-name>
+		<param-value>http://localhost:8080/oauth2callback</param-value>
+	</context-param>
+	<context-param>
+		<param-name>clientID</param-name>
+		<param-value>664636228487-pbsb9lh39tvi2ec1rg0lqk4uq371bhr9.apps.googleusercontent.com</param-value>
+	</context-param>
+	<context-param>
+		<param-name>clientSecret</param-name>
+		<param-value>4wIPmOOKBTqgbSSkbvbzCjE9</param-value>
+	</context-param>
+	
   <!-- Servlets -->
-  
+	<servlet>
+		<servlet-name>callbackservlet</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.base.authentification.Oauth2CallbackServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>callbackservlet</servlet-name>
+		<url-pattern>/oauth2callback</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>loginservice</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.base.authentification.LoginServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>loginservice</servlet-name>
+		<url-pattern>/chemconnectapplicationbase/loginservice</url-pattern>
+		<url-pattern>/loginservice</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>catalogaccess</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.base.services.BaseCatalogAccessImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>catalogaccess</servlet-name>
+		<url-pattern>/chemconnectapplicationbase/catalogaccess</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>images</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.base.db.UserImageServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>images</servlet-name>
+		<url-pattern>/chemconnectapplicationbase/images</url-pattern>
+	</servlet-mapping>
+			<filter>
+		<filter-name>ObjectifyFilter</filter-name>
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ObjectifyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>info.esblurock.reaction.core.server.base.register.RegisterChemConnectBaseCatalogObjects</listener-class>
+	</listener>
+	
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ChemConnectApplicationBase.html</welcome-file>

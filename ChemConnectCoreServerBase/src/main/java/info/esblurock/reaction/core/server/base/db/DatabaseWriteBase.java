@@ -78,6 +78,10 @@ public class DatabaseWriteBase {
 	}
 	public static void deleteUserSessionData(UserSessionData account) {
 		Query<UserSessionData> query = ofy().load().type(UserSessionData.class);
+		System.out.println("deleteUserSessionData:  " + query);
+		System.out.println("deleteUserSessionData:  \n" 
+				+ account.toString("deleteUserSessionData"));
+		
 		QueryResults<UserSessionData> result = query.filter("username",account.getUserName()).iterator();	
 		while(result.hasNext()) {
 			UserSessionData nameaccount = result.next();

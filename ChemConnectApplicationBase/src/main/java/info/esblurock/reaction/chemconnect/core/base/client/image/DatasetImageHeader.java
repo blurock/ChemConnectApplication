@@ -15,7 +15,6 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.image.DatasetImage;
-import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
@@ -85,6 +84,7 @@ public class DatasetImageHeader extends Composite implements OKAnswerInterface {
 	@Override
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		StandardWindowVisualization.successWindowMessage("code not activated yet");
 		async.deleteObject(image.getIdentifier(),
 				StandardDataKeywords.datasetImage,
 				new AsyncCallback<Void>() {

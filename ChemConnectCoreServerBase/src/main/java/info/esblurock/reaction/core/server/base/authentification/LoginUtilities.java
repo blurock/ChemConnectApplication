@@ -87,6 +87,14 @@ public class LoginUtilities {
 	public static UserSessionData newLoginAsGuest(String sessionid, String hostname, String IP) {
 		String guestName = "guest";
 		String userLevel = UserAccountKeys.accessTypeQuery;
+		
+		System.out.println("loginWithAuthorization   guestName:    " + guestName);
+		System.out.println("loginWithAuthorization   sessionid:    " + sessionid);
+		System.out.println("loginWithAuthorization   IP:           " + IP);
+		System.out.println("loginWithAuthorization   hostname:     " + hostname);
+		System.out.println("loginWithAuthorization   userLevel   : " + userLevel);
+
+		
 		UserSessionData sessionuser = new UserSessionData(guestName,sessionid,IP,hostname,userLevel);
 		DatabaseWriteBase.writeUserSessionData(sessionuser);
 		UserAccount guestaccount = WriteReadDatabaseObjects.getAccount(guestName);
@@ -105,6 +113,7 @@ public class LoginUtilities {
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
 		NameOfPerson person = new NameOfPerson(structure, "", "", username);
 		DatabaseObjectHierarchy hierarchy = CreateContactObjects.createNewUser(account,person);
+		System.out.println(hierarchy.toString("createANewUser"));
 		return (UserAccount) hierarchy.getObject();
 	}
 	
@@ -129,10 +138,16 @@ public class LoginUtilities {
 			String authorizationType = info.getAuthorizationType();
 			String accountPrivilege = UserAccountKeys.accessTypeStandardUser;
 			useraccount = createANewUser(suggestedaccountname, info.getAuthorizationID(), authorizationType, accountPrivilege);
-			
+			System.out.println(useraccount.toString("loginWithAuthorization"));
 		}
+		System.out.println("loginWithAuthorization   useraccount.getAccountUserName(): " + useraccount.getAccountUserName());
+		System.out.println("loginWithAuthorization   sessionid:                         " + sessionid);
+		System.out.println("loginWithAuthorization   IP:                                " + IP);
+		System.out.println("loginWithAuthorization   hostname:                          " + hostname);
+		System.out.println("loginWithAuthorization   useraccount.getAccountPrivilege(): " + useraccount.getAccountPrivilege());
 		UserSessionData sessionuser = new UserSessionData(useraccount.getAccountUserName(),sessionid,IP,hostname,
 				useraccount.getAccountPrivilege());
+		System.out.println(useraccount.toString("loginWithAuthorization"));
 		DatabaseWriteBase.writeUserSessionData(sessionuser);
 		
 	return sessionuser;	

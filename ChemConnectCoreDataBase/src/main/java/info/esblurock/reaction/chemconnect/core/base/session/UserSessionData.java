@@ -27,7 +27,11 @@ public class UserSessionData implements Serializable {
 	
 	public UserSessionData(String userName, String sessionID, String IP, String hostname,
 			String userLevel) {
-		
+		this.userName = userName;
+		this.sessionID = sessionID;
+		this.IP = IP;
+		this.hostname = hostname;
+		this.userLevel = userLevel;
 	}
 
 
@@ -99,5 +103,20 @@ public class UserSessionData implements Serializable {
 	public void setUserLevel(String userLevel) {
 		this.userLevel = userLevel;
 	}
+	
+	public String toString() {
+		return toString("");
+	}
+	
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append("userName:   " + userName + "\n");
+		build.append("sessionid:  " + sessionID + "\n");
+		build.append("IP:         " + IP + "\n");
+		build.append("hostname:   " + hostname + "\n");
+		build.append("userLevel:  " + userLevel + "\n");
+		return build.toString();
+	}
+	
 
 }

@@ -73,7 +73,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		
 		// Ensure that this is no request forgery going on, and that the user
 		// sending us this connect request is the user that was supposed to.
-		if (state == null || !state.equals(expected)) {
+		if (state == null || !(state.compareTo(expected) == 0)) {
 			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED");
 			resp.sendRedirect(req.getContextPath());
@@ -85,21 +85,27 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		String emailaddress = "";
 		if (state.startsWith("google")) {
 			req.getSession().removeAttribute("state"); // Remove one-time use state.
-
+			System.out.println("GoogleAuthorizationCodeFlow.Builder");
 			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 					getServletContext().getInitParameter("clientID"),
 					getServletContext().getInitParameter("clientSecret"), SCOPES).build();
 
+			System.out.println("flow.newTokenRequest");
 			final TokenResponse tokenResponse = flow.newTokenRequest(req.getParameter("code"))
 					.setRedirectUri(getServletContext().getInitParameter("callback")).execute();
 
+			System.out.println("req.getSession().setAttribute");
 			req.getSession().setAttribute("token", tokenResponse.toString()); // Keep track of the token.
+			System.out.println("");
 			final Credential credential = flow.createAndStoreCredential(tokenResponse, null);
+			System.out.println("HttpRequestFactory requestFactory");
 			final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
 
+			System.out.println("GenericUrl url = new GenericUrl");
 			final GenericUrl url = new GenericUrl(USERINFO_ENDPOINT); // Make an authenticated request.
 			final HttpRequest request = requestFactory.buildGetRequest(url);
 			request.getHeaders().setContentType("application/json");
+			System.out.println("String jsonIdentity = request.execute().parseAsString();");
 
 			final String jsonIdentity = request.execute().parseAsString();
 			@SuppressWarnings("unchecked")
@@ -252,7 +258,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		Cookie accountNameC = new Cookie("account_name", authorizationinfo.getUseraccount());
 		accountNameC.setMaxAge(60 * 60);
 		resp.addCookie(accountNameC);
-		Cookie redirectC = new Cookie("redirect", "info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace");
+		Cookie redirectC = new Cookie("redirect", authorizationinfo.getUseraccount());
 		redirectC.setMaxAge(60 * 60);
 		resp.addCookie(redirectC);
 

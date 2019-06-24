@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 
 
+
 @RemoteServiceRelativePath("images")
 public interface UserImageService  extends RemoteService  {
 	static public String uploadName = "image";
@@ -114,4 +115,5 @@ public interface UserImageService  extends RemoteService  {
 	
 	public DatabaseObjectHierarchy getTopCatalogObject(String id, String dataType) throws IOException;
 	
+	void deleteObject(String id, String type) throws IOException;
 }

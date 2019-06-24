@@ -54,12 +54,6 @@ public interface UserImageServiceAsync {
 	void createNewCatalogHierarchy(DatabaseObject obj, String newSimpleName, 
 			String id, String onelinedescription, String catagorytype, AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void getDevice(DatabaseObject obj, String devicename, DataCatalogID catid,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
-	void getSetOfObservations(DatabaseObject obj, String observation, String title, DataCatalogID catid,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
 	void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
@@ -92,17 +86,6 @@ public interface UserImageServiceAsync {
 	void getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype,
 			AsyncCallback<HierarchyNode> callback);
 
-	void fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
-			ArrayList<String> coltitles,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
-	void createObservationBlockFromSpreadSheet(DatabaseObject obj, String blocktype, DataCatalogID datid,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
-	void getIDHierarchyFromDataCatalogAndUser(String datacatalog, AsyncCallback<HierarchyNode> callback);
-
-	void deleteObject(String id, String type, AsyncCallback<Void> callback);
-
 	void extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
@@ -115,6 +98,8 @@ public interface UserImageServiceAsync {
 	void getIDHierarchyFromFamilyNameAndUser(String familyname, AsyncCallback<ArrayList<NameOfPerson>> callback);
 
 	void getTopCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void deleteObject(String id, String type, AsyncCallback<Void> callback);
 
 
 }
