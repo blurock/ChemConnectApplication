@@ -8,7 +8,9 @@ import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryVie
 import info.esblurock.reaction.chemconnect.core.base.client.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.UploadFileToBlobStorageView;
 
 
 public interface ClientFactoryBase {
@@ -21,7 +23,10 @@ public interface ClientFactoryBase {
 	FirstSiteLandingPageView getFirstSiteLandingPageView();
 	FirstPageView getFirstPageView();
 	DatabasePersonDefinitionView getDatabasePersonDefinitionView();
+	ManageCatalogHierarchyView getManageCatalogHierarchyView();
+	UploadFileToBlobStorageView getUploadFileToBlobStorageView();
 
 	AuthentificationTopPanelInterface getTopPanel();
 	OrganizationDefinitionView getOrganizationDefinitionView();
+	void setTopPanel(AuthentificationTopPanelInterface toppanel);
 	}

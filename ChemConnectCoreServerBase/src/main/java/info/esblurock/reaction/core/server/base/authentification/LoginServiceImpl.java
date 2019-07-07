@@ -1,10 +1,12 @@
 package info.esblurock.reaction.core.server.base.authentification;
 
 import java.io.IOException;
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
@@ -72,14 +74,31 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	}
 	@Override
 	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount, NameOfPerson person) throws IOException {
-		return CreateContactObjects.createNewUser(uaccount, person);
+		ContextAndSessionUtilities util = getUtilities();
+		String sessionid = util.getId();
+		UserSessionData sessionuser = LoginUtilities.isSessionActive(sessionid);
+		System.out.println(uaccount.toString("LoginService: createNewUser"));
+		System.out.println(sessionuser.toString("LoginService: createNewUser"));
+		return CreateContactObjects.createNewUser(sessionuser, uaccount, person);
 	}
 	
 	public UserSessionData loginAsCurrentUser() {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
+		HttpServletRequest resp = getThreadLocalRequest();
 		String ip = getThreadLocalRequest().getRemoteAddr();
 		String host = getThreadLocalRequest().getRemoteHost();
 		return LoginUtilities.loginAsCurrentUser(sessionid, host, ip);
 	}
+	
+	public UserSessionData loginAfterCreateUser(ExternalAuthorizationInformation authinfo) {
+		ContextAndSessionUtilities util = getUtilities();
+		String sessionid = util.getId();
+		HttpServletRequest resp = getThreadLocalRequest();
+		String ip = getThreadLocalRequest().getRemoteAddr();
+		String host = getThreadLocalRequest().getRemoteHost();
+		UserSessionData usession = LoginUtilities.loginAfterCreateUser(authinfo, sessionid, host, ip);
+		return usession;
+	}
+	
 }

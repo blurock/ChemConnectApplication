@@ -1,6 +1,11 @@
 package info.esblurock.reaction.chemconnect.core.base.login;
 
-public class ExternalAuthorizationInformation {
+import java.io.Serializable;
+
+public class ExternalAuthorizationInformation implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	String useraccount;
 	String given_name;
 	String family_name;

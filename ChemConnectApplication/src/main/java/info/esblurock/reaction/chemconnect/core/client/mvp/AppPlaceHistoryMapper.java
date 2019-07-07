@@ -9,14 +9,14 @@ import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdminist
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
-import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectPartnersPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ContactInformationPlace;

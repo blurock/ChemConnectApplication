@@ -5,7 +5,9 @@ import com.google.gwt.place.shared.PlaceController;
 
 import info.esblurock.reaction.chemconnect.core.base.client.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.UploadFileToBlobStorageView;
 import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.AboutSummaryView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -16,11 +18,9 @@ import info.esblurock.reaction.chemconnect.core.client.ui.view.DataManagementVie
 import info.esblurock.reaction.chemconnect.core.client.ui.view.DeviceWithSubystemsDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstSiteLandingPageView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.IsolateMatrixBlockView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.MissionStatementView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ProtocolDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.TutorialExampleView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.UploadFileToBlobStorageView;
 
 public interface ClientFactory {
 	EventBus getEventBus();

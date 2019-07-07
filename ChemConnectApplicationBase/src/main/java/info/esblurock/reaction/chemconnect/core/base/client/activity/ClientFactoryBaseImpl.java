@@ -3,9 +3,12 @@ package info.esblurock.reaction.chemconnect.core.base.client.activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.base.client.about.AboutSummary;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.ManageCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.UploadFileToBlobStorage;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.organization.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.DatabasePersonDefinition;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstPage;
@@ -14,7 +17,9 @@ import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryVie
 import info.esblurock.reaction.chemconnect.core.base.client.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.UploadFileToBlobStorageView;
 
 public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	private final SimpleEventBus eventBus = new SimpleEventBus();
@@ -25,8 +30,10 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	private final AboutSummaryView aboutSummaryView = new AboutSummary();
 	private final FirstSiteLandingPageView firstLandingSitePageView = new FirstSiteLandingPage();
 	private final FirstPageView firstPageView = new FirstPage();
-	private final DatabasePersonDefinitionView databasePersonDefinitionView = new DatabasePersonDefinition();
 	private final OrganizationDefinitionView organizationDefinitionView = new OrganizationDefinition();
+	private final DatabasePersonDefinitionView databasePersonDefinitionView = new DatabasePersonDefinition();
+	private final ManageCatalogHierarchyView manageCatalogHierarchyView = new ManageCatalogHierarchy();
+	private final UploadFileToBlobStorageView uploadFileToBlobStorageView = new UploadFileToBlobStorage();
 
 	@Override
 	public EventBus getEventBus() {
@@ -68,8 +75,24 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	}
 
 	@Override
+	public ManageCatalogHierarchyView getManageCatalogHierarchyView() {
+		Window.alert("getManageCatalogHierarchyView()");
+		return manageCatalogHierarchyView;
+	}
+
+	@Override
+	public UploadFileToBlobStorageView getUploadFileToBlobStorageView() {
+		return uploadFileToBlobStorageView;
+	}
+	@Override
 	public AuthentificationTopPanelInterface getTopPanel() {
 		return toppanel;
 	}
+
+	@Override
+	public void  setTopPanel(AuthentificationTopPanelInterface toppanel) {
+		this.toppanel = toppanel;
+	}
+
 
 }

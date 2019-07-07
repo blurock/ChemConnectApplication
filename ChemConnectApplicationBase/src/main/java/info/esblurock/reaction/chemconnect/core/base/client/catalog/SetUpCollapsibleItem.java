@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.base.client.catalog;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
@@ -14,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.multiple.Che
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.organization.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.organization.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.StandardDatabasePersonalDescriptionHeader;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.StandardDatabaseUserAccountHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.StandardDatasetIndividualInformation;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.StandardDatasetNameOfPersonHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.reference.AuthorInformationHeader;
@@ -132,6 +134,34 @@ public enum SetUpCollapsibleItem {
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			StandardDatasetIndividualInformation header=new StandardDatasetIndividualInformation(item);item.addHeader(header);
 
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 610;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+
+	}, UserAccount {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatabaseUserAccountHeader header=new StandardDatabaseUserAccountHeader(item);
+			item.addHeader(header);
 		}
 
 		@Override

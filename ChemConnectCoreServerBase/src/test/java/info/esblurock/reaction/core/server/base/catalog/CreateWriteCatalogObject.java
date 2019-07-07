@@ -23,7 +23,6 @@ import info.esblurock.reaction.chemconnect.core.base.session.DataSourceIdentific
 import info.esblurock.reaction.core.ontology.base.OntologyBase;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.db.ExtractCatalogInformation;
-import info.esblurock.reaction.core.server.base.register.RegisterChemConnectBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.register.RegisterContactData;
 import info.esblurock.reaction.core.server.base.register.RegisterDescriptionData;
 import info.esblurock.reaction.core.server.base.register.RegisterGCSClasses;
@@ -82,7 +81,7 @@ public class CreateWriteCatalogObject extends TestBase {
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
 		NameOfPerson person = new NameOfPerson(structure, "Prof.", "Wiley E.", "Coyote");
 		System.out.println(sessiondata.toString("UserAccount: "));
-		DatabaseObjectHierarchy hierarchy = CreateContactObjects.createNewUser(sessiondata, person);
+		DatabaseObjectHierarchy hierarchy = CreateContactObjects.createNewUser(null,sessiondata, person);
 
 		System.out.println("CreateWriteCatalogObject\n" + hierarchy.toString());
 		

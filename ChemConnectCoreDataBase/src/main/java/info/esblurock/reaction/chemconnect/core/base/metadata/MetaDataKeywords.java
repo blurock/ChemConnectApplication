@@ -15,6 +15,11 @@ public class MetaDataKeywords {
 	public static String accessDataDelete = "DataDelete";
 		
 	public static String userReadAccess = "dataset:userReadAccess";
+
+	// DatasetImage
+	public static String datasetImage = "dataset:DatasetImage";
+	public static String imageInformationID = "dataset:ImageInformation";
+	public static String datasetImageID = "foaf:Image";
 	
 	public static String linkSubCatalog = "dataset:ConceptLinkCatalogHierarchyStructure";
 	public static String linkUser = "dataset:ConceptLinkUserInformation";

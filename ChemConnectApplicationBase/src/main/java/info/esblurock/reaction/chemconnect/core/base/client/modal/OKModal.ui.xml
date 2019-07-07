@@ -8,7 +8,7 @@
 	}
 	</ui:style>
 	<m:MaterialDialog ui:field="modal" type="DEFAULT"
-		inDuration="500" outDuration="500" dismissible="true" height="100px">
+		inDuration="500" outDuration="500" dismissible="true">
 		<m:MaterialDialogContent ui:field="modalcontent">
 			<m:MaterialPanel>
 				<m:MaterialRow>

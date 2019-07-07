@@ -20,8 +20,8 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
 import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.base.client.TopPanelInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.authentication.SetUpUserCookies;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.modal.OKAnswerInterface;
@@ -31,7 +31,6 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompound
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
-import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
@@ -98,20 +97,31 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 		personlastname.setPlaceholder("");
 }
 	private void fromCookies() {
+		
 		String given_nameS = Cookies.getCookie("given_name");
-		personfirstname.setText(given_nameS);
 		String family_nameS = Cookies.getCookie("family_name");
-		personlastname.setText(family_nameS);
 		authID = Cookies.getCookie("auth_id");
 		String account = Cookies.getCookie("account_name");
-		Cookies.setCookie("user", account);
+		authSource  = Cookies.getCookie("authorizationType");
+        /*
+		String given_nameS  = Window.Location.getParameter("given_name");
+		Window.alert("given_name: " + given_nameS);
+		String family_nameS = Window.Location.getParameter("family_name");
+		authID              = Window.Location.getParameter("auth_id");
+		String account      = Window.Location.getParameter("account_name");
+		authSource          = Window.Location.getParameter("authorizationType");
+		*/
+
+		personfirstname.setText(given_nameS);
+		personlastname.setText(family_nameS);
 		accountname.setText(account);
-		authSource = Cookies.getCookie("authorizationType");
-	}
+
+		Cookies.setCookie("user", account);
+}
 	
 	@UiHandler("submit")
 	public void submitClick(ClickEvent event) {
-		String titleS = "";
+		String titleS = persontitle.getValue();
 		String givenNameS = personfirstname.getValue();
 		String familyNameS = personlastname.getValue();
 		String account = accountname.getValue();
@@ -130,7 +140,6 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 
 	@Override
 	public void answeredOK(String answer) {
-		Cookies.setCookie("user", useraccount.getAccountUserName());
 		collapsiblePanel.clear();
 		mainPanel.clear();
 		LoginServiceAsync async = LoginService.Util.getInstance();
@@ -140,13 +149,12 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 			public void onFailure(Throwable arg0) {
 				MaterialLoader.loading(false);
 				Window.alert("ERROR: Set up after user creation:\n" + arg0.toString());
+				topPanel.logout();
 			}
 
 			@Override
 			public void onSuccess(DatabaseObjectHierarchy hierarchy) {
-				MaterialLoader.loading(false);
-				String account = Cookies.getCookie("account_name");
-				Cookies.setCookie("user", account);
+				
 				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,hierarchy,modalpanel);		
 				collapsiblePanel.add(item);
 				LoginServiceAsync async = LoginService.Util.getInstance();
@@ -154,14 +162,20 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 
 					@Override
 					public void onFailure(Throwable caught) {
+						MaterialLoader.loading(false);
 						StandardWindowVisualization.errorWindowMessage("Log in as current new user", caught.toString());
 					}
 
 					@Override
 					public void onSuccess(UserSessionData result) {
+						MaterialLoader.loading(false);
 						sessiondata = result;
 						StandardWindowVisualization.successWindowMessage("New user successfully logged in" );
+						SetUpUserCookies.setup(result);
+						Window.alert("CreateNewUserWizard: 1");
+						Window.alert("CreateNewUserWizard: 2\n" + result.toString());
 						topPanel.loginCallback(result);
+						Window.alert("CreateNewUserWizard: 3");
 					}
 					
 				});

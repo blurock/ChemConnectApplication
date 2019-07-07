@@ -4,17 +4,14 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 
-import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
-import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
+mport info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectAdministrationImpl;
-import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.ProtocolDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.IsolateMatrixBlock;
 import info.esblurock.reaction.chemconnect.core.client.firstpage.FirstPage;
 import info.esblurock.reaction.chemconnect.core.client.firstpage.FirstSiteLandingPage;
-import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;
 import info.esblurock.reaction.chemconnect.core.client.info.mission.MissionStatement;
 import info.esblurock.reaction.chemconnect.core.client.info.tutorial.TutorialExample;
 import info.esblurock.reaction.chemconnect.core.client.resources.info.footer.AboutSummary;
@@ -30,11 +27,9 @@ import info.esblurock.reaction.chemconnect.core.client.ui.view.DataManagementVie
 import info.esblurock.reaction.chemconnect.core.client.ui.view.DeviceWithSubystemsDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstSiteLandingPageView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.IsolateMatrixBlockView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.MissionStatementView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ProtocolDefinitionView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.TutorialExampleView;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.UploadFileToBlobStorageView;
 
 public class ClientFactoryImpl implements ClientFactory {
 	private final SimpleEventBus eventBus = new SimpleEventBus();

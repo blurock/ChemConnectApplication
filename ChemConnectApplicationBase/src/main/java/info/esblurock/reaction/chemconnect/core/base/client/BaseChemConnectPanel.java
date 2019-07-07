@@ -6,6 +6,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -17,7 +18,10 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LinkedInAuthentification;
@@ -25,9 +29,8 @@ import info.esblurock.reaction.chemconnect.core.base.client.authentication.Login
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LogoutUser;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.GoogleAuthentification;
 
-
 public class BaseChemConnectPanel extends Composite implements AuthentificationTopPanelInterface {
-	
+
 	ClientFactoryBase clientFactory;
 	UserSessionData userSessionAccount;
 
@@ -35,6 +38,7 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 
 	interface BaseChemConnectPanelUiBinder extends UiBinder<Widget, BaseChemConnectPanel> {
 	}
+
 	@UiField
 	MaterialLink username;
 	@UiField
@@ -82,55 +86,66 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 		logintooltip.setText("Choose method of login");
 		userSessionAccount = null;
 	}
+
 	@UiHandler("guestLogin")
 	void onClickGuest(ClickEvent e) {
 		LoginAsGuest glogin = new LoginAsGuest(this);
 		glogin.login();
 	}
-	
+
 	@UiHandler("googleLogin")
 	void onClickGoogle(ClickEvent e) {
 		GoogleAuthentification google = new GoogleAuthentification(this);
 		google.initiateAthentification();
-		
+
 	}
+
 	@UiHandler("linkedinLogin")
 	void onClickLinkedIn(ClickEvent e) {
 		LinkedInAuthentification linkedIn = new LinkedInAuthentification(this);
 		linkedIn.initiateAthentification();
 	}
+
 	@Override
 	public void loginCallback(UserSessionData account) {
+		Window.alert("loginCallback: 1");
+		setLoginVisibility(false);
+		Window.alert("loginCallback: 2");
 		userSessionAccount = account;
 		username.setText(account.getUserName());
+		Window.alert("loginCallback: 3");
+		Window.alert("loginCallback: 4" + account.getUserName());
 	}
-
 
 	public void setLoginVisibility(boolean loginvisible) {
 		logout.setVisible(!loginvisible);
 		loginchoice.setVisible(loginvisible);
 	}
+
 	public void setCreateButtonVisibility(boolean visibility) {
 		createbutton.setVisible(visibility);
 	}
+
 	public String callbackWithServer() {
 		String redirect = "http://blurock-chemconnect.appspot.com/oauth2callback";
-		if(Window.Location.getHostName().compareTo("localhost") == 0) {
+		if (Window.Location.getHostName().compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/oauth2callback";
 		}
 		return redirect;
 	}
+
 	@UiHandler("logout")
 	public void onLogout(ClickEvent event) {
 		LogoutUser ulogout = new LogoutUser(this);
 		ulogout.logout();
 		subtitle.setText("ChemConnect: The Intelligent Repository");
-		goTo(new FirstSiteLandingPagePlace("Home"));		
+		goTo(new FirstSiteLandingPagePlace("Home"));
 	}
+
 	public SimplePanel getContentPanel() {
 		return contentPanel;
 	}
-	
+
 	@UiHandler("home")
 	public void onHome(ClickEvent event) {
 		subtitle.setText("ChemConnect: The Intelligent Repository");
@@ -142,13 +157,33 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 		setSubTitle("About ChemConnect");
 		goTo(new AboutSummaryPlace("About ChemConnect"));
 	}
-	
+
+	@UiHandler("catalog")
+	public void onCatalogClick(ClickEvent event) {
+		setSubTitle("Manage Catalog Structure");
+		goTo(new ManageCatalogHierarchyPlace("Manage Catalog Structure"));
+	}
+
+	@UiHandler("upload")
+	public void onUploadClick(ClickEvent event) {
+		setSubTitle("File staging");
+		goTo(new UploadFileToBlobStoragePlace("File staging"));
+	}
+
+	@UiHandler("people")
+	public void onPeopleClick(ClickEvent event) {
+		setSubTitle("Manage Contact Info");
+		goTo(new DatabasePersonDefinitionPlace("Manage Contact Info"));
+	}
+
 	private void goTo(Place place) {
 		clientFactory.getPlaceController().goTo(place);
 	}
+
 	public ClientFactoryBase getClientFactory() {
 		return clientFactory;
 	}
+
 	public void setSubTitle(String subtitletext) {
 		subtitle.setText(subtitletext);
 	}
@@ -160,9 +195,8 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 
 	@Override
 	public void logout() {
-		username.setText("");
+		setLoginVisibility(true);
+		username.setText(Cookies.getCookie("user"));
 	}
-
-
 
 }

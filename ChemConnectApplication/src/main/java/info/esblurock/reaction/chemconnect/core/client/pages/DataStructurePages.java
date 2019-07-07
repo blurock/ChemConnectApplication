@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.ui.Widget;
 
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.ManageCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.UploadFileToBlobStorage;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.organization.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.DatabasePersonDefinition;
-import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.ProtocolDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.IsolateMatrixBlock;
-import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;
 
 public enum DataStructurePages implements Serializable {
 	

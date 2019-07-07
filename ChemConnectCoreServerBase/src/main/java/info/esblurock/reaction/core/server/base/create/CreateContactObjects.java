@@ -31,7 +31,7 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.DatabaseKeys;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardTextStatements;
-import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectDataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.base.transfer.CompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
@@ -39,16 +39,24 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInf
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
+import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
 //import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 //import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
-import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseDataUtilities;
 
 public class CreateContactObjects {
-	public static DatabaseObjectHierarchy createNewUser(UserAccount uaccount, NameOfPerson person) {
+	public static DatabaseObjectHierarchy createNewUser(UserSessionData usession, UserAccount uaccount, NameOfPerson person) {
 		String account = uaccount.getAccountUserName();
+		if(usession == null) {
+			usession = new UserSessionData(uaccount.getAccountUserName(), "", "", "", uaccount.getAccountPrivilege());
+		} else if(usession.getUserName() == null) {
+			usession.setUserName(account);
+		} else if(usession.getUserName().length() == 0) {
+			usession.setUserName(account);
+		}
+		DatabaseWriteBase.writeUserSessionData(usession);
 		String accountClassification = uaccount.getAuthorizationType();
 		String sourceID = QueryBase.getDataSourceIdentification(account);
 		String id = "User";
@@ -72,6 +80,7 @@ public class CreateContactObjects {
 		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(usercat);
 
 		System.out.println("createNewUser: after fill, after write");
+		System.out.println(usercat.toString("createNewUser: "));
 
 		connectSubCatagory("PublishedResults", "Catagory for published results",
 				MetaDataKeywords.publishedResultsCatagory, usercat);
@@ -311,7 +320,7 @@ public class CreateContactObjects {
 	}
 
 	public static String userCatalogHierarchyID(String username) {
-		String uidcat = "User-" + username;
+		String uidcat = StandardDataKeywords.individualInformationPrefix + "-" + username;
 		DatabaseObject catobj = new DatabaseObject(uidcat, username, username, "");
 		DataElementInformation element = DatasetOntologyParseBase
 				.getSubElementStructureFromIDObject(StandardDataKeywords.datasetCatalogHierarchy);
@@ -343,12 +352,22 @@ public class CreateContactObjects {
 
 	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, String username, String userid,
 			DataCatalogID usercatid) {
+		System.out.println("fillCataogHierarchyForUser:\n" 
+				+ "Username: " + username + "\n"
+				+ "userid:   " + userid);
+		System.out.println(obj.toString("fillCataogHierarchyForUser: obj  : "));
+		System.out.println(usercatid.toString("fillCataogHierarchyForUser: catid: "));
+		
 		DatabaseObject dobj = new DatabaseObject(obj);
+		System.out.println(dobj.toString("fillCataogHierarchyForUser: dobj  : "));
 		String uid = dobj.getIdentifier();
 		dobj.setIdentifier(uid);
 		dobj.nullKey();
 		String onelinedescription = "Catalog of '" + username + "'";
 		DatabaseObjectHierarchy userhierarchy = InterpretBaseData.DatasetCatalogHierarchy.createEmptyObject(dobj);
+		
+		System.out.println(userhierarchy.toString("userhier: "));
+		
 		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
 		setOneLineDescription(userhierarchy, onelinedescription);
 

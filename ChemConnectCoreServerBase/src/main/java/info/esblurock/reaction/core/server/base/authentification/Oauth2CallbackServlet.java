@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.Collection;
@@ -37,8 +36,11 @@ import com.google.api.client.json.JsonFactory;
 //import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
+import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
+import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 
 @SuppressWarnings("serial")
 public class Oauth2CallbackServlet extends HttpServlet {
@@ -78,11 +80,18 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED");
 			resp.sendRedirect(req.getContextPath());
 		}
+		String userS = "";
+		String accountnameS = "";
 		String firstname = "";
 		String lastname = "";
-		String auth_id = "";
-		String authType = "";
 		String emailaddress = "";
+		String levelS = UserAccountKeys.accessTypeQuery;
+		String auth_idS = "";
+		String authorizationTypeS = "";
+		String hasAccountS = "";
+		String sessionid = req.getSession().getId();
+		String hostname = req.getLocalName();
+		String IP = req.getLocalName();
 		if (state.startsWith("google")) {
 			req.getSession().removeAttribute("state"); // Remove one-time use state.
 			System.out.println("GoogleAuthorizationCodeFlow.Builder");
@@ -126,9 +135,8 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 			firstname = userIdResult.get("given_name");
 			lastname = userIdResult.get("family_name");
-			auth_id = userIdResult.get("sub");
-
-			authType = "Google";
+			auth_idS = userIdResult.get("sub");
+			authorizationTypeS = "Google";
 
 		} else if (state.startsWith("linkedin")) {
 			String code = req.getParameter("code");
@@ -169,14 +177,11 @@ public class Oauth2CallbackServlet extends HttpServlet {
 				throw new RuntimeException(
 						"Failed : HTTP error code : " + conn.getResponseCode() + ": " + conn.getResponseMessage());
 			}
-
 			JSONObject json = getJSON(conn.getInputStream());
 			firstname = json.getString("firstName");
 			lastname = json.getString("lastName");
-			auth_id = json.getString("id");
-
-			authType = "LinkedIn";
-
+			auth_idS = json.getString("id");
+			authorizationTypeS = "LinkedIn";
 		} else if (state.startsWith("facebook")) {
 			String access_token = req.getParameter("access_token");
 			String CLIENT_ID = "618453741934565";
@@ -196,7 +201,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 			System.out.println(jsonobj);
 			System.out.println("Access Token: " + accesstoken);
-
+			authorizationTypeS = "facebook";
 		} else if (state.startsWith("nextfacebook")) {
 			System.out.println("nextfacebook");
 			List<String> list = Collections.list(req.getParameterNames());
@@ -205,70 +210,58 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			}
 
 		}
-		
+		hasAccountS = Boolean.TRUE.toString();
 		ExternalAuthorizationInformation authorizationinfo = 
-				new ExternalAuthorizationInformation("",firstname, lastname, auth_id, authType, 
-						Boolean.TRUE.toString(), emailaddress);
+				new ExternalAuthorizationInformation("",firstname, lastname, auth_idS, authorizationTypeS, 
+						hasAccountS, emailaddress);
 
-		Cookie given_nameC = new Cookie("given_name", firstname);
-		given_nameC.setMaxAge(60 * 60);
-		resp.addCookie(given_nameC);
-		Cookie family_nameC = new Cookie("family_name", lastname);
-		family_nameC.setMaxAge(60 * 60);
-		resp.addCookie(family_nameC);
-		Cookie google_idC = new Cookie("auth_id", auth_id);
-		google_idC.setMaxAge(60 * 60);
-		resp.addCookie(google_idC);
-		Cookie authtypeC = new Cookie("authorizationType", authType);
-		authtypeC.setMaxAge(60 * 60);
-		resp.addCookie(authtypeC);
-
-		Cookie inSystemC = new Cookie("hasAccount", Boolean.TRUE.toString());
-		inSystemC.setMaxAge(60 * 60);
-		String ip = req.getRemoteAddr();
-		String host = req.getRemoteHost();
 		HttpSession session = req.getSession();
-		LoginUtilities.loginWithAuthorization(authorizationinfo, session.getId(), host, ip);
-		/*
-		HttpSession session = req.getSession();
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), session);
-		util.removeUserFromContext();
-		util.deleteUserFromSession();
+		UserAccount useraccount = null;
 		try {
-			System.out.println("Authorization Name: " + auth_id);
-			DatabaseObject obj = QueryBase.getFirstDatabaseObjectsFromSingleProperty(
-					UserAccount.class.getCanonicalName(), "authorizationName", auth_id);
-			UserAccount account = (UserAccount) obj;
-			suggestion = account.getAccountUserName();
-			String ip = req.getRemoteAddr();
-			String host = req.getRemoteHost();
-			UserDTO user = new UserDTO(account.getAccountUserName(), session.getId(), ip, host,
-					account.getAccountPrivilege(), LoginServiceImpl.standardMaxTransitions);
-			ArrayList<String> privs = VerifyServerTransaction.getPrivledges(account.getAccountPrivilege());
-			user.setPrivledges(privs);
-			util.setUserInfo(user);
-			System.out.println("Existing User:\n" + user.toString());
-		} catch (IOException ex) {
-			inSystemC.setValue(Boolean.FALSE.toString());
-			suggestion = suggestALoginName(firstname, lastname);
+			useraccount = DatabaseWriteBase.userAccountFromAuthorizationName(authorizationinfo.getAuthorizationID());
+			hasAccountS = Boolean.TRUE.toString();
+			accountnameS = useraccount.getAccountUserName();
+			userS = useraccount.getAccountUserName();
+			levelS = useraccount.getAccountPrivilege();
+			if(useraccount.getAccountUserName().length() == 0) {
+				hasAccountS = Boolean.FALSE.toString();
+			}
+			userS = useraccount.getAccountUserName();
+			levelS = useraccount.getAccountPrivilege();
+			LoginUtilities.loginWithAuthorization(authorizationinfo, session.getId(), hostname, IP);
+		} catch(IOException ex) {
+			hasAccountS = Boolean.FALSE.toString();
 		}
-		*/
-		resp.addCookie(inSystemC);
-
-		Cookie accountNameC = new Cookie("account_name", authorizationinfo.getUseraccount());
-		accountNameC.setMaxAge(60 * 60);
-		resp.addCookie(accountNameC);
 		Cookie redirectC = new Cookie("redirect", authorizationinfo.getUseraccount());
 		redirectC.setMaxAge(60 * 60);
 		resp.addCookie(redirectC);
+		
+		
+		LoginUtilities.setupCookiesForUser(resp, userS, 
+				lastname, firstname, levelS, 
+				emailaddress, 
+				auth_idS, authorizationTypeS, hasAccountS, 
+				sessionid, hostname, IP);
 
+		
+		UserSessionData usession = new UserSessionData(userS,sessionid,IP,hostname,levelS);
+		DatabaseWriteBase.writeUserSessionData(usession);
 		String servername = req.getServerName();
 		System.out.println("servername: " + servername);
+		/*
 		String redirect = "http://blurock-chemconnect.appspot.com/#FirstPagePlace:First%20Page";
 		if (servername.compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/#FirstPagePlace:First%20Page";
 		}
-		redirect = "/#FirstPagePlace:First%20Page";
+		*/
+		/*
+		String parameters = "?family_name=" + lastname +
+				"&given_name=" + firstname + 
+				"&account_name=" + accountnameS + 
+				"&authorizationType=" + authorizationTypeS +
+				"&auth_id=" + auth_idS;
+				*/
+		String redirect = "/#FirstPagePlace:First%20Page";
 		System.out.println("Call redirect: " + redirect);
 		String url = resp.encodeRedirectURL(redirect);
 		System.out.println("Call redirect: " + redirect);

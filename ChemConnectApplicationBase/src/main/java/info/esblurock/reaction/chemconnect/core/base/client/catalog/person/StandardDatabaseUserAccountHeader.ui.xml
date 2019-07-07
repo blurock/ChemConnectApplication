@@ -1,0 +1,34 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialRow>
+		<m:MaterialColumn grid="s3">
+			<m:MaterialTooltip ui:field="usernametooltip">
+			<m:MaterialLink ui:field="username" textColor="BLACK" />
+			</m:MaterialTooltip>
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s3">
+			<m:MaterialTooltip ui:field="authorizationtype">
+			<m:MaterialLink ui:field="authorizationname" textColor="BLACK" />
+			</m:MaterialTooltip>
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s3">
+			<m:MaterialTooltip ui:field="privilegetooltip">
+			<m:MaterialLink ui:field="accountPrivilege" textColor="BLACK" />
+			</m:MaterialTooltip>
+		</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+			<m:MaterialLink ui:field="delete" iconType="DELETE"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s1">
+			<m:MaterialLink ui:field="save" iconType="SAVE"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+		</m:MaterialColumn>
+	</m:MaterialRow>
+
+</ui:UiBinder> 

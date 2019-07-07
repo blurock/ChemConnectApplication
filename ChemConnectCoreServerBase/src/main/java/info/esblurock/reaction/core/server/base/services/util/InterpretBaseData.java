@@ -504,7 +504,7 @@ public enum InterpretBaseData {
 			DatabaseObject imageobj = new DatabaseObject(obj);
 			imageobj.nullKey();
 			DataElementInformation element = DatasetOntologyParseBase
-					.getSubElementStructureFromIDObject(StandardDataKeywords.datasetImage);
+					.getSubElementStructureFromIDObject(MetaDataKeywords.datasetImage);
 			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			imageobj.setIdentifier(catid);
 			
@@ -531,7 +531,7 @@ public enum InterpretBaseData {
 			DatasetImage image = null;
 			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
-			String imageInformationID = (String) yaml.get(StandardDataKeywords.imageInformationID);			
+			String imageInformationID = (String) yaml.get(MetaDataKeywords.imageInformationID);			
 			image = new DatasetImage(structure,imageInformationID);
 			return image;
 		}
@@ -541,7 +541,7 @@ public enum InterpretBaseData {
 			DatasetImage datasetImage = (DatasetImage) object;
 			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			map.put(StandardDataKeywords.imageInformationID, datasetImage.getImageInformation());
+			map.put(MetaDataKeywords.imageInformationID, datasetImage.getImageInformation());
 			return map;
 		}
 

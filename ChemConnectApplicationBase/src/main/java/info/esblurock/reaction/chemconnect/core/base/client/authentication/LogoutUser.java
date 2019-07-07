@@ -33,8 +33,7 @@ public class LogoutUser {
 			public void onSuccess(UserSessionData result) {
 				SetUpUserCookies.zeroAllCookies();
 				SetUpUserCookies.setupDefaultGuestUserCookies();
-				toppanel.setLoginVisibility(true);
-				toppanel.loginCallback(result);
+				toppanel.logout();
 			}
 			
 		});

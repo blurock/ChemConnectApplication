@@ -32,7 +32,7 @@ public class ChemConnectApplicationBase implements EntryPoint {
 	public void onModuleLoad() {
 		Window.alert("onModuleLoad()");
 		String redirect = Cookies.getCookie("redirect");
-		String account_name = Cookies.getCookie("account_name");
+		String account_name = Cookies.getCookie("user");
 		Cookies.removeCookie("redirect");
 		boolean firsttime = true;
 		if(redirect == null || account_name == null) {
@@ -59,6 +59,8 @@ public class ChemConnectApplicationBase implements EntryPoint {
 		ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
 		ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
 		activityManager.setDisplay(toppanel.getContentPanel());
+		
+		clientFactory.setTopPanel(toppanel);
 
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
 

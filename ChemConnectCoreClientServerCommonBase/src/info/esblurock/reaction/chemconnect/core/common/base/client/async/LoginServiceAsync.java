@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 
@@ -20,6 +21,8 @@ public interface LoginServiceAsync {
 	void loginGuestServer(AsyncCallback<UserSessionData> callback);
 
 	void loginAsCurrentUser(AsyncCallback<UserSessionData> callback);
+
+	void loginAfterCreateUser(ExternalAuthorizationInformation authinfo, AsyncCallback<UserSessionData> callback);
 
 }
 

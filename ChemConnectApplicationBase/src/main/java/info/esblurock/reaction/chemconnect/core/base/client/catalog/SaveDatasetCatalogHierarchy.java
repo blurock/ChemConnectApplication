@@ -53,7 +53,7 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 
 	public void openModal() {
 		String owner = topitem.getHierarchy().getObject().getOwner();
-		String account = Cookies.getCookie("account_name");
+		String account = Cookies.getCookie("user");
 		if (account != null) {
 			MaterialToast.fireToast("Saving under user: '" + account + "'   (" + owner + ")");
 

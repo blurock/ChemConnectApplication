@@ -50,9 +50,6 @@ public class StandardDataKeywords {
 	public static String imageURL = "dataset:ImageURL";
 	public static String imageInformation = "dataset:ImageInformation";
 
-	// DatasetImage
-	public static String datasetImage = "dataset:DatasetImage";
-	public static String imageInformationID = "dataset:ImageInformation";
 	
 	// DatasetCatalogHierarchy
 	public static String datasetCatalogHierarchy = "dataset:DatasetCatalogHierarchy";
@@ -155,6 +152,9 @@ public class StandardDataKeywords {
 	public static String authorInformation = "dataset:AuthorInformation";
 	
 	// IndividualInformation
+	
+	public static String individualInformationPrefix = "User";
+	public static String individualInformationSuffix = "usrinfo";
 
 
 	// Consortium

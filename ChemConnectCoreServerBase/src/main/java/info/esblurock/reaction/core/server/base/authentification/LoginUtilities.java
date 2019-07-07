@@ -1,6 +1,9 @@
 package info.esblurock.reaction.core.server.base.authentification;
 
-import java.io.IOException;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
@@ -13,8 +16,6 @@ import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.base.services.ServerBase;
-import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionUtilities;
 
 /*
  * These routines manage the user under the current session and logging
@@ -94,6 +95,7 @@ public class LoginUtilities {
 		System.out.println("loginWithAuthorization   hostname:     " + hostname);
 		System.out.println("loginWithAuthorization   userLevel   : " + userLevel);
 
+
 		
 		UserSessionData sessionuser = new UserSessionData(guestName,sessionid,IP,hostname,userLevel);
 		DatabaseWriteBase.writeUserSessionData(sessionuser);
@@ -101,18 +103,18 @@ public class LoginUtilities {
 		if(guestaccount == null) {
 			String authorizationType = "Default";
 			String accountPrivilege = UserAccountKeys.accessTypeQuery;
-			createANewUser(guestName, guestName, authorizationType, accountPrivilege);
+			createANewUser(sessionuser, guestName, guestName, authorizationType, accountPrivilege);
 		}
 		return sessionuser;
 	}
 	
-	public static UserAccount createANewUser(String username, String authorizationName, 
+	public static UserAccount createANewUser(UserSessionData usession, String username, String authorizationName, 
 			String authorizationType, String accountPrivilege) {
 		ChemConnectDataStructure datastructure = new ChemConnectDataStructure();
 		UserAccount account = new UserAccount(datastructure, username, authorizationName, authorizationType, accountPrivilege);
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
 		NameOfPerson person = new NameOfPerson(structure, "", "", username);
-		DatabaseObjectHierarchy hierarchy = CreateContactObjects.createNewUser(account,person);
+		DatabaseObjectHierarchy hierarchy = CreateContactObjects.createNewUser(usession,account,person);
 		System.out.println(hierarchy.toString("createANewUser"));
 		return (UserAccount) hierarchy.getObject();
 	}
@@ -133,22 +135,27 @@ public class LoginUtilities {
 	public static UserSessionData loginWithAuthorization(ExternalAuthorizationInformation info, String sessionid, String hostname, String IP) {
 		logout(sessionid, hostname, IP);
 		UserAccount useraccount = WriteReadDatabaseObjects.getAccountWithAuthorization(info.getAuthorizationID());
+		UserSessionData sessionuser = null;
 		if(useraccount == null) {
 			String suggestedaccountname = suggestALoginName(info.getGiven_name(), info.getFamily_name());
 			String authorizationType = info.getAuthorizationType();
 			String accountPrivilege = UserAccountKeys.accessTypeStandardUser;
-			useraccount = createANewUser(suggestedaccountname, info.getAuthorizationID(), authorizationType, accountPrivilege);
+			sessionuser = new UserSessionData(suggestedaccountname,sessionid,IP,hostname,
+					accountPrivilege);
+			DatabaseWriteBase.writeUserSessionData(sessionuser);
+			useraccount = createANewUser(sessionuser, suggestedaccountname, info.getAuthorizationID(), authorizationType, accountPrivilege);
 			System.out.println(useraccount.toString("loginWithAuthorization"));
+		} else {
+			sessionuser = new UserSessionData(useraccount.getAccountUserName(),sessionid,IP,hostname,
+					useraccount.getAccountPrivilege());
+			DatabaseWriteBase.writeUserSessionData(sessionuser);
 		}
 		System.out.println("loginWithAuthorization   useraccount.getAccountUserName(): " + useraccount.getAccountUserName());
 		System.out.println("loginWithAuthorization   sessionid:                         " + sessionid);
 		System.out.println("loginWithAuthorization   IP:                                " + IP);
 		System.out.println("loginWithAuthorization   hostname:                          " + hostname);
 		System.out.println("loginWithAuthorization   useraccount.getAccountPrivilege(): " + useraccount.getAccountPrivilege());
-		UserSessionData sessionuser = new UserSessionData(useraccount.getAccountUserName(),sessionid,IP,hostname,
-				useraccount.getAccountPrivilege());
 		System.out.println(useraccount.toString("loginWithAuthorization"));
-		DatabaseWriteBase.writeUserSessionData(sessionuser);
 		
 	return sessionuser;	
 	}
@@ -185,5 +192,64 @@ public class LoginUtilities {
 		}
 		return suggestion;
 	}
+	
+	public static UserSessionData loginAfterCreateUser(ExternalAuthorizationInformation authinfo,
+			String sessionid, String hostname, String IP) {
+		return loginWithAuthorization(authinfo, sessionid, hostname, IP);
+	}
+	
 
+	public static void setupCookiesForUser(HttpServletResponse resp,
+			String userS, 
+			String familyS, String givenS, String levelS,
+			String emailaddress,
+			String auth_idS, String authorizationTypeS, String hasAccountS,
+			String sessionid, String hostname, String IP) {
+		
+		Cookie userC = new Cookie("account_name", userS);
+		userC.setMaxAge(60 * 60);
+		resp.addCookie(userC);
+
+		Cookie familyC = new Cookie("family_name", familyS);
+		userC.setMaxAge(60 * 60);
+		resp.addCookie(familyC);
+
+		Cookie givenC = new Cookie("given_name", givenS);
+		userC.setMaxAge(60 * 60);
+		resp.addCookie(givenC);
+
+
+		Cookie levelC = new Cookie("level", levelS);
+		levelC.setMaxAge(60 * 60);
+		resp.addCookie(levelC);
+
+		Cookie auth_idC = new Cookie("auth_id", auth_idS);
+		auth_idC.setMaxAge(60 * 60);
+		resp.addCookie(auth_idC);
+
+		Cookie authorizationTypeC = new Cookie("authorizationType", authorizationTypeS);
+		authorizationTypeC.setMaxAge(60 * 60);
+		resp.addCookie(authorizationTypeC);
+
+		Cookie hasAccountC = new Cookie("hasAccount", hasAccountS);
+		hasAccountC.setMaxAge(60 * 60);
+		resp.addCookie(hasAccountC);
+
+		Cookie sidC = new Cookie("sid", sessionid);
+		sidC.setMaxAge(60 * 60);
+		resp.addCookie(sidC);
+
+		Cookie hostnameC = new Cookie("hostname", hostname);
+		hostnameC.setMaxAge(60 * 60);
+		resp.addCookie(hostnameC);
+
+		Cookie ipC = new Cookie("sid", IP);
+		ipC.setMaxAge(60 * 60);
+		resp.addCookie(ipC);
+
+		Cookie emailC = new Cookie("email", emailaddress);
+		emailC.setMaxAge(60 * 60);
+		resp.addCookie(emailC);
+
+	}
 }

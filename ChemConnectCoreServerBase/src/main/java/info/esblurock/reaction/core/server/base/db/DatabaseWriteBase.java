@@ -3,6 +3,7 @@ package info.esblurock.reaction.core.server.base.db;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
@@ -110,6 +111,12 @@ public class DatabaseWriteBase {
 			account = result.next();
 		}
 		return account;
+	}
+	
+	public static UserAccount userAccountFromAuthorizationName(String auth_id) throws IOException {
+		UserAccount useraccount = (UserAccount) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
+				UserAccount.class.getCanonicalName(), "authorizationName", auth_id);
+		return useraccount;
 	}
 	
 	public static void deleteTransactionInfo(TransactionInfo info, String datatype) throws IOException {

@@ -24,8 +24,9 @@ public class LoginAsGuest {
 
 			@Override
 			public void onSuccess(UserSessionData account) {
-				toppanel.setLoginVisibility(true);
 				toppanel.loginCallback(account);
+				toppanel.setLoginVisibility(true);
+				SetUpUserCookies.setup(account);
 			}
 			
 		});		

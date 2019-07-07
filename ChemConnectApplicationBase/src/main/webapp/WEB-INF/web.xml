@@ -10,14 +10,22 @@
 	</context-param>
 	<context-param>
 		<param-name>clientID</param-name>
-		<param-value>664636228487-pbsb9lh39tvi2ec1rg0lqk4uq371bhr9.apps.googleusercontent.com</param-value>
+		<param-value>571384264595-am69s6l6nuu1hg4o2vmlcmaj63pscd3d.apps.googleusercontent.com</param-value>
 	</context-param>
 	<context-param>
 		<param-name>clientSecret</param-name>
-		<param-value>4wIPmOOKBTqgbSSkbvbzCjE9</param-value>
+		<param-value>AIzaSyAoNgcKC5Zimcp5bIQ9e1ECII5-7dF2tK8</param-value>
 	</context-param>
 	
   <!-- Servlets -->
+	<servlet>
+		<servlet-name>gcsfileupload</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.base.db.FileUploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>gcsfileupload</servlet-name>
+		<url-pattern>/gcsfileupload</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>callbackservlet</servlet-name>
 		<servlet-class>info.esblurock.reaction.core.server.base.authentification.Oauth2CallbackServlet</servlet-class>

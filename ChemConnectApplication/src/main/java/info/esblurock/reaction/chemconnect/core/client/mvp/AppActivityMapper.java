@@ -5,10 +5,14 @@ import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 
 import info.esblurock.reaction.chemconnect.core.base.client.activity.DatabasePersonDefinitionActivity;
+import info.esblurock.reaction.chemconnect.core.base.client.activity.ManageCatalogHierarchyActivity;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.OrganizationDefinitionActivity;
+import info.esblurock.reaction.chemconnect.core.base.client.activity.UploadFileToBlobStorageActivity;
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.activity.AboutSummaryActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.ChemConnectAdministrationActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.ChemConnectObservationActivity;
@@ -20,11 +24,9 @@ import info.esblurock.reaction.chemconnect.core.client.activity.DeviceWithSubyst
 import info.esblurock.reaction.chemconnect.core.client.activity.FirstPageActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.FirstSiteLandingPageActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.IsolateMatrixBlockActivity;
-import info.esblurock.reaction.chemconnect.core.client.activity.ManageCatalogHierarchyActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.MissionStatementActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.ProtocolDefinitionActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.TutorialExampleActivity;
-import info.esblurock.reaction.chemconnect.core.client.activity.UploadFileToBlobStorageActivity;
 import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdministrationPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
@@ -34,11 +36,9 @@ import info.esblurock.reaction.chemconnect.core.client.place.DataManagementPlace
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
-import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
 
 
 

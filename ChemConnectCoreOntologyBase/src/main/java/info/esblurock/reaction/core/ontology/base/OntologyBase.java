@@ -68,8 +68,6 @@ public class OntologyBase {
 			if (datasetmodel == null) {
 				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
 				datasetmodel = ModelFactory.createOntologyModel();
-				
-				System.out.println("-----------------------------Setup Ontology");
 				/*
 				datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
 				System.out.println("Vcard:      " + alt.getVcardLocal());
@@ -138,7 +136,6 @@ public class OntologyBase {
 					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				}
 			}
-			System.out.println("-----------------------------Setup Ontology Done");
 			return datasetmodel;
 		}
 

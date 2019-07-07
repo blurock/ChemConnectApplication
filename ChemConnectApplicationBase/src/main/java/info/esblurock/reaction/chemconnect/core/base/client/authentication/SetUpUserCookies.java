@@ -7,7 +7,7 @@ import com.google.gwt.user.client.Cookies;
 
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 
 public class SetUpUserCookies {
@@ -18,7 +18,7 @@ public class SetUpUserCookies {
 		privs.add(UserAccountKeys.accessQuery);
 		*/
 		setDefaultCookie("account_name", "Guest");
-		UserSessionData usession = new UserSessionData();
+		UserSessionData usession = new UserSessionData("guest", "", "", "", UserAccountKeys.accessTypeQuery);
 		setup(usession);
 	}
 	
@@ -26,22 +26,10 @@ public class SetUpUserCookies {
 	public static void setup(UserSessionData result) {
 		String sessionID = result.getSessionID();
 		final long DURATION = 1000 * 60 * 60;
-		Date expires = new Date(System.currentTimeMillis()
-				+ DURATION);
-		Cookies.setCookie("sid", sessionID, expires, null,
-				"/", false);
-		Cookies.setCookie("user", result.getUserName(),
-				expires, null, "/", false);
-		Cookies.setCookie("level", result.getUserLevel(),
-				expires, null, "/", false);
-		/*
-		ArrayList<String> lst = result.getPrivledges();
-		setCookie(MetaDataKeywords.accessQuery,lst);
-		setCookie(MetaDataKeywords.accessUserDataInput,lst);
-		setCookie(MetaDataKeywords.accessUserDataDelete,lst);
-		setCookie(MetaDataKeywords.accessDataInput,lst);
-		setCookie(MetaDataKeywords.accessDataDelete,lst);
-		*/
+		setDefaultCookie("sid", sessionID);
+		setDefaultCookie("user", result.getUserName());
+		setDefaultCookie("level", result.getUserLevel());
+		setDefaultCookie("account_name", result.getUserName());
 		MaterialToast.fireToast("Welcome: " + result.getUserName() +
 				"(" + TextUtilities.removeNamespace(result.getUserLevel()) + ")");
 	}

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 
@@ -40,4 +41,6 @@ public interface LoginService extends RemoteService {
 	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount, NameOfPerson person) throws IOException;
 	
 	public UserSessionData loginAsCurrentUser();
+	
+	public UserSessionData loginAfterCreateUser(ExternalAuthorizationInformation authinfo);
 }
