@@ -13,7 +13,8 @@ public class GoogleAuthentification extends AuthentificationCall {
 
 	@Override
 	public void initiateAthentification() {
-		String CLIENT_ID = "571384264595-am69s6l6nuu1hg4o2vmlcmaj63pscd3d.apps.googleusercontent.com";
+		String CLIENT_ID = "";
+		String CLIENT_SECRET = "";
 		String SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
 		
 		String secretState = "google" + new Random().nextInt(999_999);

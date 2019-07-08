@@ -17,7 +17,7 @@ public class LinkedInAuthentification extends AuthentificationCall {
 
 	@Override
 	public void initiateAthentification() {
-			String CLIENT_ID = "77lvn5zzefwzq0";
+			String CLIENT_ID = "";
 			String secretState = "linkedin" + new Random().nextInt(999_999);
 			Cookies.setCookie("secret", secretState);
 

@@ -93,11 +93,13 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		String hostname = req.getLocalName();
 		String IP = req.getLocalName();
 		if (state.startsWith("google")) {
+			String client_id = "";
+			String client_secret = "";
 			req.getSession().removeAttribute("state"); // Remove one-time use state.
 			System.out.println("GoogleAuthorizationCodeFlow.Builder");
 			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
-					getServletContext().getInitParameter("clientID"),
-					getServletContext().getInitParameter("clientSecret"), SCOPES).build();
+					client_id,
+					client_secret, SCOPES).build();
 
 			System.out.println("flow.newTokenRequest");
 			final TokenResponse tokenResponse = flow.newTokenRequest(req.getParameter("code"))
@@ -159,9 +161,16 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			if (servername.compareTo("localhost") == 0) {
 				red = "http://localhost:8080/oauth2callback";
 			}
-			String response = "https://www.linkedin.com/oauth/v2/accessToken?state=" + newstate + "&"
-					+ "client_id=77lvn5zzefwzq0&" + "redirect_uri=" + red + "&" + "grant_type=authorization_code&"
-					+ "client_secret=fnmtW4at0KZBeeuN&" + "code=" + code + "&" + "format=json";
+			String client_id = "";
+			String client_secret = "";
+			String response = "https://www.linkedin.com/oauth/v2/accessToken?state=" 
+					+ newstate + "&"
+					+ "client_id=" + client_id + "&" 
+					+ "redirect_uri=" + red + "&" 
+					+ "grant_type=authorization_code&"
+					+ "client_secret=" + client_secret + "&" 
+					+ "code=" + code + "&" 
+					+ "format=json";
 
 			log.info("Response: " + response);
 			JSONObject jsonobj = getJSONObject(response);
@@ -184,7 +193,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			authorizationTypeS = "LinkedIn";
 		} else if (state.startsWith("facebook")) {
 			String access_token = req.getParameter("access_token");
-			String CLIENT_ID = "618453741934565";
+			String CLIENT_ID = "";
 			String newstate = "nextfacebook";
 			Cookie newstateC = new Cookie("secret", newstate);
 			resp.addCookie(newstateC);

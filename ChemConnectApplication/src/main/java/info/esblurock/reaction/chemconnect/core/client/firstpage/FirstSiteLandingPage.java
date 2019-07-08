@@ -101,7 +101,7 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
-				+ "client_secret=2d96d4af1565af4c1a8f0226c870b8aa"
+				+ "client_secret="
 				+ "&grant_type=client_credentials";
 
 		String authurl = "https://www.facebook.com/v3.2/dialog/oauth?";
@@ -109,7 +109,7 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
-				+ "client_secret=2d96d4af1565af4c1a8f0226c870b8aa";
+				+ "client_secret=";
 		
 		String urlS = authurl + reststr;
 		Window.alert(urlS);

@@ -14,7 +14,8 @@ public class FacebookAuthentification {
 	}
 
 	public void login() {
-		String CLIENT_ID = "618453741934565";
+		String CLIENT_ID = "";
+		String CLIENT_SECRET = "";
 		String secretState = "facebook" + new Random().nextInt(999_999);
 		Cookies.setCookie("secret", secretState);
 
@@ -24,7 +25,7 @@ public class FacebookAuthentification {
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
-				+ "client_secret=2d96d4af1565af4c1a8f0226c870b8aa"
+				+ "client_secret=" + CLIENT_SECRET + "&"
 				+ "&grant_type=client_credentials";
 		/*
 		String authurl = "https://www.facebook.com/v3.2/dialog/oauth?";
@@ -32,7 +33,7 @@ public class FacebookAuthentification {
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
-				+ "client_secret=2d96d4af1565af4c1a8f0226c870b8aa";
+				+ "client_secret=";
 		*/
 		String urlS = authurl + reststr;
 		Window.alert(urlS);
