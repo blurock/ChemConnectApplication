@@ -103,15 +103,6 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 		authID = Cookies.getCookie("auth_id");
 		String account = Cookies.getCookie("account_name");
 		authSource  = Cookies.getCookie("authorizationType");
-        /*
-		String given_nameS  = Window.Location.getParameter("given_name");
-		Window.alert("given_name: " + given_nameS);
-		String family_nameS = Window.Location.getParameter("family_name");
-		authID              = Window.Location.getParameter("auth_id");
-		String account      = Window.Location.getParameter("account_name");
-		authSource          = Window.Location.getParameter("authorizationType");
-		*/
-
 		personfirstname.setText(given_nameS);
 		personlastname.setText(family_nameS);
 		accountname.setText(account);
@@ -172,10 +163,7 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 						sessiondata = result;
 						StandardWindowVisualization.successWindowMessage("New user successfully logged in" );
 						SetUpUserCookies.setup(result);
-						Window.alert("CreateNewUserWizard: 1");
-						Window.alert("CreateNewUserWizard: 2\n" + result.toString());
 						topPanel.loginCallback(result);
-						Window.alert("CreateNewUserWizard: 3");
 					}
 					
 				});

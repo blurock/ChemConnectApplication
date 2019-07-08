@@ -42,7 +42,7 @@ public class CreateWriteCatalogObject extends TestBase {
 	@BeforeEach
 	public void buildUp() throws Exception {
 		ObjectifyService.init(new ObjectifyFactory(this.datastore(), memcache()));
-		Closeable rootService = rootService = ObjectifyService.begin();
+		//Closeable rootService = rootService = ObjectifyService.begin();
 		//RegisterChemConnectBaseCatalogObjects.register();
 		RegisterContactData.register();
 		RegisterDescriptionData.register();

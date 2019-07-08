@@ -9,14 +9,9 @@
 		<param-value>http://localhost:8080/oauth2callback</param-value>
 	</context-param>
 	<context-param>
-		<param-name>clientID</param-name>
-		<param-value>571384264595-am69s6l6nuu1hg4o2vmlcmaj63pscd3d.apps.googleusercontent.com</param-value>
-	</context-param>
-	<context-param>
-		<param-name>clientSecret</param-name>
-		<param-value>AIzaSyAoNgcKC5Zimcp5bIQ9e1ECII5-7dF2tK8</param-value>
-	</context-param>
-	
+		<param-name>authdirectory</param-name>
+		<param-value>.authorization-chemconnect</param-value>
+	</context-param>	
   <!-- Servlets -->
 	<servlet>
 		<servlet-name>gcsfileupload</servlet-name>

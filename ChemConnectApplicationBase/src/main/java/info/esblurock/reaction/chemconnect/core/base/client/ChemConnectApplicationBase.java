@@ -9,7 +9,6 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
@@ -30,7 +29,6 @@ public class ChemConnectApplicationBase implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		Window.alert("onModuleLoad()");
 		String redirect = Cookies.getCookie("redirect");
 		String account_name = Cookies.getCookie("user");
 		Cookies.removeCookie("redirect");

@@ -19,8 +19,6 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHiera
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
-import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 
@@ -63,13 +61,11 @@ public class FirstPage extends Composite implements FirstPageView {
 	}
 	
 	public void asNewUser() {
-		Window.alert("FirstPage: asNewUser()");
 		CreateNewUserWizard wizard = new CreateNewUserWizard(topPanel,mainPanel,mainCollapsible,modalPanel);
 		mainPanel.clear();
 		mainPanel.add(wizard);
 	}
 	public void asExistingUser() {
-		Window.alert("FirstPage: asExistingUser()");
 		String account = Cookies.getCookie("account_name");
 		String userName =Cookies.getCookie("account_name");;
 		String sessionID = Cookies.getCookie("account_name");;

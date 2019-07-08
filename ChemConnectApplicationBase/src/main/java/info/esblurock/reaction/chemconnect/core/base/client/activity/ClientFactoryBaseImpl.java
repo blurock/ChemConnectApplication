@@ -76,7 +76,6 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 
 	@Override
 	public ManageCatalogHierarchyView getManageCatalogHierarchyView() {
-		Window.alert("getManageCatalogHierarchyView()");
 		return manageCatalogHierarchyView;
 	}
 

@@ -46,10 +46,6 @@ public class LoginServlet extends HttpServlet {
       req.getSession().setAttribute("loginDestination", "/books");
     }
 
-    System.out.println("LoginServlet:after set loginDestination " + state);
-    System.out.println("LoginServlet:after set loginDestination " + getServletContext().getInitParameter("clientID"));
-    System.out.println("LoginServlet:after set loginDestination " + getServletContext().getInitParameter("clientSecret"));
-    
     flow = new GoogleAuthorizationCodeFlow.Builder(
         HTTP_TRANSPORT,
         JSON_FACTORY,

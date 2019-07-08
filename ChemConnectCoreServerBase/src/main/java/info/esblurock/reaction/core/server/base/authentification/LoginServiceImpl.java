@@ -2,8 +2,6 @@ package info.esblurock.reaction.core.server.base.authentification;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
@@ -12,7 +10,6 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
-import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.ServerBase;
@@ -21,8 +18,6 @@ import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionU
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
 	private static final long serialVersionUID = 4456105400553118785L;
-    //private static final String NETWORK_NAME = "G+";
-    //private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
 	public static int standardMaxTransitions = 1000;
 
@@ -39,6 +34,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	@Override
 	public UserSessionData loginGuestServer() throws IOException {
+		System.out.println(System.getProperties());
+		
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
 		String ip = getThreadLocalRequest().getRemoteAddr();
@@ -77,15 +74,13 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
 		UserSessionData sessionuser = LoginUtilities.isSessionActive(sessionid);
-		System.out.println(uaccount.toString("LoginService: createNewUser"));
-		System.out.println(sessionuser.toString("LoginService: createNewUser"));
 		return CreateContactObjects.createNewUser(sessionuser, uaccount, person);
 	}
 	
 	public UserSessionData loginAsCurrentUser() {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
-		HttpServletRequest resp = getThreadLocalRequest();
+		//HttpServletRequest resp = getThreadLocalRequest();
 		String ip = getThreadLocalRequest().getRemoteAddr();
 		String host = getThreadLocalRequest().getRemoteHost();
 		return LoginUtilities.loginAsCurrentUser(sessionid, host, ip);
@@ -94,7 +89,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	public UserSessionData loginAfterCreateUser(ExternalAuthorizationInformation authinfo) {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
-		HttpServletRequest resp = getThreadLocalRequest();
+		//HttpServletRequest resp = getThreadLocalRequest();
 		String ip = getThreadLocalRequest().getRemoteAddr();
 		String host = getThreadLocalRequest().getRemoteHost();
 		UserSessionData usession = LoginUtilities.loginAfterCreateUser(authinfo, sessionid, host, ip);

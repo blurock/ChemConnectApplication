@@ -108,13 +108,9 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 
 	@Override
 	public void loginCallback(UserSessionData account) {
-		Window.alert("loginCallback: 1");
 		setLoginVisibility(false);
-		Window.alert("loginCallback: 2");
 		userSessionAccount = account;
 		username.setText(account.getUserName());
-		Window.alert("loginCallback: 3");
-		Window.alert("loginCallback: 4" + account.getUserName());
 	}
 
 	public void setLoginVisibility(boolean loginvisible) {

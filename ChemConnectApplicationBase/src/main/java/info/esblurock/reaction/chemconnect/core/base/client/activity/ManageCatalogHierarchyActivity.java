@@ -17,7 +17,6 @@ public class ManageCatalogHierarchyActivity extends AbstractActivity implements 
 		
 	}
 	public ManageCatalogHierarchyActivity(ManageCatalogHierarchyPlace place, ClientFactoryBase clientFactory) {
-		Window.alert("ManageCatalogHierarchyActivity constructor");
 		this.name = place.getTitleName();
 		this.clientFactory = clientFactory;
 	}

@@ -2,7 +2,6 @@ package info.esblurock.reaction.core.server.base.authentification;
 
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
@@ -115,7 +114,6 @@ public class LoginUtilities {
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
 		NameOfPerson person = new NameOfPerson(structure, "", "", username);
 		DatabaseObjectHierarchy hierarchy = CreateContactObjects.createNewUser(usession,account,person);
-		System.out.println(hierarchy.toString("createANewUser"));
 		return (UserAccount) hierarchy.getObject();
 	}
 	
@@ -144,7 +142,6 @@ public class LoginUtilities {
 					accountPrivilege);
 			DatabaseWriteBase.writeUserSessionData(sessionuser);
 			useraccount = createANewUser(sessionuser, suggestedaccountname, info.getAuthorizationID(), authorizationType, accountPrivilege);
-			System.out.println(useraccount.toString("loginWithAuthorization"));
 		} else {
 			sessionuser = new UserSessionData(useraccount.getAccountUserName(),sessionid,IP,hostname,
 					useraccount.getAccountPrivilege());
