@@ -91,7 +91,7 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 	/*
 	@UiHandler("facebookLogin")
 	void onClickFacebook(ClickEvent e) {
-		String CLIENT_ID = "618453741934565";
+		String CLIENT_ID = "";
 		String secretState = "facebook" + new Random().nextInt(999_999);
 		Cookies.setCookie("secret", secretState);
 
