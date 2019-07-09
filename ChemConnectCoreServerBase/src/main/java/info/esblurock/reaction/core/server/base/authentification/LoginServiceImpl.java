@@ -2,6 +2,7 @@ package info.esblurock.reaction.core.server.base.authentification;
 
 import java.io.IOException;
 
+import info.esblurock.reaction.chemconnect.core.base.authorization.ClientIDInformation;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
@@ -95,5 +96,11 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		UserSessionData usession = LoginUtilities.loginAfterCreateUser(authinfo, sessionid, host, ip);
 		return usession;
 	}
+	public void initialization() {
+		AuthorizationIDs.readInAuthorizationIDs(getServletContext());
+	}
 	
+	public ClientIDInformation getClientAuthorization(String clientname) throws IOException {
+		return AuthorizationIDs.getClientAuthorizationInfo(clientname);
+	}
 }

@@ -5,36 +5,33 @@ import java.util.Random;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 
-public class FacebookAuthentification {
-	
-	AuthentificationTopPanelInterface toppanel; 
+import info.esblurock.reaction.chemconnect.core.base.authorization.ClientIDInformation;
+import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
+
+public class FacebookAuthentification extends AuthentificationCall {
 	
 	public FacebookAuthentification(AuthentificationTopPanelInterface toppanel) {
-		this.toppanel = toppanel;
+		super(toppanel);
 	}
 
-	public void login() {
-		String CLIENT_ID = "";
-		String CLIENT_SECRET = "";
-		String secretState = "facebook" + new Random().nextInt(999_999);
-		Cookies.setCookie("secret", secretState);
+	public void initiateAthentification() {
+		initiateAthentification(UserAccountKeys.FacebookClientKey);
+	}
+	@Override
+	public void authorizeCallback(ClientIDInformation info) {	
+		String CLIENT_ID = info.getClientID();
+		String CLIENT_SECRET = info.getClientSecret();
+		String secretState = UserAccountKeys.FacebookSecretKey + new Random().nextInt(999_999);
+		Cookies.setCookie(UserAccountKeys.SECRET_COOKIE_NAME, secretState);
 
 		String redirect = toppanel.callbackWithServer();
-		String authurl = "https://graph.facebook.com/oauth/access_token?";
+		String authurl = UserAccountKeys.FacebookAuthURL + "?";
 		String reststr = "response_type=code&"
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
 				+ "client_secret=" + CLIENT_SECRET + "&"
 				+ "&grant_type=client_credentials";
-		/*
-		String authurl = "https://www.facebook.com/v3.2/dialog/oauth?";
-		String reststr = "response_type=code&"
-				+ "client_id=" + CLIENT_ID + "&"
-				+ "redirect_uri=" + redirect + "&"
-				+ "state=" + secretState + "&"
-				+ "client_secret=";
-		*/
 		String urlS = authurl + reststr;
 		Window.alert(urlS);
 

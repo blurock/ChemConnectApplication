@@ -6,13 +6,25 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 <context-param>
 		<param-name>callback</param-name>
-		<param-value>http://localhost:8080/oauth2callback</param-value>
+		<param-value>/oauth2callback</param-value>
 	</context-param>
 	<context-param>
 		<param-name>authdirectory</param-name>
 		<param-value>.authorization-chemconnect</param-value>
 	</context-param>	
-  <!-- Servlets -->
+	<context-param>
+		<param-name>authfilename</param-name>
+		<param-value>clientIDs.yaml</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>localhost</param-name>
+	    <param-value>http://localhost:8080</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>remotehost</param-name>
+	    <param-value>http://blurock-chemconnect.appspot.com</param-value>
+	</context-param>
+		<!-- Servlets -->
 	<servlet>
 		<servlet-name>gcsfileupload</servlet-name>
 		<servlet-class>info.esblurock.reaction.core.server.base.db.FileUploadServlet</servlet-class>

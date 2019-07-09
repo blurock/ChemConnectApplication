@@ -2,12 +2,12 @@ package info.esblurock.reaction.chemconnect.core.base.client.authentication;
 
 import java.util.Random;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.base.authorization.ClientIDInformation;
+import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 
 public class LinkedInAuthentification extends AuthentificationCall {
 	
@@ -17,11 +17,15 @@ public class LinkedInAuthentification extends AuthentificationCall {
 
 	@Override
 	public void initiateAthentification() {
-			String CLIENT_ID = "";
-			String secretState = "linkedin" + new Random().nextInt(999_999);
-			Cookies.setCookie("secret", secretState);
+		initiateAthentification(UserAccountKeys.LinkedInClientKey);
+	}
+	
+	public void authorizeCallback(ClientIDInformation info) {
+			String CLIENT_ID = info.getClientID();
+			String secretState = UserAccountKeys.LinkedInSecretKey + new Random().nextInt(999_999);
+			Cookies.setCookie(UserAccountKeys.SECRET_COOKIE_NAME, secretState);
 
-			String authurl = "https://www.linkedin.com/oauth/v2/authorization?";
+			String authurl = UserAccountKeys.LinkedInAuthURL + "?";
 			String redirect = toppanel.callbackWithServer();
 			MaterialToast.fireToast("Redirect: " + redirect);
 			String reststr = "response_type=code&"

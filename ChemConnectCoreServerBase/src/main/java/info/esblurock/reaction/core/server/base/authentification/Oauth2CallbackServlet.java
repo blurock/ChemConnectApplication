@@ -36,42 +36,52 @@ import com.google.api.client.json.JsonFactory;
 //import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import info.esblurock.reaction.chemconnect.core.base.authorization.ClientIDInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.base.services.util.JSONUtilities;
+import info.esblurock.reaction.core.server.base.services.util.ManageServerCookies;
 
 @SuppressWarnings("serial")
 public class Oauth2CallbackServlet extends HttpServlet {
 
 	private static final Logger log = Logger.getLogger(Oauth2CallbackServlet.class.getName());
 
-	private static final Collection<String> SCOPES = Arrays.asList("email", "profile");
+	private static final Collection<String> GOOGLE_SCOPES = Arrays.asList("email", "profile");
 	private static final String USERINFO_ENDPOINT = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
 	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 	private GoogleAuthorizationCodeFlow flow;
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
-
+	
+	String fullCallbackURL(HttpServletRequest req) {
+		String servername = req.getServerName();
+		String callbackService = getServletContext().getInitParameter(UserAccountKeys.AuthCallbackParameterKey);
+		String fullcallback = getServletContext().getInitParameter(UserAccountKeys.AuthRemoteHostParameterKey) 
+				+ callbackService;
+		if (servername.compareTo("localhost") == 0) {
+			fullcallback = getServletContext().getInitParameter(UserAccountKeys.AuthLocalhostParameterKey) 
+					+ callbackService;
+		}
+		return fullcallback;
+	}
+	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		System.out.println("Oauth2CallbackServlet: ");
 		
-		String state = req.getParameter("state");
+		String state = req.getParameter(UserAccountKeys.AuthStateParameterKey);
+		String code = req.getParameter(UserAccountKeys.AuthStateParameterKey);
+		String access_token = req.getParameter("access_token");
+		
 		System.out.println("Oauth2CallbackServlet: state='" + state + "'");
+		System.out.println("Canonical Hostname: '" + req.getLocalAddr() + "'");
+		System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
 
-		Cookie[] cookies = req.getCookies();
-		String expected = "";
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().compareTo("secret") == 0) {
-					expected = cookie.getValue();
-				}
-			}
-		} else {
-			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED no cookies");
-		}
-		System.out.println("Oauth2CallbackServlet: '" + expected + "'");
+		String expected = ManageServerCookies.findCookie(req, UserAccountKeys.SECRET_COOKIE_NAME);
+		System.out.println("Oauth2CallbackServlet: expected='" + expected + "'  state='" + state + "'");
 		
 		// Ensure that this is no request forgery going on, and that the user
 		// sending us this connect request is the user that was supposed to.
@@ -92,18 +102,22 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		String sessionid = req.getSession().getId();
 		String hostname = req.getLocalName();
 		String IP = req.getLocalName();
-		if (state.startsWith("google")) {
-			String client_id = "";
-			String client_secret = "";
-			req.getSession().removeAttribute("state"); // Remove one-time use state.
+		
+		String fullcallback = fullCallbackURL(req);
+		
+		if (state.startsWith(UserAccountKeys.GoogleSecretKey)) {
+			ClientIDInformation idinfo = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.GoogleClientKey);
+			String client_id = idinfo.getClientID();
+			String client_secret = idinfo.getClientSecret();
+			req.getSession().removeAttribute(UserAccountKeys.AuthStateParameterKey); // Remove one-time use state.
 			System.out.println("GoogleAuthorizationCodeFlow.Builder");
 			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 					client_id,
-					client_secret, SCOPES).build();
+					client_secret, GOOGLE_SCOPES).build();
 
 			System.out.println("flow.newTokenRequest");
-			final TokenResponse tokenResponse = flow.newTokenRequest(req.getParameter("code"))
-					.setRedirectUri(getServletContext().getInitParameter("callback")).execute();
+			final TokenResponse tokenResponse = flow.newTokenRequest(code)
+					.setRedirectUri(fullcallback).execute();
 
 			System.out.println("req.getSession().setAttribute");
 			req.getSession().setAttribute("token", tokenResponse.toString()); // Keep track of the token.
@@ -127,53 +141,33 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			req.getSession().setAttribute("userImageUrl", userIdResult.get("picture"));
 
 			emailaddress = userIdResult.get("email");
-			Cookie emailC = new Cookie("email", emailaddress);
-			emailC.setMaxAge(60 * 60);
-			resp.addCookie(emailC);
-
-			Cookie picC = new Cookie("userpicture", userIdResult.get("picture"));
-			picC.setMaxAge(60 * 60);
-			resp.addCookie(picC);
+			ManageServerCookies.setCookie(resp, "email", emailaddress);
+			ManageServerCookies.setCookie(resp, "userpicture", userIdResult.get("picture"));
 
 			firstname = userIdResult.get("given_name");
 			lastname = userIdResult.get("family_name");
 			auth_idS = userIdResult.get("sub");
-			authorizationTypeS = "Google";
+			authorizationTypeS = UserAccountKeys.GoogleClientKey;
 
-		} else if (state.startsWith("linkedin")) {
-			String code = req.getParameter("code");
-			List<String> list = Collections.list(req.getParameterNames());
-			for (String name : list) {
-				System.out.println(name + ": " + req.getParameter(name));
-			}
+		} else if (state.startsWith(UserAccountKeys.LinkedInSecretKey)) {
+			ClientIDInformation idinfo = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.LinkedInClientKey);
+			String client_id = idinfo.getClientID();
+			String client_secret = idinfo.getClientSecret();
 			String newstate = "tokenlinkedin" + state;
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().compareTo("secret") == 0) {
-					cookie.setValue(newstate);
-				}
-			}
+			ManageServerCookies.replaceCookieValue(req,UserAccountKeys.SECRET_COOKIE_NAME,newstate);
 
-			System.out.println("Canonical Hostname: '" + req.getLocalAddr() + "'");
-			System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
 			// int serverport = req.getServerPort();
-			String servername = req.getServerName();
-			String red = "http://blurock-chemconnect.appspot.com/oauth2callback";
-			if (servername.compareTo("localhost") == 0) {
-				red = "http://localhost:8080/oauth2callback";
-			}
-			String client_id = "";
-			String client_secret = "";
 			String response = "https://www.linkedin.com/oauth/v2/accessToken?state=" 
 					+ newstate + "&"
 					+ "client_id=" + client_id + "&" 
-					+ "redirect_uri=" + red + "&" 
+					+ "redirect_uri=" + fullcallback + "&" 
 					+ "grant_type=authorization_code&"
 					+ "client_secret=" + client_secret + "&" 
 					+ "code=" + code + "&" 
 					+ "format=json";
 
 			log.info("Response: " + response);
-			JSONObject jsonobj = getJSONObject(response);
+			JSONObject jsonobj = JSONUtilities.getJSONObject(response);
 			String accesstoken = (String) jsonobj.get("access_token");
 
 			resp.addHeader("Authorization", "Bearer " + accesstoken);
@@ -186,38 +180,35 @@ public class Oauth2CallbackServlet extends HttpServlet {
 				throw new RuntimeException(
 						"Failed : HTTP error code : " + conn.getResponseCode() + ": " + conn.getResponseMessage());
 			}
-			JSONObject json = getJSON(conn.getInputStream());
+			JSONObject json = JSONUtilities.getJSON(conn.getInputStream());
 			firstname = json.getString("firstName");
 			lastname = json.getString("lastName");
 			auth_idS = json.getString("id");
-			authorizationTypeS = "LinkedIn";
-		} else if (state.startsWith("facebook")) {
-			String access_token = req.getParameter("access_token");
-			String CLIENT_ID = "";
+			authorizationTypeS = UserAccountKeys.LinkedInClientKey;
+		} else if (state.startsWith(UserAccountKeys.FacebookSecretKey)) {
+			ClientIDInformation idinfo = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.LinkedInClientKey);
+			String client_id = idinfo.getClientID();
+			String client_secret = idinfo.getClientSecret();
 			String newstate = "nextfacebook";
-			Cookie newstateC = new Cookie("secret", newstate);
-			resp.addCookie(newstateC);
+			ManageServerCookies.setCookie(resp, "secret", newstate);
 			String tokenurl = "https://graph.facebook.com/v3.2/me/accounts?";
-			String tokenparameters = "&state=" + newstate + "&client_id=" + CLIENT_ID + "&access_token=" + access_token;
+			String tokenparameters = "&state=" + newstate 
+					+ "&client_id=" + client_id
+					+ "&access_token=" + access_token;
 
 			System.out.println(tokenparameters);
 			System.out.println("Size of call: " + tokenparameters.length());
 			String url = tokenurl + java.net.URLEncoder.encode(tokenparameters, "UTF-8");
 			System.out.println("Size of call: " + url.length());
 
-			JSONObject jsonobj = getJSONObject(url);
+			JSONObject jsonobj = JSONUtilities.getJSONObject(url);
 			String accesstoken = (String) jsonobj.get("access_token");
 
 			System.out.println(jsonobj);
 			System.out.println("Access Token: " + accesstoken);
-			authorizationTypeS = "facebook";
+			authorizationTypeS = UserAccountKeys.FacebookClientKey;
 		} else if (state.startsWith("nextfacebook")) {
 			System.out.println("nextfacebook");
-			List<String> list = Collections.list(req.getParameterNames());
-			for (String name : list) {
-				System.out.println(name + ": " + req.getParameter(name));
-			}
-
 		}
 		hasAccountS = Boolean.TRUE.toString();
 		ExternalAuthorizationInformation authorizationinfo = 
@@ -241,9 +232,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		} catch(IOException ex) {
 			hasAccountS = Boolean.FALSE.toString();
 		}
-		Cookie redirectC = new Cookie("redirect", authorizationinfo.getUseraccount());
-		redirectC.setMaxAge(60 * 60);
-		resp.addCookie(redirectC);
+		ManageServerCookies.setCookie(resp, "redirect", authorizationinfo.getUseraccount());
 		
 		
 		LoginUtilities.setupCookiesForUser(resp, userS, 
@@ -255,21 +244,6 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		
 		UserSessionData usession = new UserSessionData(userS,sessionid,IP,hostname,levelS);
 		DatabaseWriteBase.writeUserSessionData(usession);
-		String servername = req.getServerName();
-		System.out.println("servername: " + servername);
-		/*
-		String redirect = "http://blurock-chemconnect.appspot.com/#FirstPagePlace:First%20Page";
-		if (servername.compareTo("localhost") == 0) {
-			redirect = "http://localhost:8080/#FirstPagePlace:First%20Page";
-		}
-		*/
-		/*
-		String parameters = "?family_name=" + lastname +
-				"&given_name=" + firstname + 
-				"&account_name=" + accountnameS + 
-				"&authorizationType=" + authorizationTypeS +
-				"&auth_id=" + auth_idS;
-				*/
 		String redirect = "/#FirstPagePlace:First%20Page";
 		System.out.println("Call redirect: " + redirect);
 		String url = resp.encodeRedirectURL(redirect);
@@ -277,33 +251,5 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		resp.sendRedirect(url);
 	}
 
-	JSONObject getJSONObject(String response) throws IOException {
-		System.out.println(response);
-		URL url = new URL(response);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Accept", "application/json");
-
-		if (conn.getResponseCode() != 200) {
-			throw new RuntimeException(
-					"Failed : HTTP error code : \n" + conn.getResponseCode() + ": " + conn.getResponseMessage() + "\n");
-		}
-		return getJSON(conn.getInputStream());
-	}
-
-	private JSONObject getJSON(InputStream inputStream) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader((inputStream)));
-		String output;
-		StringBuilder build = new StringBuilder();
-		while ((output = br.readLine()) != null) {
-			build.append(output);
-			build.append("\n");
-		}
-		String msg = build.toString();
-		System.out.println("Message:\n" + msg);
-		JSONObject jsonobj = new JSONObject(msg);
-		return jsonobj;
-	}
 
 }

@@ -246,9 +246,16 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 	@SuppressWarnings("deprecation")
 	public static Map<String, Object> stringToYamlMap(String yaml) throws YamlException {
 		InputStream modin = IOUtils.toInputStream(yaml);
+		return stringToYamlMap(modin);
+	}
+		
+	public static Map<String, Object> stringToYamlMap(InputStream modin) throws YamlException {
 		Reader targetReader = new InputStreamReader(modin);
+		System.out.println("stringToYamlMap 1");
 		YamlReader reader = new YamlReader(targetReader);
+		System.out.println("stringToYamlMap 2");
 		Object object = reader.read();
+		System.out.println("stringToYamlMap 3\n" + object);
 		@SuppressWarnings("unchecked")
 		Map<String, Object> mapping = (Map<String, Object>) object;
 		return mapping;
