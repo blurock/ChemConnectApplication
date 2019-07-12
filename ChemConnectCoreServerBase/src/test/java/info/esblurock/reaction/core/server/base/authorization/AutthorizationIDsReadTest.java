@@ -16,8 +16,13 @@ class AutthorizationIDsReadTest {
 		System.out.println();
 		String homedir = System.getProperty("user.home");
 		String filename = homedir + "/.authorization-chemconnect/clientIDs.yaml";
-		AuthorizationIDs.readInAuthorizationIDs(filename);
-		System.out.println(AuthorizationIDs.printOutAuthorizationIDMap());
+		try {
+			AuthorizationIDs.readInAuthorizationIDs(filename);
+			System.out.println(AuthorizationIDs.printOutAuthorizationIDMap());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		try {
 			ClientIDInformation info = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.LinkedInClientKey);

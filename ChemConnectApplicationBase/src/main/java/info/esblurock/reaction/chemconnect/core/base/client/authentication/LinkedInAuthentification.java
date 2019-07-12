@@ -32,7 +32,7 @@ public class LinkedInAuthentification extends AuthentificationCall {
 					+ "client_id=" + CLIENT_ID + "&"
 					+ "redirect_uri=" + redirect + "&"
 					+ "state=" + secretState + "&"
-					+ "scope=r_basicprofile%20r_emailaddress";
+					+ "scope=r_liteprofile";
 			String urlS = authurl + reststr;
 			MaterialToast.fireToast("URL: " + redirect);
 			toppanel.setLoginVisibility(false);

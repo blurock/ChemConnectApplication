@@ -6,18 +6,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.json.JSONObject;
 
 public class JSONUtilities {
 	public static JSONObject getJSONObject(String response) throws IOException {
-		System.out.println(response);
 		URL url = new URL(response);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Accept", "application/json");
-
+		conn.setRequestProperty("Accept", "x-www-form-urlencoded");
 		if (conn.getResponseCode() != 200) {
 			throw new RuntimeException(
 					"Failed : HTTP error code : \n" + conn.getResponseCode() + ": " + conn.getResponseMessage() + "\n");

@@ -251,11 +251,8 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		
 	public static Map<String, Object> stringToYamlMap(InputStream modin) throws YamlException {
 		Reader targetReader = new InputStreamReader(modin);
-		System.out.println("stringToYamlMap 1");
 		YamlReader reader = new YamlReader(targetReader);
-		System.out.println("stringToYamlMap 2");
 		Object object = reader.read();
-		System.out.println("stringToYamlMap 3\n" + object);
 		@SuppressWarnings("unchecked")
 		Map<String, Object> mapping = (Map<String, Object>) object;
 		return mapping;

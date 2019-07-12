@@ -45,7 +45,7 @@ public interface LoginService extends RemoteService {
 	
 	public UserSessionData loginAfterCreateUser(ExternalAuthorizationInformation authinfo);
 	
-	public void initialization();
+	public void initialization() throws IOException;
 	
 	public ClientIDInformation getClientAuthorization(String clientname) throws IOException;
 }

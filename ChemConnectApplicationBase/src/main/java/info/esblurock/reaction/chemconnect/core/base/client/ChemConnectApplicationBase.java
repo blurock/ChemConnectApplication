@@ -9,14 +9,18 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppPlaceHistoryMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 
 
 /**
@@ -44,6 +48,17 @@ public class ChemConnectApplicationBase implements EntryPoint {
 		if(firsttime) {
 			LoginAsGuest glogin = new LoginAsGuest(toppanel);
 			glogin.login();
+			LoginServiceAsync async = LoginService.Util.getInstance();
+			async.initialization(new AsyncCallback<Void>() {
+				@Override
+				public void onSuccess(Void result) {
+					StandardWindowVisualization.successWindowMessage("Initialization Complete");
+				}
+				@Override
+				public void onFailure(Throwable caught) {
+					StandardWindowVisualization.errorWindowMessage("", caught.toString());
+				}
+			});
 		}
 	}
 	

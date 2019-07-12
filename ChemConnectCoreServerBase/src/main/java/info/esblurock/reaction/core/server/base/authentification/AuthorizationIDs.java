@@ -47,11 +47,12 @@ public class AuthorizationIDs {
 	 * 
 	 * The file is read in as yaml (ReadWriteYamlDatabaseObjectHierarchy.stringToYamlMap).
 	 * The resulting map is parsed into a set of ClientIDInformation
+	 * @throws IOException 
 	 * 
 	 */
-	public static void readInAuthorizationIDs(ServletContext context) {
+	public static void readInAuthorizationIDs(ServletContext context) throws IOException {
 		String authdirectory = context.getInitParameter(AUTH_DIR_KEY);
-		String homedirectory = context.getInitParameter(HOME_DIR_KEY);
+		String homedirectory = System.getProperty(HOME_DIR_KEY);
 		String filenameS = context.getInitParameter(AUTH_FILENAME_KEY);
 		
 		File directoryF = new File(homedirectory,authdirectory);
@@ -61,7 +62,7 @@ public class AuthorizationIDs {
 		readInAuthorizationIDs(filename);
 	}
 	
-	public static void readInAuthorizationIDs(String filename) {
+	public static void readInAuthorizationIDs(String filename) throws IOException {
 		System.out.println("readInAuthorizationIDs 1");
 		if(authorization == null) {
 			authorization = new AuthorizationIDMap();
@@ -84,9 +85,11 @@ public class AuthorizationIDs {
 		
 		} catch (YamlException e) {
 			System.err.println("Error in reading authorization file: " + filename);
+			throw new IOException("Error in reading authorization file: " + filename);
 		} catch (FileNotFoundException e) {
 			System.out.println("not found: " + filename);
 			e.printStackTrace();
+			throw new IOException("");
 		}
 	}
 	

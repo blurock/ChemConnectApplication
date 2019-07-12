@@ -6,13 +6,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -35,6 +38,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 //import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.appengine.api.log.LogService.LogLevel;
+
 
 import info.esblurock.reaction.chemconnect.core.base.authorization.ClientIDInformation;
 import info.esblurock.reaction.chemconnect.core.base.login.ExternalAuthorizationInformation;
@@ -73,7 +78,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		System.out.println("Oauth2CallbackServlet: ");
 		
 		String state = req.getParameter(UserAccountKeys.AuthStateParameterKey);
-		String code = req.getParameter(UserAccountKeys.AuthStateParameterKey);
+		String code = req.getParameter(UserAccountKeys.AuthCodeParameterKey);
 		String access_token = req.getParameter("access_token");
 		
 		System.out.println("Oauth2CallbackServlet: state='" + state + "'");
@@ -157,34 +162,44 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			ManageServerCookies.replaceCookieValue(req,UserAccountKeys.SECRET_COOKIE_NAME,newstate);
 
 			// int serverport = req.getServerPort();
-			String response = "https://www.linkedin.com/oauth/v2/accessToken?state=" 
-					+ newstate + "&"
-					+ "client_id=" + client_id + "&" 
-					+ "redirect_uri=" + fullcallback + "&" 
+			String callback = "http://localhost:8080/oauth2callback";
+			String linkedin = "https://www.linkedin.com/oauth/v2/accessToken?";
+			String params = 
+					"client_id=" + client_id + "&" 
+					+ "redirect_uri=" + callback + "&" 
 					+ "grant_type=authorization_code&"
 					+ "client_secret=" + client_secret + "&" 
 					+ "code=" + code + "&" 
 					+ "format=json";
-
-			log.info("Response: " + response);
-			JSONObject jsonobj = JSONUtilities.getJSONObject(response);
-			String accesstoken = (String) jsonobj.get("access_token");
-
-			resp.addHeader("Authorization", "Bearer " + accesstoken);
-			String data = "https://api.linkedin.com/v1/people/~?format=json";
-			// String data = "https://api.linkedin.com/v2/me?format=json";
-			URL url = new URL(data);
+			String response = linkedin + params;
+			URL url = new URL(response);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.addRequestProperty("Authorization", "Bearer " + accesstoken);
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "x-www-form-urlencoded");
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException(
+						"Failed : HTTP error code : \n" + conn.getResponseCode() + ": " + conn.getResponseMessage() + "\n");
+			}
+			JSONObject jsonobj = JSONUtilities.getJSON(conn.getInputStream());
+			String accesstoken = (String) jsonobj.get("access_token");
+			String data = "https://api.linkedin.com/v2/me";
+			url = new URL(data);
+			conn = (HttpURLConnection) url.openConnection();
+		    conn.setRequestMethod("GET");
+		    conn.setRequestProperty("Authorization", "Bearer " + accesstoken);
+		    conn.setRequestProperty("cache-control", "no-cache");
+		    conn.setRequestProperty("X-Restli-Protocol-Version", "2.0.0");
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException(
 						"Failed : HTTP error code : " + conn.getResponseCode() + ": " + conn.getResponseMessage());
 			}
-			JSONObject json = JSONUtilities.getJSON(conn.getInputStream());
-			firstname = json.getString("firstName");
-			lastname = json.getString("lastName");
+		    JSONObject json = JSONUtilities.getJSON(conn.getInputStream());
+			
+			firstname = json.getString("localizedFirstName");
+			lastname = json.getString("localizedLastName");
 			auth_idS = json.getString("id");
 			authorizationTypeS = UserAccountKeys.LinkedInClientKey;
+			log.log(Level.INFO, "LinkedIn Authorization: " + auth_idS);
 		} else if (state.startsWith(UserAccountKeys.FacebookSecretKey)) {
 			ClientIDInformation idinfo = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.LinkedInClientKey);
 			String client_id = idinfo.getClientID();

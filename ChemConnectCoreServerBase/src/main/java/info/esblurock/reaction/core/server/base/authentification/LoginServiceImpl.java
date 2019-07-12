@@ -35,8 +35,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	@Override
 	public UserSessionData loginGuestServer() throws IOException {
-		System.out.println(System.getProperties());
-		
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
 		String ip = getThreadLocalRequest().getRemoteAddr();
@@ -96,8 +94,9 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		UserSessionData usession = LoginUtilities.loginAfterCreateUser(authinfo, sessionid, host, ip);
 		return usession;
 	}
-	public void initialization() {
+	public void initialization() throws IOException {
 		AuthorizationIDs.readInAuthorizationIDs(getServletContext());
+		System.out.println(AuthorizationIDs.printOutAuthorizationIDMap("Initialization: "));
 	}
 	
 	public ClientIDInformation getClientAuthorization(String clientname) throws IOException {
