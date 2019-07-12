@@ -56,7 +56,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(Oauth2CallbackServlet.class.getName());
 
 	private static final Collection<String> GOOGLE_SCOPES = Arrays.asList("email", "profile");
-	private static final String USERINFO_ENDPOINT = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
+	private static final String USERINFO_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo";
 	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 	private GoogleAuthorizationCodeFlow flow;
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -81,13 +81,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		String code = req.getParameter(UserAccountKeys.AuthCodeParameterKey);
 		String access_token = req.getParameter("access_token");
 		
-		System.out.println("Oauth2CallbackServlet: state='" + state + "'");
-		System.out.println("Canonical Hostname: '" + req.getLocalAddr() + "'");
-		System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
-
 		String expected = ManageServerCookies.findCookie(req, UserAccountKeys.SECRET_COOKIE_NAME);
-		System.out.println("Oauth2CallbackServlet: expected='" + expected + "'  state='" + state + "'");
-		
 		// Ensure that this is no request forgery going on, and that the user
 		// sending us this connect request is the user that was supposed to.
 		if (state == null || !(state.compareTo(expected) == 0)) {
@@ -115,28 +109,19 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			String client_id = idinfo.getClientID();
 			String client_secret = idinfo.getClientSecret();
 			req.getSession().removeAttribute(UserAccountKeys.AuthStateParameterKey); // Remove one-time use state.
-			System.out.println("GoogleAuthorizationCodeFlow.Builder");
 			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 					client_id,
 					client_secret, GOOGLE_SCOPES).build();
 
-			System.out.println("flow.newTokenRequest");
 			final TokenResponse tokenResponse = flow.newTokenRequest(code)
 					.setRedirectUri(fullcallback).execute();
 
-			System.out.println("req.getSession().setAttribute");
 			req.getSession().setAttribute("token", tokenResponse.toString()); // Keep track of the token.
-			System.out.println("");
 			final Credential credential = flow.createAndStoreCredential(tokenResponse, null);
-			System.out.println("HttpRequestFactory requestFactory");
 			final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
-
-			System.out.println("GenericUrl url = new GenericUrl");
 			final GenericUrl url = new GenericUrl(USERINFO_ENDPOINT); // Make an authenticated request.
 			final HttpRequest request = requestFactory.buildGetRequest(url);
 			request.getHeaders().setContentType("application/json");
-			System.out.println("String jsonIdentity = request.execute().parseAsString();");
-
 			final String jsonIdentity = request.execute().parseAsString();
 			@SuppressWarnings("unchecked")
 			HashMap<String, String> userIdResult = new ObjectMapper().readValue(jsonIdentity, HashMap.class);

@@ -63,16 +63,13 @@ public class AuthorizationIDs {
 	}
 	
 	public static void readInAuthorizationIDs(String filename) throws IOException {
-		System.out.println("readInAuthorizationIDs 1");
 		if(authorization == null) {
 			authorization = new AuthorizationIDMap();
 		}
-		System.out.println("readInAuthorizationIDs 2");
 		File fileF = new File(filename);
 		try {
 			FileInputStream in = new FileInputStream(fileF);
 			Map<String,Object> map = ReadWriteYamlDatabaseObjectHierarchy.stringToYamlMap(in);
-			System.out.println("readInAuthorizationIDs 3");
 			
 			Set<String> clientnames = map.keySet();
 			for(String clientname : clientnames) {

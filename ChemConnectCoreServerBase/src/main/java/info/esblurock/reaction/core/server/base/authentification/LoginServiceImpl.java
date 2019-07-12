@@ -96,7 +96,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	}
 	public void initialization() throws IOException {
 		AuthorizationIDs.readInAuthorizationIDs(getServletContext());
-		System.out.println(AuthorizationIDs.printOutAuthorizationIDMap("Initialization: "));
 	}
 	
 	public ClientIDInformation getClientAuthorization(String clientname) throws IOException {

@@ -87,15 +87,7 @@ public class LoginUtilities {
 	public static UserSessionData newLoginAsGuest(String sessionid, String hostname, String IP) {
 		String guestName = "guest";
 		String userLevel = UserAccountKeys.accessTypeQuery;
-		
-		System.out.println("loginWithAuthorization   guestName:    " + guestName);
-		System.out.println("loginWithAuthorization   sessionid:    " + sessionid);
-		System.out.println("loginWithAuthorization   IP:           " + IP);
-		System.out.println("loginWithAuthorization   hostname:     " + hostname);
-		System.out.println("loginWithAuthorization   userLevel   : " + userLevel);
-
-
-		
+				
 		UserSessionData sessionuser = new UserSessionData(guestName,sessionid,IP,hostname,userLevel);
 		DatabaseWriteBase.writeUserSessionData(sessionuser);
 		UserAccount guestaccount = WriteReadDatabaseObjects.getAccount(guestName);

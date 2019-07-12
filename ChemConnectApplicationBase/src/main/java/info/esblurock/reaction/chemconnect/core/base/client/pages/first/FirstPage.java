@@ -84,12 +84,14 @@ public class FirstPage extends Composite implements FirstPageView {
 			@Override
 			public void onFailure(Throwable caught) {
 				StandardWindowVisualization.errorWindowMessage("Read in current user", caught.toString());
+				topPanel.setLoginVisibility(true);
 			}
 
 			@Override
 			public void onSuccess(DatabaseObjectHierarchy hierarchy) {
 				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,hierarchy,modalPanel);
 				mainCollapsible.add(item);
+				topPanel.setLoginVisibility(false);
 			}
 			
 		});

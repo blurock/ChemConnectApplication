@@ -23,8 +23,10 @@ public class GoogleAuthentification extends AuthentificationCall {
 	public void authorizeCallback(ClientIDInformation info) {	
 		String CLIENT_ID = info.getClientID();
 		//String CLIENT_SECRET = info.getClientSecret();
-		String SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
-		
+		//String SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
+		//"https://www.googleapis.com/auth/userinfo.email"
+		String SCOPE = "email%20profile";
+				//"https://www.googleapis.com/auth/userinfo.profile";
 		String secretState = UserAccountKeys.GoogleSecretKey + new Random().nextInt(999_999);
 		Cookies.setCookie(UserAccountKeys.SECRET_COOKIE_NAME, secretState);
 		
