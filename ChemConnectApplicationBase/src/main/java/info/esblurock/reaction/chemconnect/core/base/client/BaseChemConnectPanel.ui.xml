@@ -94,8 +94,10 @@
 							separator="true" text="LikedIn" textColor="BLACK" />
 						<m:MaterialLink ui:field="googleLogin"
 							separator="true" text="Google" textColor="BLACK" />
-					</m:MaterialDropDown>
-				</ma:menubar.MaterialMenuBar>
+						<m:MaterialLink ui:field="facebookLogin"
+							separator="true" text="Facebook" textColor="BLACK" />
+																	</m:MaterialDropDown>
+					</ma:menubar.MaterialMenuBar>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>

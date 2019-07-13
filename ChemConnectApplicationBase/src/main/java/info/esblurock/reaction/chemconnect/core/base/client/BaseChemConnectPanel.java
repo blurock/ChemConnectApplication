@@ -24,6 +24,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogH
 import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.authentication.FacebookAuthentification;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LinkedInAuthentification;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LogoutUser;
@@ -105,6 +106,12 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 		LinkedInAuthentification linkedIn = new LinkedInAuthentification(this);
 		linkedIn.initiateAthentification();
 	}
+	@UiHandler("facebookLogin")
+	void onClickFacebook(ClickEvent e) {
+		FacebookAuthentification facebook = new FacebookAuthentification(this);
+		facebook.initiateAthentification();
+	}
+	
 
 	@Override
 	public void loginCallback(UserSessionData account) {

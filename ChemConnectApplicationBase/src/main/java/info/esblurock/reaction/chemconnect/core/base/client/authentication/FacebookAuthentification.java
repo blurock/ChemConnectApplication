@@ -26,12 +26,22 @@ public class FacebookAuthentification extends AuthentificationCall {
 
 		String redirect = toppanel.callbackWithServer();
 		String authurl = UserAccountKeys.FacebookAuthURL + "?";
+		String reststr = "client_id=" + CLIENT_ID + "&"
+				+ "client_secret=" + CLIENT_SECRET + "&"
+				+ "redirect_uri=" + redirect + "&"
+				+ "response_type=code&"
+				+ "state=" + secretState + "&"
+				+ "scope=email&"
+				+ "grant_type=client_credentials";
+				
+		/*
 		String reststr = "response_type=code&"
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
 				+ "client_secret=" + CLIENT_SECRET + "&"
 				+ "&grant_type=client_credentials";
+				*/
 		String urlS = authurl + reststr;
 		Window.alert(urlS);
 

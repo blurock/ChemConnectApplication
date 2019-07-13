@@ -186,26 +186,46 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			authorizationTypeS = UserAccountKeys.LinkedInClientKey;
 			log.log(Level.INFO, "LinkedIn Authorization: " + auth_idS);
 		} else if (state.startsWith(UserAccountKeys.FacebookSecretKey)) {
-			ClientIDInformation idinfo = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.LinkedInClientKey);
+			ClientIDInformation idinfo = AuthorizationIDs.getClientAuthorizationInfo(UserAccountKeys.FacebookClientKey);
 			String client_id = idinfo.getClientID();
 			String client_secret = idinfo.getClientSecret();
-			String newstate = "nextfacebook";
-			ManageServerCookies.setCookie(resp, "secret", newstate);
-			String tokenurl = "https://graph.facebook.com/v3.2/me/accounts?";
-			String tokenparameters = "&state=" + newstate 
-					+ "&client_id=" + client_id
-					+ "&access_token=" + access_token;
-
+			
+			String callback = "http://localhost:8080/oauth2callback";
+			String facebook = "https://graph.facebook.com/v3.3/oauth/access_token?";
+			String params = 
+					"client_id=" + client_id + "&" 
+					+ "redirect_uri=" + callback + "&" 
+					+ "client_secret=" + client_secret + "&" 
+					+ "code=" + code;
+			String response = facebook + params;
+			URL url = new URL(response);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException(
+						"Failed : HTTP error code : \n" + conn.getResponseCode() + ": " + conn.getResponseMessage() + "\n");
+			}
+			JSONObject json = JSONUtilities.getJSON(conn.getInputStream());
+			String accesstoken = (String) json.get("access_token");
+			
+			String tokenurl = "https://graph.facebook.com/me?";
+			String tokenparameters = 
+					"fields=id,first_name,last_name,email&"  +
+					"access_token=" + accesstoken;
+			String urlS = tokenurl + tokenparameters;
 			System.out.println(tokenparameters);
-			System.out.println("Size of call: " + tokenparameters.length());
-			String url = tokenurl + java.net.URLEncoder.encode(tokenparameters, "UTF-8");
-			System.out.println("Size of call: " + url.length());
+			url = new URL(urlS);
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException(
+						"Failed : HTTP error code : \n" + conn.getResponseCode() + ": " + conn.getResponseMessage() + "\n");
+			}
 
-			JSONObject jsonobj = JSONUtilities.getJSONObject(url);
-			String accesstoken = (String) jsonobj.get("access_token");
-
-			System.out.println(jsonobj);
-			System.out.println("Access Token: " + accesstoken);
+			json = JSONUtilities.getJSON(conn.getInputStream());
+			firstname = json.getString("first_name");
+			lastname = json.getString("last_name");
+			auth_idS = json.getString("id");
 			authorizationTypeS = UserAccountKeys.FacebookClientKey;
 		} else if (state.startsWith("nextfacebook")) {
 			System.out.println("nextfacebook");

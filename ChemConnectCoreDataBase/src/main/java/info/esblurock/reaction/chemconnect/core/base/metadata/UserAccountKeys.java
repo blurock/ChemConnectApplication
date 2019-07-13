@@ -28,7 +28,8 @@ public class UserAccountKeys {
 	
 	public static String LinkedInAuthURL = "https://www.linkedin.com/oauth/v2/authorization";
 	public static String GoogleAuthURL = "https://accounts.google.com/o/oauth2/v2/auth";
-	public static String FacebookAuthURL = "https://graph.facebook.com/oauth/access_token";
+	public static String FacebookAuthURL = "http://www.facebook.com/dialog/oauth";
+			//"https://graph.facebook.com/oauth/access_token";
 	
 	// parameters
 	public static String AuthCodeParameterKey = "code";
