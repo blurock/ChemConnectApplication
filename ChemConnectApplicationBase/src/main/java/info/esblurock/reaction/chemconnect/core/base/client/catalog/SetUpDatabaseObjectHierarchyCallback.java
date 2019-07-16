@@ -12,9 +12,11 @@ public class SetUpDatabaseObjectHierarchyCallback implements AsyncCallback<Datab
 
 	MaterialCollapsible panel;
 	MaterialPanel modalpanel;
-	public SetUpDatabaseObjectHierarchyCallback(MaterialCollapsible panel,MaterialPanel modalpanel) {
+	boolean clearPanel;
+	public SetUpDatabaseObjectHierarchyCallback(MaterialCollapsible panel,MaterialPanel modalpanel, boolean clearPanel) {
 		this.panel = panel;
 		this.modalpanel = modalpanel;
+		this.clearPanel = clearPanel;
 		MaterialLoader.loading(true);
 	}
 	@Override
@@ -27,6 +29,9 @@ public class SetUpDatabaseObjectHierarchyCallback implements AsyncCallback<Datab
 	public void onSuccess(DatabaseObjectHierarchy transfer) {
 		MaterialLoader.loading(false);
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,transfer,modalpanel);		
+		if(clearPanel) {
+			panel.clear();
+		}
 		panel.add(item);
 	}
 

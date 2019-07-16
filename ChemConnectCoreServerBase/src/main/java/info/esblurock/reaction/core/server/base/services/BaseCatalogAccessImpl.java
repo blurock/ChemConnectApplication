@@ -8,11 +8,13 @@ import info.esblurock.reaction.chemconnect.core.base.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.base.transfer.CompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.BaseCatalogAccess;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.gps.GeocodingLatituteAndLongitude;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
-public class BaseCatalogAccessImpl extends ServerBase {
+public class BaseCatalogAccessImpl extends ServerBase implements BaseCatalogAccess {
+	private static final long serialVersionUID = 1L;
 
 	public GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException {
 		GeocodingLatituteAndLongitude geo = new GeocodingLatituteAndLongitude();

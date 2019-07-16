@@ -20,7 +20,7 @@ public enum InterpretUploadedFileBase {
 			MaterialCollapsible collapsible = new MaterialCollapsible();
 			uploaded.getObjectPanel().add(collapsible);
 			SetUpDatabaseObjectHierarchyCallback createcallback = 
-					new SetUpDatabaseObjectHierarchyCallback(collapsible, uploaded.getModalPanel());
+					new SetUpDatabaseObjectHierarchyCallback(collapsible, uploaded.getModalPanel(),false);
 			UserImageServiceAsync createasync = UserImageService.Util.getInstance();
 			createasync.createDatasetImage(obj,catid,visualType, info,createcallback);			
 		}

@@ -69,7 +69,7 @@ public class ManageCatalogHierarchy extends Composite implements ManageCatalogHi
 		panel.clear();
 		if(userName != null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
-			SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(panel,modalpanel);
+			SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(panel,modalpanel,true);
 			async.getUserDatasetCatalogHierarchy(userName,callback);	
 		}
 	}
