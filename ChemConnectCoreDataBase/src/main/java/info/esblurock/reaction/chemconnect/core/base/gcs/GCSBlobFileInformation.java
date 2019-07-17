@@ -3,11 +3,11 @@ package info.esblurock.reaction.chemconnect.core.base.gcs;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 
 @Entity
 @SuppressWarnings("serial")
-public class GCSBlobFileInformation extends DatabaseObject {
+public class GCSBlobFileInformation extends ChemConnectCompoundDataStructure {
 
 	@Index
 	String path;
@@ -20,7 +20,7 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	
 	public GCSBlobFileInformation() {
 	}
-	public GCSBlobFileInformation(DatabaseObject obj, 
+	public GCSBlobFileInformation(ChemConnectCompoundDataStructure obj, 
 			String path, String filename, String filetype, 
 			String description) {
 		super(obj);
@@ -78,8 +78,9 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + getGSFilename() + "\n");
-		build.append("    (Type: " + filetype + "        " + description + ")\n");
+		build.append(prefix + "Full path name: '" + getGSFilename() + "'\n");
+		build.append(prefix + "Type          : " + filetype + "\n");
+		build.append(prefix + "Description   :" + description + ")\n");
 		return build.toString();
 	}
 	

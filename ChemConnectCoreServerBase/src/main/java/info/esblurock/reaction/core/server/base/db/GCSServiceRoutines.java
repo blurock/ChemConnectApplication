@@ -19,6 +19,7 @@ import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GoogleCloudStorageConstants;
@@ -44,7 +45,8 @@ public class GCSServiceRoutines {
 		String owner = username;
 		String sourceID = QueryBase.getDataSourceIdentification(username);
 		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
-		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, path,
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
+		GCSBlobFileInformation source = new GCSBlobFileInformation(structure, path,
 				filename, contentType, uploadDescriptionText);
 		return source;
 	}

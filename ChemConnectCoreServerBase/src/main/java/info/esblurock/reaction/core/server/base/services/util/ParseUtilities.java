@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import com.google.cloud.storage.BlobInfo;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.ParsedFilename;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
@@ -229,7 +230,8 @@ public class ParseUtilities {
 				filename = name.substring(pos+1);
 			}
 		}
-		GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(object, 
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(object,null);
+		GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(structure, 
 				path, filename, filetype, description);
 		return gcsinfo;
 	}

@@ -43,6 +43,7 @@ import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.core.server.base.services.util.ParseUtilities;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
@@ -178,8 +179,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String owner = username;
 		String sourceID = QueryBase.getDataSourceIdentification(username);
 		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
-
-		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, path,
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
+		GCSBlobFileInformation source = new GCSBlobFileInformation(structure, path,
 				target.getFilename(), target.getFiletype(), target.getDescription());
 
 		target.setSourceID(source.getSourceID());
@@ -395,8 +396,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		} else {
 			filename = info.getFilename();
 		}
-		
-		GCSBlobFileInformation target = new GCSBlobFileInformation(obj, path,
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
+		GCSBlobFileInformation target = new GCSBlobFileInformation(structure, path,
 				filename, info.getFiletype(), info.getDescription());
 		info.setSourceID(target.getSourceID());
 

@@ -92,6 +92,9 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 	
 	public static String yamlStringFromDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		WriteReadDatabaseObjects.updateSourceID(hierarchy);
+		return yamlStringFromDatabaseObjectHierarchyNoUpdate(hierarchy);
+	}
+	public static String yamlStringFromDatabaseObjectHierarchyNoUpdate(DatabaseObjectHierarchy hierarchy) throws IOException {
 		Map<String,Object> map1 = yamlDatabaseObjectHierarchy(hierarchy);
 		System.out.println(map1);
 		MapUtils.debugPrint(System.out, "Map: ", map1);
@@ -102,6 +105,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		String yaml = wS.toString();
 		
 		return yaml;
+		
 	}
 
 	public static Map<String, Object> yamlDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy)

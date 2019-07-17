@@ -21,15 +21,11 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DescriptionDataData
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.dataset.Consortium;
 import info.esblurock.reaction.chemconnect.core.base.dataset.PurposeConceptPair;
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectObjectLink;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.base.gcs.GCSInputFileInterpretation;
-import info.esblurock.reaction.chemconnect.core.base.gcs.ParsedFilename;
 import info.esblurock.reaction.chemconnect.core.base.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.ConvertInputDataBase;
@@ -46,6 +42,9 @@ import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.login.UserAccountInformation;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryDataFile;
+import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
 
 public enum InterpretBaseData {
 
@@ -314,7 +313,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DataCatalogID datastructure = (DataCatalogID) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.CatalogBaseName, datastructure.getCatalogBaseName());
@@ -343,7 +342,7 @@ public enum InterpretBaseData {
 				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ChemConnectCompoundMultiple multi = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
 			String typeS = (String) yaml.get(StandardDataKeywords.elementType);
 			multi = new ChemConnectCompoundMultiple(objdata, typeS);
@@ -383,11 +382,201 @@ public enum InterpretBaseData {
 			return refhier;
 		}
 		
-	}, GCSBlobFileInformation {
+	}, RepositoryDataFile {
 
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.repositoryDataFile);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			refobj.nullKey();
+			
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(refobj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
+			
+			RepositoryDataFile repositoryinfo = new RepositoryDataFile(structure);
+			repositoryinfo.setIdentifier(refobj.getIdentifier());
+			DatabaseObjectHierarchy repositoryinfohier = new DatabaseObjectHierarchy(repositoryinfo);
+			
+			return repositoryinfohier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			RepositoryDataFile repository = null;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) 
+					interpret.fillFromYamlString(top, yaml, sourceID);
+			repository = new RepositoryDataFile(structure);
+			return repository;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(RepositoryFileStaging.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return RepositoryDataFile.class.getCanonicalName();
+		}
+		
+	}, RepositoryFileStaging {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.repositoryFileStaging);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			
+			InterpretBaseData blobinterpret = InterpretBaseData.GCSBlobFileInformation;
+			DatabaseObjectHierarchy blobhier = blobinterpret.createEmptyObject(refobj);
+			
+			InterpretBaseData fileinterpret = InterpretBaseData.InitialStagingRepositoryFile;
+			DatabaseObjectHierarchy filehier = fileinterpret.createEmptyObject(refobj);
+			
+			refobj.nullKey();
+			RepositoryFileStaging stageinfo = new RepositoryFileStaging(refobj, 
+					blobhier.getObject().getIdentifier(),
+					filehier.getObject().getIdentifier());
+			
+			DatabaseObjectHierarchy stagehier = new DatabaseObjectHierarchy(stageinfo);
+			stagehier.addSubobject(blobhier);
+			stagehier.addSubobject(filehier);
+			return stagehier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			RepositoryFileStaging image = null;
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
+			interpret.fillFromYamlString(top, yaml, sourceID);
+			String blobFileInformation = (String) yaml.get(StandardDataKeywords.gcsBlobFileInformation);			
+			String repositoryFile = (String) yaml.get(StandardDataKeywords.repositoryFile);			
+			image = new RepositoryFileStaging(top,blobFileInformation, repositoryFile);
+			return image;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			RepositoryFileStaging repository = (RepositoryFileStaging) object;
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDataKeywords.gcsBlobFileInformation, repository.getBlobFileInformation());
+			map.put(StandardDataKeywords.repositoryFile, repository.getRepositoryFile());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(RepositoryFileStaging.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return RepositoryFileStaging.class.getCanonicalName();
+		}
+		
+	}, InitialStagingRepositoryFile {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.initialStagingRepositoryFile);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			DatabaseObjectHierarchy refhier = interpret.createEmptyObject(refobj);	
+			ChemConnectCompoundDataStructure structuredata = 
+					(ChemConnectCompoundDataStructure) refhier.getObject();
+			
+			String uploadFileIdentifer = "UploadFileIdentifer-ID";
+			String uploadFileSource = "UploadFileSource-ID";
+			
+			refobj.nullKey();
+			InitialStagingRepositoryFile stageinfo = new InitialStagingRepositoryFile(structuredata, 
+					uploadFileIdentifer,uploadFileSource);
+			stageinfo.setIdentifier(refobj.getIdentifier());
+			DatabaseObjectHierarchy stagehier = new DatabaseObjectHierarchy(stageinfo);
+			return stagehier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			InitialStagingRepositoryFile repinfo = null;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			ChemConnectCompoundDataStructure objdata = 
+					(ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String uploadFileIdentifer = (String) yaml.get(StandardDataKeywords.fileSourceIdentifier);
+			String uploadFileSource = (String) yaml.get(StandardDataKeywords.uploadFileSource);
+			repinfo = new InitialStagingRepositoryFile(objdata, 
+					uploadFileIdentifer, uploadFileSource);
+			
+			return repinfo;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InitialStagingRepositoryFile repinfo = (InitialStagingRepositoryFile) object;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDataKeywords.fileSourceIdentifier, repinfo.getFileSourceIdentifier());
+			map.put(StandardDataKeywords.uploadFileSource, repinfo.getUploadFileSource());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(InitialStagingRepositoryFile.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return InitialStagingRepositoryFile.canonicalClassName();
+		}
+		
+	}, GCSBlobFileInformation {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject gcsobj = new DatabaseObject(obj);
+			gcsobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.gcsBlobFileInformation);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			gcsobj.setIdentifier(catid);
+			
+			InterpretBaseData baseinterpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			DatabaseObjectHierarchy basehier = baseinterpret.createEmptyObject(gcsobj);
+			ChemConnectCompoundDataStructure refobj = (ChemConnectCompoundDataStructure) basehier.getObject();
 			refobj.nullKey();
 			String path = obj.getOwner();
 			String filename = "filename.txt";
@@ -395,6 +584,7 @@ public enum InterpretBaseData {
 			String description = "default";
 			GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(refobj, 
 					path, filename, filetype,description);
+			gcsinfo.setIdentifier(gcsobj.getIdentifier());
 			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(gcsinfo);
 			return refhier;
 			
@@ -404,8 +594,8 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			GCSBlobFileInformation gcsinfo = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
 			String path = (String) yaml.get(StandardDataKeywords.filepath);
 			String filename = (String) yaml.get(StandardDataKeywords.filename);
 			String filetype = (String) yaml.get(StandardDataKeywords.fileTypeS);
@@ -419,7 +609,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			map.put(StandardDataKeywords.filepath, gcsinfo.getPath());
 			map.put(StandardDataKeywords.filename, gcsinfo.getFilename());
@@ -508,10 +698,10 @@ public enum InterpretBaseData {
 			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			imageobj.setIdentifier(catid);
 			
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(imageobj);
 			
-			InterpretBaseData infointerpret = InterpretBaseData.valueOf("ImageInformation");
+			InterpretBaseData infointerpret = InterpretBaseData.ImageInformation;
 			DatabaseObjectHierarchy infohierarchy = infointerpret.createEmptyObject(imageobj);
 			
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehierarchy.getObject();
@@ -562,7 +752,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			DatasetCatalogHierarchy datastructure = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
 			datastructure = new DatasetCatalogHierarchy(objdata);
 			
@@ -572,7 +762,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(
 				DatabaseObject object) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			
 			return map;
@@ -609,8 +799,7 @@ public enum InterpretBaseData {
 			return hierarchy;
 		}
 		
-	},
-	PurposeConceptPair {
+	}, PurposeConceptPair {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
@@ -667,8 +856,7 @@ public enum InterpretBaseData {
 			return hierarchy;
 		}
 		
-	},
-	DescriptionDataData {
+	}, DescriptionDataData {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
@@ -820,7 +1008,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String contactkey = (String) yaml.get(StandardDataKeywords.contactKeyS);
@@ -834,7 +1022,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ContactInfoData contact = (ContactInfoData) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.contactKeyS, contact.getContactType());

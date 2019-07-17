@@ -39,12 +39,26 @@ public class StandardDataKeywords {
 	public static String elementType = "dataset:elementType";
 
 	// GCSBlobFileInformation
+	public static String gcsBlobFileInformation = "dataset:GCSBlobFileInformation";
 	public static String filename = "dataset:GCSFileName";
 	public static String filepath = "dataet:GCSFilePath";
 	public static String bucketName = "dataset:GCSBucketName";
 	public static String fileTypeS = "dataset:fileType";
 	public static String descriptionKeyS = "dcterms:description";
-
+	
+	// RepositoryFileStaging
+	public static String repositoryFileStaging = "dataset:RepositoryFileStaging";
+	public static String blobinfo = "dataset:blobInfo";
+	public static String repositoryFile = "dataset:repositoryFileInfo";
+	
+	// RepositoryDataFile
+	public static String repositoryDataFile = "dataset:RepositoryDataFile";
+	
+	// InitialStagingRepositoryFile
+	public static String initialStagingRepositoryFile = "dataset:InitialStagingRepositoryFile";
+	public static String fileSourceIdentifier = "dataset:fileidentifer";
+	public static String uploadFileSource = "dataset:UploadFileSource";
+	
 	// ImageInformation
 	public static String imageType = "dataset:ImageType";
 	public static String imageURL = "dataset:ImageURL";
