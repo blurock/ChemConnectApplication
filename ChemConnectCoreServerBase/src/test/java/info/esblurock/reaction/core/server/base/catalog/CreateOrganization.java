@@ -1,7 +1,6 @@
 package info.esblurock.reaction.core.server.base.catalog;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,23 +14,17 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
-import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.base.metadata.DatabaseKeys;
-import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
-import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.session.DataSourceIdentification;
 import info.esblurock.reaction.core.ontology.base.OntologyBase;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.db.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
-import info.esblurock.reaction.core.server.base.register.RegisterChemConnectBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.register.RegisterContactData;
 import info.esblurock.reaction.core.server.base.register.RegisterDescriptionData;
 import info.esblurock.reaction.core.server.base.register.RegisterGCSClasses;
