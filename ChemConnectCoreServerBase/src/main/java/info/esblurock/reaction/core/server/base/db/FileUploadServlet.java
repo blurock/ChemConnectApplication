@@ -7,10 +7,19 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
+import com.google.gwt.user.client.Cookies;
 
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
+import info.esblurock.reaction.core.server.base.create.CreateBaseCatalogObjects;
+import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -46,7 +55,6 @@ public class FileUploadServlet extends HttpServlet {
 				
 				InputStream in = fileItem.openStream();
 				Storage storage = StorageOptions.getDefaultInstance().getService();
-				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), request.getSession());
 				util.printOutSessionAttributes();
 				
@@ -56,15 +64,25 @@ public class FileUploadServlet extends HttpServlet {
 				String username = usession.getUserName();
 				String path = GCSServiceRoutines.createUploadPath(username);
 				
-				System.out.println("FileUploadServlet\n" + usession);
-				System.out.println("Name:        " + username);
-				System.out.println("ID:          " + util.getId());
-				GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
-						path, fileItem.getName(), 
-						fileItem.getContentType(), 
-						uploadDescriptionText,
-						util.getId(),username);
+				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
+				String sessionID = util.getId();
 				
+				String sourceID = QueryBase.getDataSourceIdentification(username);
+				String id = "upload-" + username + "-" + fileItem.getName();
+				DatabaseObject obj = new DatabaseObject(id, username, username, sourceID);
+				
+				DatabaseObjectHierarchy hierarchy = CreateBaseCatalogObjects.createRepositoryFileStaging(obj, 
+						fileItem.getName(), fileItem.getContentType(),
+						uploadDescriptionText, sessionID,path);
+				
+				RepositoryFileStaging staging = (RepositoryFileStaging) hierarchy.getObject();
+				DatabaseObjectHierarchy hier = hierarchy.getSubObject(staging.getBlobFileInformation());
+				GCSBlobFileInformation source = (GCSBlobFileInformation) hier.getObject();
+				DatabaseObjectHierarchy filehier = hierarchy.getSubObject(staging.getRepositoryFile());
+				InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
+				staginginfo.setUploadFileSource(MetaDataKeywords.initialReadInLocalStorageSystem);
+				System.out.println(hierarchy.toString("FileUploadServlet: "));
+		
 				BlobInfo info = BlobInfo.newBuilder(GCSServiceRoutines.getGCSStorageBucket(), source.getGSFilename())
 						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
 						.setContentType(fileItem.getContentType())
@@ -72,7 +90,11 @@ public class FileUploadServlet extends HttpServlet {
 				@SuppressWarnings("deprecation")
 				BlobInfo blobInfo = storage.create(info, in);
 				System.out.println("FileUploadServlet: " + blobInfo.getMediaLink());
-				DatabaseWriteBase.writeObjectWithTransaction(source);
+				
+				DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
+						MetaDataKeywords.initialReadInLocalStorageSystem);
+				
+				//DatabaseWriteBase.writeObjectWithTransaction(source);
 			}
 		} catch (Exception caught) {
 			throw new RuntimeException(caught);

@@ -193,4 +193,9 @@ public class DatabaseWriteBase {
 		writeDatabaseObject(transaction);
 	}
 
+	static public void writeObjectWithTransaction(DatabaseObjectHierarchy hierarchy, String event) {
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(hierarchy);
+		
+	}
+	
 }

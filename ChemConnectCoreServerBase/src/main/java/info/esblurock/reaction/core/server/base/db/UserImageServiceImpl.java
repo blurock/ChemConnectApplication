@@ -25,6 +25,7 @@ import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
@@ -49,7 +50,9 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
 import info.esblurock.reaction.chemconnect.core.base.gcs.ParsedFilename;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageUploadTransaction;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
@@ -289,9 +292,27 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String username = usession.getUserName();
 		String path = GCSServiceRoutines.createUploadPath(username);
 		String name = extractNameFromURL(requestUrl);
-		GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
-				path, name, contentType, uploadDescriptionText,
-				usession.getIP(),username);
+		
+		
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		String id = "upload-" + username + "-" + name;
+		DatabaseObject obj = new DatabaseObject(id, username, username, sourceID);
+		
+		DatabaseObjectHierarchy hierarchy = CreateBaseCatalogObjects.createRepositoryFileStaging(obj, 
+				name, contentType,
+				uploadDescriptionText, sessionid,path);
+		
+		RepositoryFileStaging staging = (RepositoryFileStaging) hierarchy.getObject();
+		DatabaseObjectHierarchy hier = hierarchy.getSubObject(staging.getBlobFileInformation());
+		GCSBlobFileInformation source = (GCSBlobFileInformation) hier.getObject();
+		DatabaseObjectHierarchy filehier = hierarchy.getSubObject(staging.getRepositoryFile());
+		InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
+		staginginfo.setUploadFileSource(MetaDataKeywords.initialReadInLocalStorageSystem);
+		System.out.println(hierarchy.toString("FileUploadServlet: "));
+		
+		DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
+				MetaDataKeywords.InitialReadFromWebLocation);		
+
 		retrieveContentFromStream(in, source);
 
 		return source;
@@ -313,12 +334,27 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String path = GCSServiceRoutines.createUploadPath(username);
 		String contentType = "text/plain";
 		String uploadDescriptionText = "Uploaded File from text input";
-		GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
-				path, filename, contentType, uploadDescriptionText,
-				usession.getIP(),username);
-
+		
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		String id = "uploadtext-" + username + "-" + filename;
+		DatabaseObject obj = new DatabaseObject(id, username, username, sourceID);
+		DatabaseObjectHierarchy hierarchy = CreateBaseCatalogObjects.createRepositoryFileStaging(obj, 
+				filename, contentType,
+				uploadDescriptionText, sessionid,path);
+		
+		RepositoryFileStaging staging = (RepositoryFileStaging) hierarchy.getObject();
+		DatabaseObjectHierarchy hier = hierarchy.getSubObject(staging.getBlobFileInformation());
+		GCSBlobFileInformation source = (GCSBlobFileInformation) hier.getObject();
+		DatabaseObjectHierarchy filehier = hierarchy.getSubObject(staging.getRepositoryFile());
+		InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
+		staginginfo.setUploadFileSource(MetaDataKeywords.initialReadFromUserInterface);
+		System.out.println(hierarchy.toString("FileUploadServlet: "));
+		
 		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 		retrieveContentFromStream(in, source);
+		DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
+				MetaDataKeywords.initialReadFromUserInterface);
+		
 		return source;
 	}
 	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) throws IOException {
@@ -328,8 +364,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		@SuppressWarnings({ "deprecation", "unused" })
 		BlobInfo blobInfo = storage.create(info, in);
-		DatabaseWriteBase.writeObjectWithTransaction(source);
-
 	}
 
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {

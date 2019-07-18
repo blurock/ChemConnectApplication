@@ -66,7 +66,8 @@ public class DatasetOntologyParseBase {
 	}
 
 	public static String getTypeFromDataType(String datatype) {
-		String query = "SELECT ?type\n" + "	WHERE { ?type <http://purl.org/dc/elements/1.1/type> \"" + datatype
+		String query = "SELECT ?type\n" 
+				+ "	WHERE { ?type <http://purl.org/dc/elements/1.1/type> \"" + datatype
 				+ "\"^^xsd:string\n" + "}";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		String type = null;
@@ -76,7 +77,6 @@ public class DatasetOntologyParseBase {
 			type = map.get("type");
 		}
 		return type;
-
 	}
 
 	/*

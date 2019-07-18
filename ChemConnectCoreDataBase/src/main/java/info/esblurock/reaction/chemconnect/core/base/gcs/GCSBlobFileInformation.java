@@ -36,6 +36,14 @@ public class GCSBlobFileInformation extends ChemConnectCompoundDataStructure {
 		this.filetype = info.getFiletype();
 		this.description = info.getDescription();		
 	}
+	
+	public void fillGCS(String path, String filename, String filetype, 
+			String description) {
+		this.path = path;
+		this.filename = filename;
+		this.filetype = filetype;
+		this.description = description;
+	}
 	public String getPath() {
 		return path;
 	}

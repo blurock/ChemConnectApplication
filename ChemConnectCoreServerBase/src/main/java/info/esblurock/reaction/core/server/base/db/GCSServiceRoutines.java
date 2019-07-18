@@ -20,10 +20,12 @@ import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GoogleCloudStorageConstants;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
 public class GCSServiceRoutines {
 	public static Storage storage = null;
@@ -37,24 +39,24 @@ public class GCSServiceRoutines {
 		return path;
 	}
 
-	public static GCSBlobFileInformation createInitialUploadInfo(String path, String filename, String contentType,
+	public static GCSBlobFileInformation createInitialUploadInfo(GCSBlobFileInformation source,
+			String path, String filename, String contentType,
 			String uploadDescriptionText, String ip, String username) {
 
-		String id = ip + ":" + username;
-		String access = username;
-		String owner = username;
-		String sourceID = QueryBase.getDataSourceIdentification(username);
-		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
-		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
-		GCSBlobFileInformation source = new GCSBlobFileInformation(structure, path,
-				filename, contentType, uploadDescriptionText);
+		source.fillGCS(path,filename, contentType, uploadDescriptionText);
 		return source;
 	}
 	public static void uploadFileBlob(String id, String bucket, 
 			String ip, String username,
 			String path, String filename, String contentType, String description, String contentS)
 			throws IOException {
-		GCSBlobFileInformation info = createInitialUploadInfo(
+		
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		DatabaseObject obj = new DatabaseObject(id, username, username, sourceID);
+		InterpretBaseData interpret = InterpretBaseData.GCSBlobFileInformation;
+		DatabaseObjectHierarchy hier = interpret.createEmptyObject(obj);
+		GCSBlobFileInformation info = (GCSBlobFileInformation) hier.getObject();
+		createInitialUploadInfo(info,
 				path, filename, contentType, description, ip, username);
 		System.out.println("uploadFileBlob: \n" + info.toString());
 		String url = null;

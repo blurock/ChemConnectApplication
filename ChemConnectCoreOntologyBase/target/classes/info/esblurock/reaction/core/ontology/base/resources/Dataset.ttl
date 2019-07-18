@@ -6247,7 +6247,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#InitialReadInOfRepositoryFile
 :InitialReadInOfRepositoryFile rdf:type owl:Class ;
-                               rdfs:subClassOf :RepositoryFile ;
+                               rdfs:subClassOf :RepositoryFile ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :InitialReadInOfRepositoryFile
+                                               ] ;
                                rdfs:comment "The file was initially uploaded to the file staging area. The source of the file could be the client's file system, a web location or input from the user interface." .
 
 
@@ -9403,7 +9408,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     rdfs:subClassOf :ChemConnectDataStructure ;
                     <http://purl.org/dc/elements/1.1/type> "RepositoryDataFile" ;
                     <http://purl.org/dc/terms/identifier> "dataset:RepositoryDataFile"^^xsd:string ;
-                    rdfs:comment "Information about the data file in the CHEMCONNECT file system."^^xsd:string ;
+                    rdfs:comment "Information about the data file in the CHEMCONNECT file system. This is the second phase of file upload, where the file is placed in the data hierarchy."^^xsd:string ;
                     rdfs:label "RepositoryDataFile" ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "datafile"^^xsd:string ,
                                                                    "datfile" .
@@ -9429,7 +9434,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        ] ;
                        <http://purl.org/dc/elements/1.1/type> "RepositoryFileStaging"^^xsd:string ;
                        <http://purl.org/dc/terms/identifier> "dataset:RepositoryFileStaging"^^xsd:string ;
-                       rdfs:comment "Repository file staging information"^^xsd:string ;
+                       rdfs:comment "Repository file staging information. This is the information regarding the first upload of files to the repository."^^xsd:string ;
                        rdfs:label "Repository File Staging"^^xsd:string ;
                        <http://www.w3.org/2004/02/skos/core#altLabel> "staging"^^xsd:string .
 

@@ -15,6 +15,7 @@ import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 
 public class DetermineBlobTargetModal extends Composite  {
@@ -75,11 +76,11 @@ public class DetermineBlobTargetModal extends Composite  {
 		String owner = name;
 		String sourceID = "";
 		DatabaseObject obj = new DatabaseObject(id, access,owner,sourceID);
-
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
 		
 		
 		GCSBlobFileInformation fileinfo = new GCSBlobFileInformation(
-				obj, path.getText(), filename.getText(), 
+				structure, path.getText(), filename.getText(), 
 				filetype.getText(), textArea.getText());
 		top.handleTargetBlob(fileinfo);
 	}

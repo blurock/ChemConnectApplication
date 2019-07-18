@@ -95,8 +95,11 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		return yamlStringFromDatabaseObjectHierarchyNoUpdate(hierarchy);
 	}
 	public static String yamlStringFromDatabaseObjectHierarchyNoUpdate(DatabaseObjectHierarchy hierarchy) throws IOException {
+		System.out.println("yamlStringFromDatabaseObjectHierarchyNoUpdate 1");
 		Map<String,Object> map1 = yamlDatabaseObjectHierarchy(hierarchy);
+		System.out.println("yamlStringFromDatabaseObjectHierarchyNoUpdate 2");
 		System.out.println(map1);
+		System.out.println("yamlStringFromDatabaseObjectHierarchyNoUpdate 3");
 		MapUtils.debugPrint(System.out, "Map: ", map1);
 		StringWriter wS = new StringWriter(1000000);
 		YamlWriter writer = new YamlWriter(wS);

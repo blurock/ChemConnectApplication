@@ -574,16 +574,23 @@ public enum InterpretBaseData {
 			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			gcsobj.setIdentifier(catid);
 			
+			
 			InterpretBaseData baseinterpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			DatabaseObjectHierarchy basehier = baseinterpret.createEmptyObject(gcsobj);
 			ChemConnectCompoundDataStructure refobj = (ChemConnectCompoundDataStructure) basehier.getObject();
 			refobj.nullKey();
+			
+			System.out.println(refobj.toString("GCSBlobFileInformation refobj: "));
+			
+			
 			String path = obj.getOwner();
 			String filename = "filename.txt";
 			String filetype = "text";
 			String description = "default";
 			GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(refobj, 
 					path, filename, filetype,description);
+			System.out.println(gcsinfo.toString("GCSBlobFileInformation gcsinfo: "));
+			
 			gcsinfo.setIdentifier(gcsobj.getIdentifier());
 			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(gcsinfo);
 			return refhier;
