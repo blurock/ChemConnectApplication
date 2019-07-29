@@ -11,6 +11,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
@@ -100,6 +101,8 @@ public interface UserImageServiceAsync {
 	void getTopCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void deleteObject(String id, String type, AsyncCallback<Void> callback);
+
+	void getUploadedStagedFiles(AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
 
 
 }

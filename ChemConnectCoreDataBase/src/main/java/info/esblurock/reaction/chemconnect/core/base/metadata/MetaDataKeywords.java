@@ -123,11 +123,19 @@ public class MetaDataKeywords {
 	public static String textFileType = "dataset:FileTypeText";
 	public static String delimitorS = "dataset:delimitor";
 	
+	public static String stagedFileNotProcessed = "StagedFileNotProcessed";
+	public static String stagedFileProcessed = "StagedFileProcessed";
+	
 	
 	public static String initialReadInLocalStorageSystem = "dataset:InitialReadInLocalStorageSystem";
 	public static String initialReadFromUserInterface    = "dataset:InitialReadFromUserInterface";
 	public static String InitialReadFromWebLocation      = "dataset:InitialReadFromWebLocation";
 	public static String initialReadInOfRepositoryFile   = "dataset:InitialReadInOfRepositoryFile";
 	public static String transferFileIntoCatagoryHierarchy = "TransferFileIntoCatagoryHierarchy";
+
+	public static String URL          = "dataset:URLSourceFile";
+	public static String CHEMCONNECT  = "dataset:ChemConnectDataObject";
+	public static String STRINGSOURCE = "dataset:StringSource";
+	public static String BLOBSOURCE   = "dataset:BlobSourceFile";
 
 }

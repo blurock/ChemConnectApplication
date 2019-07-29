@@ -455,7 +455,8 @@ public enum InterpretBaseData {
 			refobj.nullKey();
 			RepositoryFileStaging stageinfo = new RepositoryFileStaging(refobj, 
 					blobhier.getObject().getIdentifier(),
-					filehier.getObject().getIdentifier());
+					filehier.getObject().getIdentifier(),
+					MetaDataKeywords.stagedFileNotProcessed);
 			
 			DatabaseObjectHierarchy stagehier = new DatabaseObjectHierarchy(stageinfo);
 			stagehier.addSubobject(blobhier);
@@ -471,7 +472,8 @@ public enum InterpretBaseData {
 			interpret.fillFromYamlString(top, yaml, sourceID);
 			String blobFileInformation = (String) yaml.get(StandardDataKeywords.gcsBlobFileInformation);			
 			String repositoryFile = (String) yaml.get(StandardDataKeywords.repositoryFile);			
-			image = new RepositoryFileStaging(top,blobFileInformation, repositoryFile);
+			String stagedFileProcessed = (String) yaml.get(StandardDataKeywords.stagedFileProcessed);			
+			image = new RepositoryFileStaging(top,blobFileInformation, repositoryFile,stagedFileProcessed);
 			return image;
 		}
 
@@ -483,6 +485,7 @@ public enum InterpretBaseData {
 
 			map.put(StandardDataKeywords.gcsBlobFileInformation, repository.getBlobFileInformation());
 			map.put(StandardDataKeywords.repositoryFile, repository.getRepositoryFile());
+			map.put(StandardDataKeywords.stagedFileProcessed, repository.getStagingFilePresent());
 
 			return map;
 		}
@@ -511,9 +514,11 @@ public enum InterpretBaseData {
 			refobj.setIdentifier(catid);
 			
 			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
-			DatabaseObjectHierarchy refhier = interpret.createEmptyObject(refobj);	
+			DatabaseObjectHierarchy refhier = interpret.createEmptyObject(refobj);
 			ChemConnectCompoundDataStructure structuredata = 
 					(ChemConnectCompoundDataStructure) refhier.getObject();
+			structuredata.setParentLink(obj.getIdentifier());
+			structuredata.nullKey();
 			
 			String uploadFileIdentifer = "UploadFileIdentifer-ID";
 			String uploadFileSource = "UploadFileSource-ID";
@@ -578,6 +583,7 @@ public enum InterpretBaseData {
 			InterpretBaseData baseinterpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			DatabaseObjectHierarchy basehier = baseinterpret.createEmptyObject(gcsobj);
 			ChemConnectCompoundDataStructure refobj = (ChemConnectCompoundDataStructure) basehier.getObject();
+			refobj.setParentLink(obj.getIdentifier());
 			refobj.nullKey();
 			
 			System.out.println(refobj.toString("GCSBlobFileInformation refobj: "));

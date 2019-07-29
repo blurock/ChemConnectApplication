@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -46,11 +43,6 @@ import info.esblurock.reaction.core.server.base.services.util.ParseUtilities;
  *
  */
 public class WriteReadDatabaseObjects {
-	public static Storage storage = null;
-	static {
-		storage = StorageOptions.getDefaultInstance().getService();
-	}
-
 
 	public static void updateSourceID(DatabaseObjectHierarchy objecthierarchy) {
 		DatabaseObject object = objecthierarchy.getObject();
@@ -355,21 +347,7 @@ public class WriteReadDatabaseObjects {
 			throw new IOException("deletePreviousBlobStorageMoves: class not found");
 		}
 	}
-	
-	public static void deleteBlobFromURL(String url) {
-		// "https://storage.googleapis.com/"
-		String prefix = "https://storage.googleapis.com/";
-		int bucketend = url.indexOf('/', prefix.length());
-		String bucket = url.substring(prefix.length(), bucketend);
-		String path = url.substring(bucketend + 1);
 		
-		BlobId blobId = BlobId.of(bucket, path);
-		storage.delete(blobId);
-	
-
-	}
-
-	
 	public static UserAccount getAccount(String username) {
 		UserAccount account = null;
 		try {

@@ -7,6 +7,7 @@ import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactHasSiteHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactLocationInformationHeader;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository.StandardDatabaseRepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gps.PrimitiveGPSLocationRow;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.info.PrimitiveConceptRow;
@@ -127,8 +128,7 @@ public enum SetUpCollapsibleItem {
 			return false;
 		}
 
-	},
-	IndividualInformation {
+	}, IndividualInformation {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -184,8 +184,7 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 
-	},
-	PersonalDescription {
+	}, PersonalDescription {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -211,8 +210,35 @@ public enum SetUpCollapsibleItem {
 		public boolean addSubitems() {
 			return false;
 		}
-	},
-	DatasetImage {
+	}, RepositoryFileStaging {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			Window.alert("SetUpCollapsible: RepositoryFileStaging");
+			StandardDatabaseRepositoryFileStaging header = new StandardDatabaseRepositoryFileStaging(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 600;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+	}, DatasetImage {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

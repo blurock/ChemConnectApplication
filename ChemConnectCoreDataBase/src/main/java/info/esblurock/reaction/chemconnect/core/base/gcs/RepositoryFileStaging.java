@@ -12,15 +12,18 @@ public class RepositoryFileStaging extends DatabaseObject {
 	String blobFileInformation;
 	@Index
 	String repositoryFile;
+	@Index
+	String stagingFilePresent;
 	
 	public RepositoryFileStaging() {
 	}
 
 	public RepositoryFileStaging(DatabaseObject object, 
-			String blobFileInformation, String repositoryFile) {
+			String blobFileInformation, String repositoryFile, String stagingFilePresent) {
 		super(object);
 		this.blobFileInformation = blobFileInformation;
 		this.repositoryFile = repositoryFile;
+		this.stagingFilePresent = stagingFilePresent;
 	}
 
 	public String getBlobFileInformation() {
@@ -39,6 +42,14 @@ public class RepositoryFileStaging extends DatabaseObject {
 		this.repositoryFile = repositoryFile;
 	}
 	
+	public String getStagingFilePresent() {
+		return stagingFilePresent;
+	}
+
+	public void setStagingFilePresent(String stagingFilePresent) {
+		this.stagingFilePresent = stagingFilePresent;
+	}
+
 	public String toString() {
 		return toString("");
 	}
@@ -48,6 +59,7 @@ public class RepositoryFileStaging extends DatabaseObject {
 		build.append(super.toString(prefix));
 		build.append(prefix + "Blob File Information :" + blobFileInformation + "\n");
 		build.append(prefix + "Repository File info  :" + repositoryFile + "\n");
+		build.append(prefix + "Staged file processed : " + stagingFilePresent + "\n");
 		return build.toString();
 	}
 	

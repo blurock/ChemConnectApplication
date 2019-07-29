@@ -6,10 +6,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 
-public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFileInformation>> {
+public class UploadedFilesCallback implements AsyncCallback<ArrayList<DatabaseObjectHierarchy>> {
 
 	UploadedFilesInterface top;
 	boolean rows;
@@ -26,28 +28,16 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFil
 	}
 
 	@Override
-	public void onSuccess(ArrayList<GCSBlobFileInformation> results) {
+	public void onSuccess(ArrayList<DatabaseObjectHierarchy> results) {
+		Window.alert("UploadedFilesCallback: ");
 		MaterialLoader.loading(false);
-		for(GCSBlobFileInformation gcsinfo: results) {
+		Window.alert("UploadedFilesCallback: " + results.toString());
+		for(DatabaseObjectHierarchy hierarchy: results) {
 			if(!rows) {
-				String urlS = getBlobURL(gcsinfo);	
-				GCSBlobContent content = new GCSBlobContent(urlS, gcsinfo);
-				UploadedElementCollapsible coll = new UploadedElementCollapsible(content,top.getModalPanel());
-				top.addCollapsible(coll);
+				top.addCollapsible(hierarchy);
 			} else {
 				Window.alert("Rows not implemented yet");
 			}
 		}
-	}
-
-	private String getBlobURL(GCSBlobFileInformation gcsinfo) {
-		String bucket = "blurock-chemconnect.appspot.com";
-		String host = Window.Location.getHostName();
-		if(host.startsWith("localhost")) {
-			bucket = "blurock-chemconnect-localhost";
-		}
-		String urlS = "https://storage.googleapis.com/" + bucket + "/" + gcsinfo.getGSFilename();		
-		Window.alert("URL: " + urlS);
-		return urlS;
 	}
 }

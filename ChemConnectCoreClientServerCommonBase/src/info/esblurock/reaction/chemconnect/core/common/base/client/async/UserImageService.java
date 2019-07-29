@@ -14,6 +14,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
@@ -63,6 +64,8 @@ public interface UserImageService  extends RemoteService  {
 	void deleteUploadedFile(GCSBlobFileInformation gcsinfo) throws IOException;
 	
 	void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset) throws IOException;
+	
+	ArrayList<DatabaseObjectHierarchy> getUploadedStagedFiles() throws IOException;
 	
 	ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException;
 	

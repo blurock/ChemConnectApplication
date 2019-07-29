@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,9 +26,12 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository.StandardDatabaseRepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.base.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.view.UploadFileToBlobStorageView;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 
@@ -81,6 +85,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		uploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
 			@Override
 			public void onSuccess(SuccessEvent<UploadFile> event) {
+				Window.alert("UploadFileToBlobStorage: Upload success");
 				refresh();
 				}
 			 });		
@@ -151,16 +156,19 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	
 	@Override
 	public void refresh() {
+		Window.alert("UploadFileToBlobStorage: refresh: 1 ");
 		checkUserLoggedIn();
+		Window.alert("UploadFileToBlobStorage: refresh: 2 ");
 		collapsible.clear();
+		Window.alert("UploadFileToBlobStorage: refresh: 3 ");
 		getUploadedFiles();		
+		Window.alert("UploadFileToBlobStorage: refresh: 4 ");
 	}
 	
 	private void getUploadedFiles() {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		UploadedFilesCallback callback = new UploadedFilesCallback(this,false);
-		async.getUploadedFiles(callback);
-		
+		async.getUploadedStagedFiles(callback);
 	}
 
 	private boolean uniqueFilename(String filename) {
@@ -198,8 +206,11 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	}
 
 	@Override
-	public void addCollapsible(UploadedElementCollapsible coll) {
-		collapsible.add(coll);
+	public void addCollapsible(DatabaseObjectHierarchy hierarchy) {
+		Window.alert("UploadFileToBlobStorage  addCollapsible");
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(hierarchy);
+		//StandardDatabaseRepositoryFileStaging staging = new StandardDatabaseRepositoryFileStaging(item);
+		collapsible.add(item);
 	}
 
 	@Override

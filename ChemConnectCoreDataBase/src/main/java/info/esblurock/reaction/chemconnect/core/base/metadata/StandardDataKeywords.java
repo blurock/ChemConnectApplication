@@ -49,7 +49,8 @@ public class StandardDataKeywords {
 	// RepositoryFileStaging
 	public static String repositoryFileStaging = "dataset:RepositoryFileStaging";
 	public static String blobinfo = "dataset:blobInfo";
-	public static String repositoryFile = "dataset:repositoryFileInfo";
+	public static String repositoryFile = "dataset:InitialStagingRepositoryFile";
+	public static String stagedFileProcessed = "dataset:stagedFileProcessed";
 	
 	// RepositoryDataFile
 	public static String repositoryDataFile = "dataset:RepositoryDataFile";

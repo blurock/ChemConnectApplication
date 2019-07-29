@@ -26,7 +26,7 @@ public enum DeleteBaseCatalogStructures {
 			ImageInformation imageinfo = (ImageInformation) QueryBase
 					.getDatabaseObjectFromIdentifier(ImageInformation.class.getCanonicalName(), imageinfoid);
 			String imageurl = imageinfo.getImageURL();
-			WriteReadDatabaseObjects.deleteBlobFromURL(imageurl);
+			GCSServiceRoutines.deleteBlobFromURL(imageurl);
 			return null;
 		}
 

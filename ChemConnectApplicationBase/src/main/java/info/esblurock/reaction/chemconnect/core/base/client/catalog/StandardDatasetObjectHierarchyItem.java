@@ -70,8 +70,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 	String linkConcept;
 	String dataStructure;
 
-	public StandardDatasetObjectHierarchyItem(
-			DatabaseObjectHierarchy hierarchy) {
+	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.hierarchy = hierarchy;
 		this.object = hierarchy.getObject();
@@ -81,6 +80,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 		init();
 		addSubObjects(this.object);
 	}
+	
 	public StandardDatasetObjectHierarchyItem(StandardDatasetObjectHierarchyItem parent, 
 			DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));

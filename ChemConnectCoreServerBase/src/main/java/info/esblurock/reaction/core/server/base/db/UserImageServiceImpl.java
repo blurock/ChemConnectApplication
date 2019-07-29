@@ -15,17 +15,11 @@ import java.util.Set;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Blob.BlobSourceOption;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
@@ -52,6 +46,7 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
 import info.esblurock.reaction.chemconnect.core.base.gcs.ParsedFilename;
+import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryDataFile;
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageUploadTransaction;
@@ -60,10 +55,6 @@ import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {
 
-	public static Storage storage = null;
-	static {
-		storage = StorageOptions.getDefaultInstance().getService();
-	}
 
 	/*
 	 * private static final GcsService gcsService =
@@ -196,7 +187,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo) throws IOException {
-		return getContent(gcsinfo);
+		return GCSServiceRoutines.getContent(gcsinfo);
 	}
 	public void writeBlobContent(GCSBlobContent gcs) throws IOException {
 		GCSServiceRoutines.writeBlobContent(gcs);
@@ -215,7 +206,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public void deleteUploadedFile(GCSBlobFileInformation gcsinfo) throws IOException {
-		deleteBlob(gcsinfo);
+		GCSServiceRoutines.deleteBlob(gcsinfo);
 	}
 
 	public void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset) throws IOException {
@@ -224,6 +215,48 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 	}
 
+	public ArrayList<DatabaseObjectHierarchy> getUploadedStagedFiles() throws IOException {
+		ArrayList<DatabaseObjectHierarchy> fileset = new ArrayList<DatabaseObjectHierarchy>();
+		SingleQueryResult result = null;
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		System.out.println("getUploadedStagedFiles: session id: " + sessionid);
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		if(usession != null) {
+			String username = usession.getUserName();
+			System.out.println("getUploadedStagedFiles: user: " + username);
+			values.add("owner", username);
+			String staged = MetaDataKeywords.stagedFileNotProcessed;
+			values.add("stagingFilePresent", staged);
+			System.out.println("getUploadedStagedFiles:\n" + values);
+			QuerySetupBase query = new QuerySetupBase(RepositoryFileStaging.class.getCanonicalName(), values);
+			query.setAccess(username);
+			try {
+				result = QueryBase.StandardQueryResult(query);
+			} catch (ClassNotFoundException e) {
+				throw new IOException("Class Not found: " + RepositoryFileStaging.class.getCanonicalName());
+			}
+			System.out.println("getUploadedStagedFiles:\n" + result.getResults());
+			for (DatabaseObject obj : result.getResults()) {
+				RepositoryFileStaging repstage = (RepositoryFileStaging) obj;
+				System.out.println("getUploadedStagedFiles:\n" + repstage.toString());
+				String id = repstage.getIdentifier();
+				String classType = StandardDataKeywords.repositoryFileStaging;
+				DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id, classType);
+				System.out.println("getUploadedStagedFiles:\n" + readhierarchy.toString());
+
+				
+				
+				fileset.add(readhierarchy);
+			}
+		} else {
+			System.out.println("getUploadedStagedFiles: no user session connected");
+		}
+		return fileset;
+	}
+
+
+	
 	public ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException {
 		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
 		SingleQueryResult result = null;
@@ -358,12 +391,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return source;
 	}
 	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) throws IOException {
-		BlobInfo info = BlobInfo.newBuilder(GCSServiceRoutines.getGCSStorageBucket(), source.getGSFilename())
-				.setAcl(new ArrayList<Acl>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
-				.setContentType(source.getFiletype()).build();
-
-		@SuppressWarnings({ "deprecation", "unused" })
-		BlobInfo blobInfo = storage.create(info, in);
+		GCSServiceRoutines.writeBlob(source.getGSFilename(), source.getFiletype(), in);
 	}
 
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
@@ -552,10 +580,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseWriteBase.deleteTransactionInfo(info);
 	}
 */
-	public static void deleteBlob(GCSBlobFileInformation gcsinfo) throws IOException {
-		BlobId blobId = BlobId.of(GCSServiceRoutines.getGCSStorageBucket(), gcsinfo.getGSFilename());
-		storage.delete(blobId);
-	}
 	
 	
 /*
@@ -582,29 +606,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return source;
 	}
 */
-	public static InputStream getInputStream(GCSBlobFileInformation info) throws IOException {
-		System.out.println("InputStream getInputStream");
-		//GCSBlobContent content = getContent(info);
-		//InputStream inputstream = new ByteArrayInputStream(content.getBytes().getBytes());
-		BlobId blobId = BlobId.of(GCSServiceRoutines.getGCSStorageBucket(), info.getGSFilename());
-		System.out.println(info.toString("getInputStream: "));
-		Blob blob = storage.get(blobId);
-		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
-		InputStream inputstream = new ByteArrayInputStream(bytes);
-		return inputstream;
-	}
-
-	public static GCSBlobContent getContent(GCSBlobFileInformation gcsinfo) throws IOException {
-		BlobId blobId = BlobId.of(GCSServiceRoutines.getGCSStorageBucket(), gcsinfo.getGSFilename());
-		Blob blob = storage.get(blobId);
-		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
-		String bytesS = Base64.getEncoder().encodeToString(bytes);
-		String urlS = "https://storage.googleapis.com/" + GCSServiceRoutines.getGCSStorageBucket() + "/" + gcsinfo.getGSFilename();
-		System.out.println("getContent: '" + urlS + "'");
-		GCSBlobContent gcs = new GCSBlobContent(urlS, gcsinfo);
-		gcs.setBytes(bytesS);
-		return gcs;
-	}
 
 	@Override
 	public String deleteFromStorage(String blobkey) throws IOException {

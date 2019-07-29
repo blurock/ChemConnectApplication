@@ -4,11 +4,6 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Acl.Role;
-import com.google.cloud.storage.Acl.User;
-import com.google.gwt.user.client.Cookies;
-
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
@@ -19,14 +14,6 @@ import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.core.server.base.create.CreateBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionUtilities;
-import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
-
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -54,7 +41,6 @@ public class FileUploadServlet extends HttpServlet {
 				FileItemStream fileItem = iter.next();
 				
 				InputStream in = fileItem.openStream();
-				Storage storage = StorageOptions.getDefaultInstance().getService();
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), request.getSession());
 				util.printOutSessionAttributes();
 				
@@ -82,22 +68,15 @@ public class FileUploadServlet extends HttpServlet {
 				InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
 				staginginfo.setUploadFileSource(MetaDataKeywords.initialReadInLocalStorageSystem);
 				System.out.println(hierarchy.toString("FileUploadServlet: "));
-		
-				BlobInfo info = BlobInfo.newBuilder(GCSServiceRoutines.getGCSStorageBucket(), source.getGSFilename())
-						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
-						.setContentType(fileItem.getContentType())
-						.build();
-				@SuppressWarnings("deprecation")
-				BlobInfo blobInfo = storage.create(info, in);
-				System.out.println("FileUploadServlet: " + blobInfo.getMediaLink());
 				
-				DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
-						MetaDataKeywords.initialReadInLocalStorageSystem);
-				
-				//DatabaseWriteBase.writeObjectWithTransaction(source);
+				GCSServiceRoutines.writeBlob(source.getGSFilename(), fileItem.getContentType(),in);
+				DatabaseWriteBase.writeObjectWithTransaction(hierarchy,MetaDataKeywords.initialReadInLocalStorageSystem);
 			}
 		} catch (Exception caught) {
 			throw new RuntimeException(caught);
 		}
 	}
+	
+
+
 }
