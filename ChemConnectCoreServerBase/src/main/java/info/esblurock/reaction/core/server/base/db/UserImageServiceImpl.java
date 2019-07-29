@@ -220,15 +220,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		SingleQueryResult result = null;
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		String sessionid = getThreadLocalRequest().getSession().getId();
-		System.out.println("getUploadedStagedFiles: session id: " + sessionid);
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		if(usession != null) {
 			String username = usession.getUserName();
-			System.out.println("getUploadedStagedFiles: user: " + username);
 			values.add("owner", username);
 			String staged = MetaDataKeywords.stagedFileNotProcessed;
 			values.add("stagingFilePresent", staged);
-			System.out.println("getUploadedStagedFiles:\n" + values);
 			QuerySetupBase query = new QuerySetupBase(RepositoryFileStaging.class.getCanonicalName(), values);
 			query.setAccess(username);
 			try {
@@ -236,17 +233,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			} catch (ClassNotFoundException e) {
 				throw new IOException("Class Not found: " + RepositoryFileStaging.class.getCanonicalName());
 			}
-			System.out.println("getUploadedStagedFiles:\n" + result.getResults());
 			for (DatabaseObject obj : result.getResults()) {
 				RepositoryFileStaging repstage = (RepositoryFileStaging) obj;
-				System.out.println("getUploadedStagedFiles:\n" + repstage.toString());
 				String id = repstage.getIdentifier();
 				String classType = StandardDataKeywords.repositoryFileStaging;
 				DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id, classType);
-				System.out.println("getUploadedStagedFiles:\n" + readhierarchy.toString());
-
-				
-				
 				fileset.add(readhierarchy);
 			}
 		} else {
@@ -341,6 +332,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseObjectHierarchy filehier = hierarchy.getSubObject(staging.getRepositoryFile());
 		InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
 		staginginfo.setUploadFileSource(MetaDataKeywords.initialReadInLocalStorageSystem);
+		staginginfo.setFileSourceIdentifier(MetaDataKeywords.urlsource);
 		System.out.println(hierarchy.toString("FileUploadServlet: "));
 		
 		DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
@@ -381,6 +373,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseObjectHierarchy filehier = hierarchy.getSubObject(staging.getRepositoryFile());
 		InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
 		staginginfo.setUploadFileSource(MetaDataKeywords.initialReadFromUserInterface);
+		staginginfo.setFileSourceIdentifier(MetaDataKeywords.stringSource);
 		System.out.println(hierarchy.toString("FileUploadServlet: "));
 		
 		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));

@@ -85,7 +85,6 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		uploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
 			@Override
 			public void onSuccess(SuccessEvent<UploadFile> event) {
-				Window.alert("UploadFileToBlobStorage: Upload success");
 				refresh();
 				}
 			 });		
@@ -156,13 +155,9 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	
 	@Override
 	public void refresh() {
-		Window.alert("UploadFileToBlobStorage: refresh: 1 ");
 		checkUserLoggedIn();
-		Window.alert("UploadFileToBlobStorage: refresh: 2 ");
 		collapsible.clear();
-		Window.alert("UploadFileToBlobStorage: refresh: 3 ");
 		getUploadedFiles();		
-		Window.alert("UploadFileToBlobStorage: refresh: 4 ");
 	}
 	
 	private void getUploadedFiles() {
@@ -207,7 +202,6 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 
 	@Override
 	public void addCollapsible(DatabaseObjectHierarchy hierarchy) {
-		Window.alert("UploadFileToBlobStorage  addCollapsible");
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(hierarchy);
 		//StandardDatabaseRepositoryFileStaging staging = new StandardDatabaseRepositoryFileStaging(item);
 		collapsible.add(item);

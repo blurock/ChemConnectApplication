@@ -41,7 +41,7 @@ public class StandardDataKeywords {
 	// GCSBlobFileInformation
 	public static String gcsBlobFileInformation = "dataset:GCSBlobFileInformation";
 	public static String filename = "dataset:GCSFileName";
-	public static String filepath = "dataet:GCSFilePath";
+	public static String filepath = "dataset:GCSFilePath";
 	public static String bucketName = "dataset:GCSBucketName";
 	public static String fileTypeS = "dataset:fileType";
 	public static String descriptionKeyS = "dcterms:description";

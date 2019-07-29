@@ -67,7 +67,7 @@ public class FileUploadServlet extends HttpServlet {
 				DatabaseObjectHierarchy filehier = hierarchy.getSubObject(staging.getRepositoryFile());
 				InitialStagingRepositoryFile staginginfo = (InitialStagingRepositoryFile) filehier.getObject();
 				staginginfo.setUploadFileSource(MetaDataKeywords.initialReadInLocalStorageSystem);
-				System.out.println(hierarchy.toString("FileUploadServlet: "));
+				staginginfo.setFileSourceIdentifier(MetaDataKeywords.localFile);
 				
 				GCSServiceRoutines.writeBlob(source.getGSFilename(), fileItem.getContentType(),in);
 				DatabaseWriteBase.writeObjectWithTransaction(hierarchy,MetaDataKeywords.initialReadInLocalStorageSystem);

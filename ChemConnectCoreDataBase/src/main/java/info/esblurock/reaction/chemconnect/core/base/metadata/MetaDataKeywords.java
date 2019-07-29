@@ -133,9 +133,10 @@ public class MetaDataKeywords {
 	public static String initialReadInOfRepositoryFile   = "dataset:InitialReadInOfRepositoryFile";
 	public static String transferFileIntoCatagoryHierarchy = "TransferFileIntoCatagoryHierarchy";
 
-	public static String URL          = "dataset:URLSourceFile";
+	public static String urlsource          = "dataset:URLSourceFile";
 	public static String CHEMCONNECT  = "dataset:ChemConnectDataObject";
-	public static String STRINGSOURCE = "dataset:StringSource";
+	public static String stringSource = "dataset:StringSource";
 	public static String BLOBSOURCE   = "dataset:BlobSourceFile";
+	public static String localFile   = "dataset:LocalFileSystem";
 
 }

@@ -2,42 +2,48 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
+	.rowbox {
+		background-color: #cfd8dc;
+		border: 1px solid #607d8b;
+		width: 95%;
+		margin: 0px
+	}	
 	</ui:style>
-	<m:MaterialPanel>
-		<m:MaterialRow>
-			<m:MaterialColumn grid="s10">
+	<m:MaterialPanel margin="0">
+		<m:MaterialRow margin="0">
+			<m:MaterialColumn grid="s10"  styleName="{style.rowbox}">
 				<m:MaterialTooltip ui:field="filetooltip">
 					<m:MaterialLink ui:field="filehead"
 						textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s1">
-				<m:MaterialLink ui:field="save" iconType="SAVE"
+			<m:MaterialColumn grid="s1" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="save" iconType="SAVE"  
 					iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s1">
-				<m:MaterialLink ui:field="delete" iconType="DELETE"
+			<m:MaterialColumn grid="s1" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="delete" iconType="DELETE"  
 					iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow>
-			<m:MaterialColumn grid="s6">
+		<m:MaterialRow margin="0">
+			<m:MaterialColumn grid="s6"  styleName="{style.rowbox}">
 				<m:MaterialTooltip ui:field="sourceidtooltip">
 					<m:MaterialLink ui:field="sourceid"
 						textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s6">
+			<m:MaterialColumn grid="s6"  styleName="{style.rowbox}">
 				<m:MaterialTooltip ui:field="uploadsrctooltip">
 					<m:MaterialLink ui:field="uploadsrc"
 						textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow>
+		<m:MaterialRow  margin="0">
 			<m:MaterialColumn grid="s12">
 				<m:MaterialTextArea ui:field="description"
-					textColor="BLACK" />
+					textColor="BLACK" backgroundColor="WHITE"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>

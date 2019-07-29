@@ -29,9 +29,7 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<DatabaseOb
 
 	@Override
 	public void onSuccess(ArrayList<DatabaseObjectHierarchy> results) {
-		Window.alert("UploadedFilesCallback: ");
 		MaterialLoader.loading(false);
-		Window.alert("UploadedFilesCallback: " + results.toString());
 		for(DatabaseObjectHierarchy hierarchy: results) {
 			if(!rows) {
 				top.addCollapsible(hierarchy);

@@ -4806,7 +4806,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :GCSFileName rdf:type owl:Class ;
              rdfs:subClassOf :ShortStringLabel ;
              <http://purl.org/dc/elements/1.1/type> "ShortString"^^xsd:string ;
-             <http://purl.org/dc/terms/identifier> "dataset:bucketName"^^xsd:string ;
+             <http://purl.org/dc/terms/identifier> "dataset:GCSFileName"^^xsd:string ;
              rdfs:comment "Google Cloud Storage File Name"^^xsd:string ;
              rdfs:label "GCSFileName"^^xsd:string ;
              <http://www.w3.org/2004/02/skos/core#altLabel> "gcsfilename"^^xsd:string .
@@ -6613,6 +6613,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ListOfValuesAsString
 :ListOfValuesAsString rdf:type owl:Class ;
                       rdfs:subClassOf :ArrayListDataObject .
+
+
+###  http://www.esblurock.info/dataset#LocalFileSystem
+:LocalFileSystem rdf:type owl:Class ;
+                 rdfs:subClassOf :FileSourceTypes .
 
 
 ###  http://www.esblurock.info/dataset#LocationAddress
@@ -9423,10 +9428,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        rdfs:subClassOf :SimpleCatalogObject ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                         owl:someValuesFrom :StagingFilePresent
-                                       ] ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :GCSBlobFileInformation
                                        ] ,
@@ -9434,6 +9435,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :InitialStagingRepositoryFile
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :StagingFilePresent
                                        ] ;
                        <http://purl.org/dc/elements/1.1/type> "RepositoryFileStaging"^^xsd:string ;
                        <http://purl.org/dc/terms/identifier> "dataset:RepositoryFileStaging"^^xsd:string ;
@@ -9991,7 +9997,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#StagingFilePresent
 :StagingFilePresent rdf:type owl:Class ;
-                    rdfs:subClassOf :Classification .
+                    rdfs:subClassOf :Classification ;
+                    <http://purl.org/dc/elements/1.1/type> "StagedFileProcessed"^^xsd:string ;
+                    <http://purl.org/dc/terms/identifier> "dataset:stagedFileProcessed"^^xsd:string ;
+                    rdfs:comment "This indicates whether the file has been processed"^^xsd:string ;
+                    rdfs:label "StagingFilePresent"^^xsd:string ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "processed"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#StandardDeviationAbsoluteUncertainty

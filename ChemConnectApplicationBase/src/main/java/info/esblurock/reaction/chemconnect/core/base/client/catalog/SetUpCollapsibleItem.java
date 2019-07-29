@@ -214,7 +214,6 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			Window.alert("SetUpCollapsible: RepositoryFileStaging");
 			StandardDatabaseRepositoryFileStaging header = new StandardDatabaseRepositoryFileStaging(item);
 			item.addHeader(header);
 		}
