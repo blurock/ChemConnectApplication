@@ -7,16 +7,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Scanner;
 import java.util.Set;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-import com.google.cloud.storage.Acl.Role;
-import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
@@ -88,7 +84,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		if (uploadService) {
 			ImageUploadTransaction imageinfo = new ImageUploadTransaction(username, outputSourceCode, keywordName,
 					bucketName, uploadUrl);
-			DatabaseWriteBase.writeObjectWithTransaction(imageinfo);
+			DatabaseWriteBase.writeObjectWithTransaction(imageinfo, MetaDataKeywords.InitialReadFromWebLocation);
 		} else {
 			System.out.println("uploadService: no write");
 		}
@@ -124,6 +120,20 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return imagelst;
 	}
 
+	public DatabaseObjectHierarchy createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy,
+			DataCatalogID catalogid) throws IOException {
+		
+		DatabaseObjectHierarchy repositoryhier = 
+				CreateBaseCatalogObjects.createRepositoryDataFile(stagehierarchy,catalogid);
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData sessiondata = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		DatabaseWriteBase.writeObjectWithTransaction(repositoryhier, 
+				MetaDataKeywords.transferFileIntoCatagoryHierarchy,
+				sessiondata);
+		
+		return repositoryhier;
+	}
+	
 	@Override
 	public ArrayList<UploadedImage> getUploadedImageSetFromKeywordAndUser(String keyword) throws IOException {
 		ArrayList<UploadedImage> imagelst = new ArrayList<UploadedImage>();
@@ -336,7 +346,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		System.out.println(hierarchy.toString("FileUploadServlet: "));
 		
 		DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
-				MetaDataKeywords.InitialReadFromWebLocation);		
+				MetaDataKeywords.InitialReadFromWebLocation,usession);		
 
 		retrieveContentFromStream(in, source);
 
@@ -379,7 +389,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 		retrieveContentFromStream(in, source);
 		DatabaseWriteBase.writeObjectWithTransaction(hierarchy, 
-				MetaDataKeywords.initialReadFromUserInterface);
+				MetaDataKeywords.initialReadFromUserInterface,usession);
 		
 		return source;
 	}
@@ -489,7 +499,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseObjectHierarchy hier = null;
 		try {
 			WriteReadDatabaseObjects.updateSourceID(hierarchy);
-			hier = WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+			hier = WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy, 
+					MetaDataKeywords.updateCatalogObjectEvent);
 		} catch (Exception ex) {
 			System.out.println("writeDatabaseObjectHierarchy  error in writing");
 			System.out.println(ex.toString());

@@ -119,4 +119,7 @@ public interface UserImageService  extends RemoteService  {
 	public DatabaseObjectHierarchy getTopCatalogObject(String id, String dataType) throws IOException;
 	
 	void deleteObject(String id, String type) throws IOException;
+	
+	DatabaseObjectHierarchy createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy,
+			DataCatalogID catalogid) throws IOException;
 }

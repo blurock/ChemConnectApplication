@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -11,18 +13,27 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ChooseFullNameFromCatagoryRow;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 
-public class StandardDatabaseRepositoryFileStaging extends Composite {
+public class StandardDatabaseRepositoryFileStaging extends Composite implements ObjectVisualizationInterface {
 
 	private static StandardDatabaseRepositoryFileStagingUiBinder uiBinder = GWT
 			.create(StandardDatabaseRepositoryFileStagingUiBinder.class);
@@ -50,6 +61,10 @@ public class StandardDatabaseRepositoryFileStaging extends Composite {
 	MaterialLink save;
 	@UiField
 	MaterialLink delete;
+	@UiField
+	MaterialPanel choosename;
+	@UiField
+	MaterialPanel modalpanel;
 
 	StandardDatasetObjectHierarchyItem item;
 	DatabaseObjectHierarchy hierarchy;
@@ -57,7 +72,7 @@ public class StandardDatabaseRepositoryFileStaging extends Composite {
 	InitialStagingRepositoryFile staging;
 	GCSBlobFileInformation gcsblob;
 	boolean present;
-	
+	ChooseFullNameFromCatagoryRow choose;
 	
 	public StandardDatabaseRepositoryFileStaging(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -84,6 +99,12 @@ public class StandardDatabaseRepositoryFileStaging extends Composite {
 		uploadsrctooltip.setText("Upload Source");
 		uploadsrc.setText(TextUtilities.removeNamespace(staging.getUploadFileSource()));
 		description.setText(gcsblob.getDescription());
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add(MetaDataKeywords.dataTypeFileFormat);
+		String object = StandardDataKeywords.repositoryDataFile;
+		choose = new ChooseFullNameFromCatagoryRow(this, repository.getOwner(), 
+				object, choices, modalpanel);
+		choosename.add(choose);
 	}
 	
 	@UiHandler("save")
@@ -101,6 +122,17 @@ public class StandardDatabaseRepositoryFileStaging extends Composite {
 	}
 
 	public void updateData() {
+		
+	}
+
+	@Override
+	public void createCatalogObject(DatabaseObject obj, DataCatalogID catid) {
+		UserImageServiceAsync async = GWT.create(UserImageService.class);
+		
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
 		
 	}
 

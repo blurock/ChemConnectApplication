@@ -7,6 +7,7 @@ import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 @SuppressWarnings("serial")
 @Entity
 public class RepositoryDataFile extends ChemConnectDataStructure {
+	
 
 	public RepositoryDataFile() {
 	}

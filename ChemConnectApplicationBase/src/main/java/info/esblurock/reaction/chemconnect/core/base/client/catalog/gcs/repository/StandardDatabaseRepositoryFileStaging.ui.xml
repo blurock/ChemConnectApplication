@@ -46,5 +46,11 @@
 					textColor="BLACK" backgroundColor="WHITE"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
-	</m:MaterialPanel>
+		<m:MaterialRow  margin="0">
+		    <m:MaterialPanel ui:field="choosename"/>
+		</m:MaterialRow>
+		<m:MaterialRow  margin="0">
+		    <m:MaterialPanel ui:field="modalpanel"/>
+		</m:MaterialRow>
+			</m:MaterialPanel>
 </ui:UiBinder> 

@@ -26,6 +26,9 @@ public class TransactionInfo extends DatabaseObject {
     /** The transaction object class name (as a string)**/
     @Index
     String transactionObjectType;
+    /** The event **/
+    @Index
+    String event;
     
    /** empty constructor
      * Instantiates a new transaction info.
@@ -40,10 +43,11 @@ public class TransactionInfo extends DatabaseObject {
 	 * @param keyword the keyword string name of the object being represented in the transaction
 	 * @param transactionObjectType the transaction object classname as String
 	 */
-	public TransactionInfo(String keyword, String access, String owner, String sourceID,
-			String transactionObjectType) {
-		super(keyword,access,owner,sourceID);
-		this.transactionObjectType = transactionObjectType;
+	public TransactionInfo(DatabaseObject obj, String event) {
+		super(obj);
+		this.transactionObjectType = obj.getClass().getCanonicalName();
+		this.storedObjectKey = obj.getKey();
+		this.event = event;
 	}
 	
 	/**
@@ -84,6 +88,11 @@ public class TransactionInfo extends DatabaseObject {
 		this.storedObjectKey = storedObjectKey;
 	}
 	
+	
+	public String getEvent() {
+		return event;
+	}
+
 	public String toString() {
 		return toString("");
 	}

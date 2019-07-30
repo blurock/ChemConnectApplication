@@ -30,13 +30,14 @@ public class ServerBase  extends RemoteServiceServlet {
 		return googleAPIKey;
 	}
 	
+	/*
 	protected void register(String event, String eventinfo, int checklevel) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
 		UserSessionData sessiondata = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		RegisterEvent.register(sessiondata,event,eventinfo,checklevel);
 	}
-	
+	*/
 	protected void verify(String task, String tasktype) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();

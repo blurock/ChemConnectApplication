@@ -73,6 +73,7 @@ public class MetaDataKeywords {
 	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
 	public static String dataFileInformationStructure = "dataset:DataFileInformationStructure";
 	public static String dataTypeFileFormatInterpretation = "dataset:DataTypeFileFormatInterpretation";
+	public static String dataTypeFileFormat = "dataset:DataTypeFileFormat";
 	public static String dataTypeConcept = "dataset:DataTypeConcept";
 	public static String purposeKeyword = "dataset:PurposeKeyword";
 	public static String conceptLinkSingleObservationInput = "dataset:ConceptLinkSingleObservationInput";
@@ -132,7 +133,9 @@ public class MetaDataKeywords {
 	public static String InitialReadFromWebLocation      = "dataset:InitialReadFromWebLocation";
 	public static String initialReadInOfRepositoryFile   = "dataset:InitialReadInOfRepositoryFile";
 	public static String transferFileIntoCatagoryHierarchy = "TransferFileIntoCatagoryHierarchy";
-
+	public static String writeToGoogleCloudStorage = "dataset:WriteToGoogleCloudStorage";
+	public static String moveGoogleCloudStorage = "dataset:MoveGoogleCloudStorage";
+	public static String updateCatalogObjectEvent = "dataset:UpdateCatalogObjectEvent";
 	public static String urlsource          = "dataset:URLSourceFile";
 	public static String CHEMCONNECT  = "dataset:ChemConnectDataObject";
 	public static String stringSource = "dataset:StringSource";

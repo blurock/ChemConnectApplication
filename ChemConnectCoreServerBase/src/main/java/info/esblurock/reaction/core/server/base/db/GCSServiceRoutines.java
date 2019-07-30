@@ -30,6 +30,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHiera
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GoogleCloudStorageConstants;
+import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
@@ -93,7 +94,8 @@ public class GCSServiceRoutines {
 			throw new IOException(
 					"Failure to write blob: " + info.getGSFilename() + " with size " + contentS.length() + "bytes");
 		}
-		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
+		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo(),MetaDataKeywords.writeToGoogleCloudStorage);
+				
 	}
 	
 	public static void writeBlob(String filename, String contentType, InputStream in) throws IOException {
@@ -125,7 +127,7 @@ public class GCSServiceRoutines {
 		String sourceID = QueryBase.getDataSourceIdentification(target.getOwner());
 		target.setSourceID(sourceID);
 		WriteReadDatabaseObjects.deletePreviousBlobStorageMoves(target);
-		DatabaseWriteBase.writeObjectWithTransaction(target);
+		DatabaseWriteBase.writeObjectWithTransaction(target,MetaDataKeywords.moveGoogleCloudStorage);
 		return gcscontent;
 	}
 

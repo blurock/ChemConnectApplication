@@ -5,8 +5,9 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHiera
 
 public class WriteBaseCatalogObjects {
 	
-	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
-		DatabaseWriteBase.writeTransactionWithoutObjectWrite(objecthierarchy.getObject());
+	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy,
+			String event) {
+		DatabaseWriteBase.writeTransactionWithoutObjectWrite(objecthierarchy.getObject(),event);
 		return writeDatabaseObjectHierarchy(objecthierarchy);
 	}
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {

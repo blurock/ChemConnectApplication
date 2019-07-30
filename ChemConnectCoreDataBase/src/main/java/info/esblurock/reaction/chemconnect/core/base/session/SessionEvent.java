@@ -12,11 +12,11 @@ import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 public class SessionEvent extends DatabaseObject {
 
     @Index
-	String sessionIP;
+	String transactionID;
     @Index
 	String event;
     @Index
-	String eventInfo;
+	String sessionIP;
 	
 	public SessionEvent() {	
 	}
@@ -24,19 +24,19 @@ public class SessionEvent extends DatabaseObject {
 	
 	/**
 	 * @param id The id (username) of the session
-	 * @param sessionIP the IP of the session
+	 * @param transactionID transaction ID 
 	 * @param event Event tag
-	 * @param eventInfo further information about the event
+	 * @param sessionIP the IP of the session
 	 * 
 	 * The access and owner are the same as the id.
 	 * The sourceID is set to ""
 	 */
 	public SessionEvent(String id,
-			String sessionIP, String event, String eventInfo) {
+			String transactionID, String event, String sessionIP) {
 		super(id,id,id,"");
-		this.sessionIP = sessionIP;
+		this.transactionID = transactionID;
 		this.event = event;
-		this.eventInfo = eventInfo;
+		this.sessionIP = sessionIP;
 	}
 
 	public String getSessionIP() {
@@ -49,7 +49,7 @@ public class SessionEvent extends DatabaseObject {
 
 
 	public String getEventInfo() {
-		return eventInfo;
+		return sessionIP;
 	}	
 	
 }

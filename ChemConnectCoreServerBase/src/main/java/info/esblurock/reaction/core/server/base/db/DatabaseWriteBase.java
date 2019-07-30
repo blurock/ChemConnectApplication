@@ -8,10 +8,12 @@ import info.esblurock.reaction.chemconnect.core.base.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.base.session.SessionEvent;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
+import info.esblurock.reaction.core.server.base.services.util.RegisterEvent;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
@@ -139,10 +141,9 @@ public class DatabaseWriteBase {
 	 * The TransactionInfo uses the base parameters (id,access,owner and sourceID) of the object.
 	 * 
 	 */
-	static public void writeTransactionWithoutObjectWrite(DatabaseObject object) {
+	static public void writeTransactionWithoutObjectWrite(DatabaseObject object, String event) {
 		String classname = object.getClass().getName();
-		TransactionInfo transaction = new TransactionInfo(
-				object.getIdentifier(), object.getAccess(), object.getOwner(),object.getSourceID(),classname);
+		TransactionInfo transaction = new TransactionInfo(object,event);
 		transaction.setStoredObjectKey(object.getKey());
 		writeDatabaseObject(transaction);
 	}
@@ -158,7 +159,7 @@ public class DatabaseWriteBase {
 	 * @throws IOException 
 	 * 
 	 */
-	static public void writeObjectWithTransaction(DatabaseObject object) {
+	static public void writeObjectWithTransaction(DatabaseObject object, String event) {
 		String classname = object.getClass().getName();
 		
 		String transclass = TransactionInfo.class.getCanonicalName();
@@ -186,16 +187,17 @@ public class DatabaseWriteBase {
 		} catch (IOException ex) {
 			System.out.println("writeObjectWithTransaction: IOException ");
 		}
-		TransactionInfo transaction = new TransactionInfo(
-				object.getIdentifier(), object.getAccess(), object.getOwner(),object.getSourceID(),classname);
+		TransactionInfo transaction = new TransactionInfo(object,event);
 		writeDatabaseObject(object);
 		transaction.setStoredObjectKey(object.getKey());
 		writeDatabaseObject(transaction);
 	}
 
-	static public void writeObjectWithTransaction(DatabaseObjectHierarchy hierarchy, String event) {
+	static public void writeObjectWithTransaction(DatabaseObjectHierarchy hierarchy, String event,
+			UserSessionData session) throws IOException {
 		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(hierarchy);
-		
+		TransactionInfo transaction = new TransactionInfo(hierarchy.getObject(),event);
+		RegisterEvent.register(session, transaction, RegisterEvent.checkLevel3);
 	}
 	
 }

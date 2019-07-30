@@ -70,7 +70,8 @@ public class FileUploadServlet extends HttpServlet {
 				staginginfo.setFileSourceIdentifier(MetaDataKeywords.localFile);
 				
 				GCSServiceRoutines.writeBlob(source.getGSFilename(), fileItem.getContentType(),in);
-				DatabaseWriteBase.writeObjectWithTransaction(hierarchy,MetaDataKeywords.initialReadInLocalStorageSystem);
+				DatabaseWriteBase.writeObjectWithTransaction(hierarchy,MetaDataKeywords.initialReadInLocalStorageSystem,
+						usession);
 			}
 		} catch (Exception caught) {
 			throw new RuntimeException(caught);

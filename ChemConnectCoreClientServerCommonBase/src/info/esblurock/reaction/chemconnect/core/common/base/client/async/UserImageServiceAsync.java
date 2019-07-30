@@ -104,5 +104,8 @@ public interface UserImageServiceAsync {
 
 	void getUploadedStagedFiles(AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
 
+	void createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy, DataCatalogID catalogid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
+
 
 }

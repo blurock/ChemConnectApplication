@@ -7,6 +7,7 @@ import info.esblurock.reaction.chemconnect.core.base.session.SessionEvent;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
+import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo;
 
 public class RegisterEvent {
 	@SuppressWarnings("unused")
@@ -20,16 +21,19 @@ public class RegisterEvent {
 	private static int maxCount = 1000;
 	
 
-	static public void register(UserSessionData user, String event, String eventinfo, int checklevel) throws IOException {
-		if (user != null) {
-			SessionEvent sessionevent = new SessionEvent(user.getUserName(), user.getIP(), event, eventinfo);
+	static public void register(UserSessionData session, TransactionInfo transaction, int checklevel) throws IOException {
+		if (session != null) {
 			if (checklevel > checkLevel0) {
-				int c = QueryBase.getNextEventCount(user.getUserName());
+				int c = QueryBase.getNextEventCount(transaction.getOwner());
 				if (c > maxCount) {
 					throw new IOException("Transaction count exceeds maximum: contact administrator");
 				}
+				SessionEvent sessionevent = new SessionEvent(transaction.getIdentifier(),
+						transaction.getIdentifier(),
+						transaction.getEvent(),session.getIP());
+				DatabaseWriteBase.writeDatabaseObject(sessionevent);
+				DatabaseWriteBase.writeDatabaseObject(transaction);
 			}
-			DatabaseWriteBase.writeDatabaseObject(sessionevent);
 		} else {
 			throw new IOException("NO LOGIN: User not logged in");
 		}
