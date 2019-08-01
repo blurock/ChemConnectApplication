@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
@@ -24,7 +25,7 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<DatabaseOb
 	@Override
 	public void onFailure(Throwable ex) {
 		MaterialLoader.loading(false);
-		Window.alert("ERROR: Uploaded files\n" + ex.toString());
+		StandardWindowVisualization.errorWindowMessage("ERROR: Uploaded files", ex.toString());
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<DatabaseOb
 			if(!rows) {
 				top.addCollapsible(hierarchy);
 			} else {
-				Window.alert("Rows not implemented yet");
+				StandardWindowVisualization.errorWindowMessage("ERROR: Uploaded files", "no rows");
 			}
 		}
 	}

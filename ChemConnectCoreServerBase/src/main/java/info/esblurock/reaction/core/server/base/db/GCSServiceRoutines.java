@@ -46,7 +46,11 @@ public class GCSServiceRoutines {
 		String path = GoogleCloudStorageConstants.uploadPathPrefix + "/" + username;
 		return path;
 	}
-
+	public static String createRepositoryPath(String file) {
+		String path = GoogleCloudStorageConstants.repositoryPathPrefix + "/" + file;
+		return path;
+		
+	}
 	public static GCSBlobFileInformation createInitialUploadInfo(GCSBlobFileInformation source, String path,
 			String filename, String contentType, String uploadDescriptionText, String ip, String username) {
 

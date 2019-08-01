@@ -7,6 +7,7 @@ import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactHasSiteHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactLocationInformationHeader;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository.StandardDatabaseRepositoryDataFile;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository.StandardDatabaseRepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gps.PrimitiveGPSLocationRow;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
@@ -237,7 +238,37 @@ public enum SetUpCollapsibleItem {
 		public boolean addSubitems() {
 			return false;
 		}
-	}, DatasetImage {
+	}, RepositoryDataFile {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatabaseRepositoryDataFile header = new StandardDatabaseRepositoryDataFile(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 600;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	},
+	
+	DatasetImage {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

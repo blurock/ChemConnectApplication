@@ -197,7 +197,9 @@ public class WriteReadDatabaseObjects {
 		}
 		return namelst;
 	}
-	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog, String classtype) throws IOException {
+	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,
+			String datacatalog, 
+			String classtype) throws IOException {
 
 		System.out.println("getIDHierarchyFromDataCatalogAndUser: user: " + user);
 		System.out.println("getIDHierarchyFromDataCatalogAndUser: datacatalog: " + datacatalog);

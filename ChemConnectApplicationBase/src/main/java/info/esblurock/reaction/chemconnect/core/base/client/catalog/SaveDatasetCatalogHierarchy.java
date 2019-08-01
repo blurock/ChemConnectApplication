@@ -15,6 +15,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 
 public class SaveDatasetCatalogHierarchy extends Composite {
 
@@ -85,7 +86,7 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 			boolean allowed = Boolean.TRUE;
 			if (!allowed) {
 				MaterialToast.fireToast("Have to have write authorization to save: not allowed for user: " + account);
-				Window.alert("SaveDatasetCatalogHierarchy don't open modal");
+				StandardWindowVisualization.errorWindowMessage("SaveDatasetCatalogHierarchy", "don't open modal");
 			} else {
 				modal.open();
 			}

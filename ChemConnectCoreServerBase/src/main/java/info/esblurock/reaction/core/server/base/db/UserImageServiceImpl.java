@@ -122,14 +122,46 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	public DatabaseObjectHierarchy createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy,
 			DataCatalogID catalogid) throws IOException {
-		
-		DatabaseObjectHierarchy repositoryhier = 
-				CreateBaseCatalogObjects.createRepositoryDataFile(stagehierarchy,catalogid);
+		catalogid.setSourceID(stagehierarchy.getObject().getSourceID());
+		System.out.println("createRepositoryDataFile: stagehierarchy\n" + stagehierarchy.toString("UserImageServiceImpl"));
+		System.out.println("createRepositoryDataFile: catalogid\n" + catalogid.toString("UserImageServiceImpl"));
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData sessiondata = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		
+		RepositoryFileStaging staging = (RepositoryFileStaging) stagehierarchy.getObject();
+		DatabaseObjectHierarchy stagegcshierarchy = stagehierarchy.getSubObject(staging.getBlobFileInformation());
+		GCSBlobFileInformation stagegcs = (GCSBlobFileInformation) stagegcshierarchy.getObject();
+
+		DatabaseObjectHierarchy repositoryhier = 
+				CreateBaseCatalogObjects.createRepositoryDataFile(stagehierarchy,catalogid);
+		RepositoryDataFile repository = (RepositoryDataFile) repositoryhier.getObject();
+		InterpretBaseData gcsinterpret = InterpretBaseData.GCSBlobFileInformation;
+		DatabaseObjectHierarchy gcshierarchy = gcsinterpret.createEmptyObject(repository);
+		GCSBlobFileInformation repgcs = (GCSBlobFileInformation) gcshierarchy.getObject();
+		repgcs.setFilename(catalogid.getSimpleCatalogName());
+		repgcs.setFiletype(stagegcs.getFiletype());
+		String reppath = GCSServiceRoutines.createRepositoryPath(catalogid.getFullPath("/"));
+		repgcs.setPath(reppath);
+		repgcs.setDescription(stagegcs.getDescription());
+		
+		
+		System.out.println("createRepositoryDataFile: repositoryhier\n" 
+		+ repositoryhier.toString("UserImageServiceImpl "));
+		
 		DatabaseWriteBase.writeObjectWithTransaction(repositoryhier, 
 				MetaDataKeywords.transferFileIntoCatagoryHierarchy,
 				sessiondata);
+		System.out.println("createRepositoryDataFile: update stagehierarchy");
+		staging.setStagingFilePresent(MetaDataKeywords.stagedFileProcessed);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(stagehierarchy, 
+				MetaDataKeywords.updateCatalogObjectEvent);
+		
+		System.out.println("createRepositoryDataFile: repgcs\n" 
+		+ repgcs.toString("UserImageServiceImpl "));
+		System.out.println("createRepositoryDataFile: stagegcs\n" 
+		+ stagegcs.toString("UserImageServiceImpl"));
+		GCSServiceRoutines.moveBlob(repgcs, stagegcs);
+		GCSServiceRoutines.deleteBlob(stagegcs);
 		
 		return repositoryhier;
 	}

@@ -5,6 +5,7 @@ public class GoogleCloudStorageConstants {
 	public static String storageBucket = "combustion";
 	
 	public static String uploadPathPrefix = "upload";
+	public static String repositoryPathPrefix = "repository";
 	public static String observationsPathPrefix = "observations";
 	
 }

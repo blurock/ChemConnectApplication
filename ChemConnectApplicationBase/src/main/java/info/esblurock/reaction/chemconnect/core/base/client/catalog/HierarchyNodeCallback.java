@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 public class HierarchyNodeCallback implements AsyncCallback<HierarchyNode>{
@@ -15,7 +16,7 @@ public class HierarchyNodeCallback implements AsyncCallback<HierarchyNode>{
 	@Override
 	public void onFailure(Throwable arg0) {
 		MaterialLoader.loading(false);
-		Window.alert("ERROR: Hierarchy\n" + arg0.toString());
+		StandardWindowVisualization.errorWindowMessage("ERROR: Hierarchy", arg0.toString());
 	}
 
 	@Override

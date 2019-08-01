@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
 public class SetUpDatabaseObjectHierarchyCallback implements AsyncCallback<DatabaseObjectHierarchy> {
@@ -22,7 +23,7 @@ public class SetUpDatabaseObjectHierarchyCallback implements AsyncCallback<Datab
 	@Override
 	public void onFailure(Throwable arg0) {
 		MaterialLoader.loading(false);
-		Window.alert("ERROR: Database Catagory\n" + arg0.toString());
+		StandardWindowVisualization.errorWindowMessage("ERROR: Database Catagory", arg0.toString());
 	}
 
 	@Override

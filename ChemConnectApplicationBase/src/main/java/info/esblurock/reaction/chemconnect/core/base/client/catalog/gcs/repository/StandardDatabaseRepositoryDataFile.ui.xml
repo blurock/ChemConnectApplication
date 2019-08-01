@@ -1,0 +1,29 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.rowbox {
+		background-color: #cfd8dc;
+		border: 1px solid #607d8b;
+		width: 95%;
+		margin: 0px
+	}	
+	</ui:style>
+	<m:MaterialPanel>
+		<m:MaterialRow margin="0">
+			<m:MaterialColumn grid="10" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="filename" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s1"
+				styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="save" iconType="SAVE"
+					iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s1"
+				styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="delete" iconType="DELETE"
+					iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+	</m:MaterialPanel>
+</ui:UiBinder> 

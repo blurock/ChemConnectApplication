@@ -401,6 +401,7 @@ public enum InterpretBaseData {
 			RepositoryDataFile repositoryinfo = new RepositoryDataFile(structure);
 			repositoryinfo.setIdentifier(refobj.getIdentifier());
 			DatabaseObjectHierarchy repositoryinfohier = new DatabaseObjectHierarchy(repositoryinfo);
+			repositoryinfohier.transferSubObjects(structurehier);
 			
 			return repositoryinfohier;
 		}
