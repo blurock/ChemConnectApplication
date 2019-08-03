@@ -130,6 +130,9 @@ public class ChooseFromConceptHierarchies extends Composite {
 		modal.close();
 	}
 
+	/**This is the server call to find the 
+	 * @param topconcept
+	 */
 	public void treeHierarchyCall(String topconcept) {
 		BaseCatalogAccessAsync async = BaseCatalogAccess.Util.getInstance();
 		ConceptHierarchyCallback callback = new ConceptHierarchyCallback(this);

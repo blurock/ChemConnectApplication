@@ -8,6 +8,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePerson
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.RepositoryFileManagerPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 
 
@@ -17,7 +18,8 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBl
 	UploadFileToBlobStoragePlace.Tokenizer.class,
 	ManageCatalogHierarchyPlace.Tokenizer.class,
 	FirstPagePlace.Tokenizer.class,
-	AboutSummaryPlace.Tokenizer.class
+	AboutSummaryPlace.Tokenizer.class,
+	RepositoryFileManagerPlace.Tokenizer.class
 })
 
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {

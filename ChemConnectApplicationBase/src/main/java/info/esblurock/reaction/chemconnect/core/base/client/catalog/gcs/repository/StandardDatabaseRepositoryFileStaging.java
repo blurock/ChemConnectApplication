@@ -139,9 +139,8 @@ public class StandardDatabaseRepositoryFileStaging extends Composite implements 
 			
 			@Override
 			public void onSuccess(DatabaseObjectHierarchy result) {
-				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(result);
-				collapsible.add(item);
 				choose.setVisible(false);
+				insertCatalogObject(result);
 			}
 			
 			@Override
@@ -152,8 +151,9 @@ public class StandardDatabaseRepositoryFileStaging extends Composite implements 
 	}
 
 	@Override
-	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		
+	public void insertCatalogObject(DatabaseObjectHierarchy result) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(result);
+		collapsible.add(item);		
 	}
 
 }

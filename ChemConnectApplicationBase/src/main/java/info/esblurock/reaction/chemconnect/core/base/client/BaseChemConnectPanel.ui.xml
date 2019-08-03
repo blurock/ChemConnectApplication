@@ -61,6 +61,8 @@
 							textColor="BLACK" />
 						<m:MaterialLink ui:field="isolate" separator="true"
 							textColor="BLACK" />
+						<m:MaterialLink ui:field="repository" separator="true"
+							textColor="BLACK" />
 						<m:MaterialLink ui:field="specification"
 							separator="true" textColor="BLACK" />
 						<m:MaterialLink ui:field="protocol"

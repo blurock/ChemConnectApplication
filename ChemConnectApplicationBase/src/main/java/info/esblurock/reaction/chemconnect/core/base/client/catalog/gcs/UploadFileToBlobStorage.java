@@ -202,7 +202,6 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 
 	@Override
 	public void addCollapsible(DatabaseObjectHierarchy hierarchy) {
-		Window.alert("");
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(hierarchy);
 		collapsible.add(item);
 	}

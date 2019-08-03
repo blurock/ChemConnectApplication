@@ -10,6 +10,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.RepositoryFileManagerView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.UploadFileToBlobStorageView;
 
 
@@ -28,5 +29,7 @@ public interface ClientFactoryBase {
 
 	AuthentificationTopPanelInterface getTopPanel();
 	OrganizationDefinitionView getOrganizationDefinitionView();
+	RepositoryFileManagerView getRepositoryFileManagerView();
+	
 	void setTopPanel(AuthentificationTopPanelInterface toppanel);
 	}

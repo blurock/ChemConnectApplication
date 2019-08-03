@@ -624,6 +624,17 @@ public class DatasetOntologyParseBase {
 		return conceptHierarchy(topnode, -1);
 	}
 
+	/** Find Hierarchy of concepts within the ontology
+	 * @param topnode The top conc
+	 * @param maxlevel The maximum hierarchical level to pursue, negative means all levels
+	 * @return A HierarchyNode with the top concept, with the subnodes being the subclasses.
+	 * 
+	 * Basically the top call to concept Hierarchy finds the immediate subclasses of the 
+	 * concept (ReasonerVocabulary.directSubClassOf).
+	 * The routine then recursively calls itself filling up the hierarchy. 
+	 * The return is the top node concept as a HiearchyNode
+	 * 
+	 */
 	public static HierarchyNode conceptHierarchy(String topnode, int maxlevel) {
 		String comment = getComment(topnode);
 		String label = getLabel(topnode);

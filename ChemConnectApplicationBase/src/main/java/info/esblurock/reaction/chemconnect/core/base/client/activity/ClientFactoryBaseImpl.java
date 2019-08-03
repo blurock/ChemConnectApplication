@@ -9,6 +9,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.about.AboutSummary;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.ManageCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.UploadFileToBlobStorage;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository.RepositoryFileManager;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.organization.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.DatabasePersonDefinition;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstPage;
@@ -19,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.ManageCatalogHierarchyView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.RepositoryFileManagerView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.UploadFileToBlobStorageView;
 
 public class ClientFactoryBaseImpl implements ClientFactoryBase {
@@ -34,6 +36,7 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	private final DatabasePersonDefinitionView databasePersonDefinitionView = new DatabasePersonDefinition();
 	private final ManageCatalogHierarchyView manageCatalogHierarchyView = new ManageCatalogHierarchy();
 	private final UploadFileToBlobStorageView uploadFileToBlobStorageView = new UploadFileToBlobStorage();
+	private final RepositoryFileManagerView repositoryFileManager = new RepositoryFileManager();
 
 	@Override
 	public EventBus getEventBus() {
@@ -84,6 +87,10 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 		return uploadFileToBlobStorageView;
 	}
 	@Override
+	public RepositoryFileManagerView getRepositoryFileManagerView() {
+		return repositoryFileManager;
+	}
+	@Override
 	public AuthentificationTopPanelInterface getTopPanel() {
 		return toppanel;
 	}
@@ -92,6 +99,7 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	public void  setTopPanel(AuthentificationTopPanelInterface toppanel) {
 		this.toppanel = toppanel;
 	}
+
 
 
 }

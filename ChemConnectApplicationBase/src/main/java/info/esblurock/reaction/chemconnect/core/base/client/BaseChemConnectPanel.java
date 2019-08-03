@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPl
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.RepositoryFileManagerPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
@@ -59,6 +60,8 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	@UiField
 	MaterialLink upload;
 	@UiField
+	MaterialLink repository;
+	@UiField
 	MaterialLink people;
 	@UiField
 	MaterialLink organizations;
@@ -82,6 +85,7 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 		upload.setText("file staging and interpretation");
 		people.setText("researchers in database");
 		organizations.setText("organizations in database");
+		repository.setText("manage repository");
 		logout.setText("Logout");
 		logouttooltip.setText("Log out current user (to Guest");
 		logintooltip.setText("Choose method of login");
@@ -171,6 +175,12 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	public void onUploadClick(ClickEvent event) {
 		setSubTitle("File staging");
 		goTo(new UploadFileToBlobStoragePlace("File staging"));
+	}
+
+	@UiHandler("repository")
+	public void onRepositoryClick(ClickEvent event) {
+		setSubTitle("Repository Manager");
+		goTo(new RepositoryFileManagerPlace("Manage Repository"));
 	}
 
 	@UiHandler("people")
