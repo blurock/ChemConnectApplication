@@ -427,7 +427,7 @@ public enum InterpretBaseData {
 		@Override
 		public DatabaseObject readElementFromDatabase(String identifier)
 				throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(RepositoryFileStaging.class.getCanonicalName(),
+			return QueryBase.getDatabaseObjectFromIdentifier(RepositoryDataFile.class.getCanonicalName(),
 					identifier);
 		}
 

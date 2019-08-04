@@ -1,5 +1,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
 	<ui:style>
 	.panelbox {
 		background-color: #e0e0e0;
@@ -11,21 +13,20 @@
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialPanel margin="0">
 			<m:MaterialRow>
-				<m:MaterialColumn grid="s10">
+				<m:MaterialColumn grid="s12" styleName="{style.panelbox}">
 					<m:MaterialTooltip ui:field="identifiertip">
-						<m:MaterialLink ui:field="filetype" textColor="BLACK" />
+						<m:MaterialLink ui:field="filetype"
+							textColor="BLACK" />
 					</m:MaterialTooltip>
 				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1">
-					<m:MaterialIcon ui:field="save" iconColor="BLACK"
-						iconType="SAVE" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1">
-					<m:MaterialIcon ui:field="refresh" iconColor="BLACK"
-						iconType="REFRESH" />
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<ma:tree.MaterialTree ui:field="tree" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 		</m:MaterialPanel>
-		<m:MaterialCollapsible ui:field="panel" styleName="{style.panelbox}"/>
+		<m:MaterialCollapsible ui:field="objectpanel"
+			styleName="{style.panelbox}" />
 	</m:MaterialPanel>
 </ui:UiBinder> 

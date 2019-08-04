@@ -335,13 +335,20 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		HierarchyNode topnode = ParseUtilities.parseIDsToHierarchyNode(concept,ids,false);
 		return topnode;
 	}
-	
+	/**
+	 *
+	 */
 	public HierarchyNode getIDHierarchyFromDataCatalogID(String basecatalog, String catalog) throws IOException {
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
-
-		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(usession.getUserName(), basecatalog, catalog);
-		
+		HierarchyNode nodehierarchy = null;
+		if(usession.getUserName() != null) {
+			nodehierarchy =  WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(usession.getUserName(), 
+					basecatalog, catalog);
+		} else {
+			throw new IOException("No user logged in, not even guest");
+		}
+		return nodehierarchy;
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {

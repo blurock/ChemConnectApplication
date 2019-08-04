@@ -137,15 +137,37 @@ public class WriteReadDatabaseObjects {
 		}
 	}
 	
+	
+	/** The id's of the parent catalog object with catalog base name and type (in DataCatalogID)
+	 * 
+	 * @param user The name the owner
+	 * @param basecatalog The catalog name (place in the catalog hierarchy) if null, ignored
+	 * @param catalog The catalog type. if null, ignored
+	 * @return The id's in the hierarchy based on the parent id
+	 * @throws IOException serious system error (classname not found)
+	 * 
+	 * The set of catalog objects are found using the basecatalog and catalog
+	 * In method hierarchialList:
+	 * <ul>
+	 * <li>The ids of the parents are collected
+	 * <li>The ids are parsed
+	 * <li>The HierarchyNode hiearchy is created based on the parsed ids
+	 * <ul>
+	 * 
+	 */
 	public static HierarchyNode getIDHierarchyFromDataCatalogID(String user,
 			String basecatalog, String catalog) throws IOException {
 		String classname = DataCatalogID.class.getCanonicalName();
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 
-		QueryPropertyValue value1 = new QueryPropertyValue("CatalogBaseName",basecatalog);
-		QueryPropertyValue value2 = new QueryPropertyValue("DataCatalog",catalog);
-		values.add(value1);
-		values.add(value2);
+		if(basecatalog != null) {
+			QueryPropertyValue value1 = new QueryPropertyValue("CatalogBaseName",basecatalog);
+			values.add(value1);
+		}
+		if(catalog != null) {
+			QueryPropertyValue value2 = new QueryPropertyValue("DataCatalog",catalog);
+			values.add(value2);
+		}
 		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
 		SetOfQueryResults results;
 		HierarchyNode topnode = null;
