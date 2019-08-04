@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 
 import com.esotericsoftware.yamlbeans.YamlException;
@@ -100,7 +99,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		System.out.println("yamlStringFromDatabaseObjectHierarchyNoUpdate 2");
 		System.out.println(map1);
 		System.out.println("yamlStringFromDatabaseObjectHierarchyNoUpdate 3");
-		MapUtils.debugPrint(System.out, "Map: ", map1);
+		//MapUtils.debugPrint(System.out, "Map: ", map1);
 		StringWriter wS = new StringWriter(1000000);
 		YamlWriter writer = new YamlWriter(wS);
 		writer.write(map1);

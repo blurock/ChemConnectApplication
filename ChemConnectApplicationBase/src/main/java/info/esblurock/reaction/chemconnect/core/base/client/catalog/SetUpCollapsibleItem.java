@@ -248,7 +248,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			return false;
+			return true;
 		}
 
 		@Override

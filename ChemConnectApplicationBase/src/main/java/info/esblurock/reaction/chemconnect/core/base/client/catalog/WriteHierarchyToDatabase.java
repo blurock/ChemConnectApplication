@@ -12,9 +12,9 @@ public class WriteHierarchyToDatabase {
 	
 	public static void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		String simpleclass = hierarchy.getObject().getClass().getSimpleName();
-		String id = hierarchy.getObject().getIdentifier();
-		async.writeYamlObjectHierarchy(id, simpleclass, new AsyncCallback<Void>() {
+		//String simpleclass = hierarchy.getObject().getClass().getSimpleName();
+		//String id = hierarchy.getObject().getIdentifier();
+		async.writeDatabaseObjectHierarchy(hierarchy, new AsyncCallback<DatabaseObjectHierarchy>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -22,7 +22,7 @@ public class WriteHierarchyToDatabase {
 			}
 
 			@Override
-			public void onSuccess(Void result) {
+			public void onSuccess(DatabaseObjectHierarchy result) {
 				StandardWindowVisualization.successWindowMessage("Successfully wrote object");
 			}
 			
