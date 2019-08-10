@@ -23,6 +23,12 @@ public class UserSessionData implements Serializable {
 
 	
 	public UserSessionData() {
+		this.userName = null;
+		this.sessionID = null;
+		this.IP = null;
+		this.hostname = null;
+		this.userLevel = null;
+		this.loginDate = new Date();
 	}
 	
 	public UserSessionData(String userName, String sessionID, String IP, String hostname,
@@ -32,6 +38,7 @@ public class UserSessionData implements Serializable {
 		this.IP = IP;
 		this.hostname = hostname;
 		this.userLevel = userLevel;
+		this.loginDate = new Date();
 	}
 
 
@@ -115,6 +122,7 @@ public class UserSessionData implements Serializable {
 		build.append("IP:         " + IP + "\n");
 		build.append("hostname:   " + hostname + "\n");
 		build.append("userLevel:  " + userLevel + "\n");
+		build.append("login date:  " + loginDate.toString() + "\n");
 		return build.toString();
 	}
 	

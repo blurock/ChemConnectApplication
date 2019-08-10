@@ -16,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.concepts.Cho
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
@@ -79,7 +80,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 	void onClickConcept(ClickEvent e) {
 		chooseConcept = true;
 		ArrayList<String> choices = new ArrayList<String>();
-		String topconcept = MetaDataKeywords.conceptLinkDataStructures;
+		String topconcept = MetaDataKeywords.dataTypeDataStructure;
 		choices.add(topconcept);
 		ChooseFromConceptHierarchies chooseconcept = new ChooseFromConceptHierarchies(choices,this);
 		item.getModalpanel().clear();
@@ -101,14 +102,14 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		} else {
 			chosenObjectID = chosen;
 			int pos = chosen.lastIndexOf("-");
-			link.setText(chosen.substring(pos+1));
+			link.setText(TextUtilities.extractSimpleNameFromCatalog(chosen));
 			linktip.setText(chosen);
 		}
 	}
 	private void findLinkObject() {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
-		async.getIDsFromConceptLink(chosenLinkConcept,callback);
+		async.getIDHierarchyFromDataCatalogID(null,chosenLinkConcept,callback);
 	}
 
 	@Override

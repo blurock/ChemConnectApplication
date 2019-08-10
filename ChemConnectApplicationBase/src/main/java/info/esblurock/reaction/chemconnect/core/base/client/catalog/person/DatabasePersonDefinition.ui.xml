@@ -1,29 +1,43 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
+		}
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialPanel ui:field="topPanel" />
-		<m:MaterialCollapsible ui:field="contentcollapsible">
+		<m:MaterialCollapsible
+			ui:field="contentcollapsible">
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="peopleExisingHeader" />
+					<m:MaterialRow>
+						<m:MaterialColumn grid="s11">
+							<m:MaterialLink ui:field="peopleExisingHeader"
+								textColor="BLACK" />
+						</m:MaterialColumn>
+						<m:MaterialColumn grid="s1">
+							<m:MaterialLink ui:field="refresh" iconType="REFRESH"
+								iconColor="BLACK" />
+						</m:MaterialColumn>
+					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialCollapsible ui:field="existingPeople" />
+					<m:MaterialCollapsible
+						ui:field="existingPeople" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="peopleCreatedHeader" />
+					<m:MaterialLink ui:field="peopleCreatedHeader"
+						textColor="BLACK" />
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialCollapsible ui:field="createdPeople" />
+					<m:MaterialCollapsible
+						ui:field="createdPeople" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 		</m:MaterialCollapsible>

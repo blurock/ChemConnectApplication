@@ -26,6 +26,7 @@ public class DatabasePersonDefinitionActivity extends AbstractActivity implement
 		DatabasePersonDefinitionView.setName(name);
 		DatabasePersonDefinitionView.setPresenter(this);
 		containerWidget.setWidget(DatabasePersonDefinitionView.asWidget());
+		DatabasePersonDefinitionView.refresh();
 	}
 	   @Override
 	    public String mayStop() {

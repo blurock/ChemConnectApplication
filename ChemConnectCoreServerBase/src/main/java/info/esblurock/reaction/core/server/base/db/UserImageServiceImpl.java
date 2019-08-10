@@ -331,7 +331,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		String username = usession.getUserName();
 		String classType = DatasetOntologyParseBase.findObjectTypeFromLinkConcept(concept);
-		Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects(username,classType);
+		Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects(usession,classType);
 		HierarchyNode topnode = ParseUtilities.parseIDsToHierarchyNode(concept,ids,false);
 		return topnode;
 	}
@@ -342,8 +342,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		HierarchyNode nodehierarchy = null;
+		System.out.println("getIDHierarchyFromDataCatalogID: basecatalog: " + basecatalog);
+		System.out.println("getIDHierarchyFromDataCatalogID: catalog: " + catalog);
 		if(usession.getUserName() != null) {
-			nodehierarchy =  WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(usession.getUserName(), 
+			System.out.println("getIDHierarchyFromDataCatalogID: usession\n: " + usession.toString("session: "));
+			nodehierarchy =  WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(usession, 
 					basecatalog, catalog);
 		} else {
 			throw new IOException("No user logged in, not even guest");
@@ -436,12 +439,24 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		GCSServiceRoutines.writeBlob(source.getGSFilename(), source.getFiletype(), in);
 	}
 
+	public ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyOwnedUser(String classType) throws IOException {
+		ArrayList<DatabaseObjectHierarchy> objects = null;
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		if(usession != null) {
+			objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyOwnedUser(usession, classType);
+		} else {
+			objects = new ArrayList<DatabaseObjectHierarchy>();
+		}
+		return objects;
+		
+	}
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
 		ArrayList<DatabaseObjectHierarchy> objects = null;
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		if(usession != null) {
-			objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(usession.getUserName(), classType);
+			objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(usession, classType);
 			/*
 			for(DatabaseObjectHierarchy hierarchy : objects) {
 				System.out.println(classType + ": -----------------------------------------------------------");
@@ -484,9 +499,19 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	
-	public DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid) {
+	public DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, 
+			String userClassification, 
+			NameOfPerson name, 
+			String userLevel,
+			DataCatalogID catid) {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);		
+		DataCatalogID userdatid = new DataCatalogID(catid, 
+				catid.getCatalogBaseName(), 
+				MetaDataKeywords.dataTypeIndividual, 
+				name.getAlphabeticName(), catid.getPath());
 		DatabaseObjectHierarchy hierarchy = CreateContactObjects.fillMinimalPersonDescription(obj, 
-				UserAccountKeys.accessTypeStandardUser, userClassification, name,catid);
+				userLevel, userClassification, name,userdatid);
 		return hierarchy;
 	}
 	
@@ -593,7 +618,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType: user           " + username);
 		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType: catalogbasename" + catalogbasename);
 		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType: classtype      " + classtype);
-		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogIDAndClassType(username, 
+		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogIDAndClassType(usession, 
 				catalogbasename,classtype);
 	}
 

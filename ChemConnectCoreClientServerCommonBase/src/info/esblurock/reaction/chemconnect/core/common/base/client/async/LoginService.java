@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.common.base.client.async;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -48,4 +49,6 @@ public interface LoginService extends RemoteService {
 	public void initialization() throws IOException;
 	
 	public ClientIDInformation getClientAuthorization(String clientname) throws IOException;
+	
+	public List<String> getAccessCreationList();
 }

@@ -3,8 +3,10 @@ package info.esblurock.reaction.chemconnect.core.base.client.catalog.person;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -14,6 +16,7 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
@@ -51,6 +54,8 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	MaterialLink peopleCreatedHeader;
 	@UiField
 	MaterialCollapsible createdPeople;
+	@UiField
+	MaterialLink refresh;
 
 	Presenter listener;
 	ChooseFullNameFromCatagoryRow choose;
@@ -58,6 +63,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	NameOfPerson person;
 	DatabaseObject obj;
 	DataCatalogID datid;
+	ArrayList<String> choices;
 
 	public DatabasePersonDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -66,23 +72,47 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	}
 
 	void init() {
-		peopleExisingHeader.setText("People visible to User");
+		String user = Cookies.getCookie("user");
+		if(user != null) {
+			peopleExisingHeader.setText("Profiles managed by User: " + user);
+		} else {
+			peopleExisingHeader.setText("Profiles managed by User: refresh to see profiles");
+		}
 		peopleCreatedHeader.setText("New person definitions");
 		
 		person = new NameOfPerson();
 		
 		String peopleType = MetaDataKeywords.userRoleChoices;;
-		ArrayList<String> choices = new ArrayList<String>();
+		choices = new ArrayList<String>();
 		choices.add(peopleType);
-		String user = Cookies.getCookie("user");
-		String databasePerson = MetaDataKeywords.databasePerson;
-		choose = new ChooseFullNameFromCatagoryRow(this,user,databasePerson,choices,modalpanel);
+		choose = new ChooseFullNameFromCatagoryRow(this,user,MetaDataKeywords.databasePerson,choices,modalpanel);
 		topPanel.add(choose);
+	}
+	
+	@UiHandler("refresh")
+	public void refreshClicked(ClickEvent event) {
+		refresh();
+	}
+	
+	public void refresh() {
+		existingPeople.clear();
+		refreshAccessibleUsers();
+		topPanel.clear();
+		String user = Cookies.getCookie("user");
+		choose = new ChooseFullNameFromCatagoryRow(this,user,MetaDataKeywords.databasePerson,choices,modalpanel);
+		topPanel.add(choose);
+		if(user != null) {
+			peopleExisingHeader.setText("Profiles managed by User: " + user);
+		} else {
+			peopleExisingHeader.setText("Profiles managed by User: refresh to see profiles");
+		}
+	}
 
+	private void refreshAccessibleUsers() {
+		String databasePerson = MetaDataKeywords.databasePerson;
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		async.getSetOfDatabaseObjectHierarchyForUser(databasePerson,
 				new AsyncCallback<ArrayList<DatabaseObjectHierarchy>>() {
-
 					@Override
 					public void onFailure(Throwable caught) {
 						StandardWindowVisualization.errorWindowMessage("Set in objects",  caught.toString());
@@ -94,8 +124,8 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 					}
 			
 		});
-	}
 
+	}
 	@Override
 	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
 		for(DatabaseObjectHierarchy object : objects) {
@@ -121,7 +151,9 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	public void insertNameOfPerson(NameOfPerson person) {
 		String catagory = choose.getCatagory();
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		async.createDatabasePerson(person, catagory, person, datid, 
+		async.createDatabasePerson(person, catagory, person, 
+				UserAccountKeys.accessTypeDataUser,
+				datid, 
 				new AsyncCallback<DatabaseObjectHierarchy>() {
 
 					@Override

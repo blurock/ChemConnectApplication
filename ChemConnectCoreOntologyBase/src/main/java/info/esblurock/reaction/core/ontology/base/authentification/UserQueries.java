@@ -16,6 +16,12 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.core.ontology.base.GenericSimpleQueries;
 import info.esblurock.reaction.core.ontology.base.OntologyBase;
 
+/** This reads the ontology to determine the user privileges
+ * 
+ * 
+ * @author edwardblurock
+ *
+ */
 public class UserQueries {
 
 
@@ -40,14 +46,14 @@ public class UserQueries {
 	}
 	public static Set<String> getListOfPriviledges(UserSessionData user, String type) {
 		HashSet<String> privset = new HashSet<String>();
-		String accessLevel = user.getUserLevel();
-		String query = 
+		if(user != null) {
+			String accessLevel = user.getUserLevel();
+			String query = 
 				"SELECT ?priviledge\n" + 
 				"WHERE {" + accessLevel + " rdfs:subClassOf ?object .\n" +
 				"	?object owl:onProperty <http://purl.org/dc/terms/accessRights> .\n" + 
 				"	?object owl:onClass ?priviledge \n" + 
 				"}";
-		
 		List<Map<String, RDFNode>> acclst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(acclst);
 		List<String> priviledgeset = OntologyBase.isolateProperty("priviledge", stringlst);
@@ -62,6 +68,7 @@ public class UserQueries {
 				privset.addAll(privs);				
 			}
 		}
+		} 
 		return privset;
 	}
 	

@@ -20,12 +20,13 @@ import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryResults;
 import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
-import info.esblurock.reaction.core.ontology.base.QueryFactory;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
+import info.esblurock.reaction.core.server.base.queries.QueryFactory;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
@@ -56,11 +57,26 @@ public class WriteReadDatabaseObjects {
 			updateSourceID(sourceID,subs);
 		}
 	}
-	
-	public static Set<String> getIDsOfAllDatabaseObjects(String user, String classType) throws IOException {
+	public static Set<String> getIDsOfAllDatabaseObjectsOwnedByUser(UserSessionData usersession,String classType) throws IOException {
 		String name = DatasetOntologyParseBase.getChemConnectDirectTypeHierarchy(classType);
 		InterpretBaseData interpret = InterpretBaseData.valueOf(name);
-		ListOfQueries queries = QueryFactory.accessQueryForUser(interpret.canonicalClassName(), user, null);
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QuerySetupBase query = new QuerySetupBase(interpret.canonicalClassName(), values);
+		ListOfQueries queries = QueryFactory.userCanModifyQuery(query, usersession);
+		return getIDsFromQueries(queries);
+	}
+
+		
+	public static Set<String> getIDsOfAllDatabaseObjects(UserSessionData usersession, String classType) throws IOException {
+		String name = DatasetOntologyParseBase.getChemConnectDirectTypeHierarchy(classType);
+		InterpretBaseData interpret = InterpretBaseData.valueOf(name);
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QuerySetupBase query = new QuerySetupBase(interpret.canonicalClassName(), values);
+		ListOfQueries queries = QueryFactory.produceQueryList(query, usersession);
+		return getIDsFromQueries(queries);
+	}
+	
+	public static Set<String> getIDsFromQueries(ListOfQueries queries) throws IOException {
 		SetOfQueryResults results;
 		Set<String> ids = new HashSet<String>();
 		try {
@@ -70,9 +86,9 @@ public class WriteReadDatabaseObjects {
 				ids.add(obj.getIdentifier());
 			}
 		} catch (ClassNotFoundException e) {
-			throw new IOException("getIDsOfAllDatabaseObjects Class not found: " + classType);
+			throw new IOException("getIDsOfAllDatabaseObjects Class not found: ");
 		}
-		return ids;
+		return ids;		
 	}
 	
 	public static ArrayList<DatabaseObjectHierarchy> getDatabaseObjectHierarchyFromIDs(String classType, Set<String> ids) {
@@ -83,16 +99,16 @@ public class WriteReadDatabaseObjects {
 		}
 		return objects;
 	}
-	public static ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyForUser(String user, String classType) throws IOException {
-		Set<String> ids = getIDsOfAllDatabaseObjects(user,classType);
+	public static ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyOwnedUser(UserSessionData usersession, String classType) throws IOException {
+		Set<String> ids = getIDsOfAllDatabaseObjectsOwnedByUser(usersession,classType);
 		ArrayList<DatabaseObjectHierarchy> objects = getDatabaseObjectHierarchyFromIDs(classType,ids);
 		return objects;
 	}
-	/*
-	public static void writeChemConnectDataStructureObject(ChemConnectDataStructureObject object) {
-		writeDatabaseObjectHierarchy(object.getObjecthierarchy());
+	public static ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyForUser(UserSessionData usersession, String classType) throws IOException {
+		Set<String> ids = getIDsOfAllDatabaseObjects(usersession,classType);
+		ArrayList<DatabaseObjectHierarchy> objects = getDatabaseObjectHierarchyFromIDs(classType,ids);
+		return objects;
 	}
-*/
 	public static void updateDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
 		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
@@ -155,20 +171,30 @@ public class WriteReadDatabaseObjects {
 	 * <ul>
 	 * 
 	 */
-	public static HierarchyNode getIDHierarchyFromDataCatalogID(String user,
+	public static HierarchyNode getIDHierarchyFromDataCatalogID(UserSessionData usersession,
 			String basecatalog, String catalog) throws IOException {
 		String classname = DataCatalogID.class.getCanonicalName();
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: ");
 
+		System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: basecatalog: " + basecatalog);
 		if(basecatalog != null) {
 			QueryPropertyValue value1 = new QueryPropertyValue("CatalogBaseName",basecatalog);
+			System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: \n" + value1.toString());
 			values.add(value1);
 		}
+		System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: catalog: " + catalog);
 		if(catalog != null) {
 			QueryPropertyValue value2 = new QueryPropertyValue("DataCatalog",catalog);
+			System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: \n" + value2.toString());
 			values.add(value2);
 		}
-		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
+		QuerySetupBase query = new QuerySetupBase(classname, values);
+		System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: \n" + query.toString("query"));
+		System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: call userCanModifyQuery");
+		ListOfQueries queries = QueryFactory.userCanModifyQuery(query,usersession);
+		System.out.println("WriteReadDatabaseObjects  getIDHierarchyFromDataCatalogID: back from call userCanModifyQuery");
+		System.out.println(queries.toString("getIDHierarchyFromDataCatalogID: "));
 		SetOfQueryResults results;
 		HierarchyNode topnode = null;
 		try {
@@ -288,7 +314,7 @@ public class WriteReadDatabaseObjects {
 	
 	
 	
-	public static HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String user,
+	public static HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(UserSessionData usersession,
 			String catalogbasename, String classtype) throws IOException {
 		String classname = DataCatalogID.class.getCanonicalName();
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
@@ -296,7 +322,8 @@ public class WriteReadDatabaseObjects {
 		String suffix = info.getSuffix();
 		QueryPropertyValue value2 = new QueryPropertyValue("CatalogBaseName",catalogbasename);
 		values.add(value2);
-		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
+		QuerySetupBase query = new QuerySetupBase(classname,values);
+		ListOfQueries queries = QueryFactory.userCanModifyQuery(query,usersession);
 		SetOfQueryResults results;
 		Set<String> ids = new HashSet<String>();
 		HierarchyNode topnode = null;

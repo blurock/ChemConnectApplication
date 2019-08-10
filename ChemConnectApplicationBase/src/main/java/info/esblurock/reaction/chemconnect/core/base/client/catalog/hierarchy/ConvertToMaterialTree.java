@@ -19,7 +19,11 @@ public class ConvertToMaterialTree {
 		MaterialTreeItemWithPath item = new MaterialTreeItemWithPath(hierarchy.getIdentifier(), determineLabel(hierarchy), path);
 		item.setTextColor(Color.BLACK);
 		item.setTextAlign(TextAlign.LEFT);
+		if(hierarchy.getSubNodes().size() > 0) {
 		item.setIconType(IconType.FOLDER);
+		} else {
+			item.setIconType(IconType.BUILD);
+		}
 		tree.add(item);
 		item.collapse();
 		ArrayList<String> nextpath = new ArrayList<String>(path);

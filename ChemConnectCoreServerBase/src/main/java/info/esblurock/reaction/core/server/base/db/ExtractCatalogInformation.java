@@ -9,13 +9,14 @@ import info.esblurock.reaction.chemconnect.core.base.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.base.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryResults;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 import info.esblurock.reaction.core.ontology.base.GenericSimpleQueries;
-import info.esblurock.reaction.core.ontology.base.QueryFactory;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
+import info.esblurock.reaction.core.server.base.queries.QueryFactory;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
@@ -110,6 +111,7 @@ public class ExtractCatalogInformation {
 	 * @param id  The catalog ID
 	 * @param dataelement The class information about the hierarchy item
 	 * @param asSinglet true if a singlet
+	 * @param usersession user session data (used for setting up queries)
 	 * @return The hierarchy below the current object
 	 * 
 	 * Service routine for getObjectHierarchy
@@ -123,6 +125,7 @@ public class ExtractCatalogInformation {
 	 * @param t The name of the class
 	 * @param type The class type (to be used with InterpretBaseData
 	 * @param asSinglet true if a singlet.
+	 * @param usersession user session data
 	 * @return The hierarchy from the element
 	 * 
 	 * If singlet, call readSingletInformation
@@ -136,8 +139,12 @@ public class ExtractCatalogInformation {
 	 * <li> Loop through the database items with readSingletInformation and add their subhierarchies to this one.
 	 * </ul>
 	 * 
+	 * The database access method is: QueryBase.getDatabaseObjectsFromSingleProperty
+	 * It is already assumed that the user has write privileges.
+	 * 
 	 */
-	public static DatabaseObjectHierarchy getObjectHierarchy(String id, String t, String type, boolean asSinglet) {
+	public static DatabaseObjectHierarchy getObjectHierarchy(String id, String t, String type, 
+			boolean asSinglet) {
 		List<DataElementInformation> substructures = DatasetOntologyParseBase.subElementsOfStructure(t);
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
@@ -154,21 +161,11 @@ public class ExtractCatalogInformation {
 				List<DataElementInformation> mulitsubstructures = DatasetOntologyParseBase.subElementsOfStructure(t);
 				InterpretBaseData clsinterpret = InterpretBaseData.valueOf(classification.getDataType());
 				String classtype = clsinterpret.canonicalClassName();
-				SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
-				QueryPropertyValue value1 = new QueryPropertyValue("parentLink",parentid);
-				values.add(value1);
-				ListOfQueries queries = QueryFactory.accessQueryForUser(classtype, multi.getOwner(), values);
-				SetOfQueryResults results;
-				try {
-					results = QueryBase.StandardSetOfQueries(queries);
-					List<DatabaseObject> objs = results.retrieveAndClear();
+					List<DatabaseObject> objs = QueryBase.getDatabaseObjectsFromSingleProperty(classtype,"parentLink",parentid);
 					for(DatabaseObject obj: objs) {
 						DatabaseObjectHierarchy subhier = readSingletInformation(obj, interpret, mulitsubstructures);
 						hierarchy.addSubobject(subhier);
 					}
-				} catch (ClassNotFoundException e) {
-					throw new IOException("getDatabaseObjectAndSubElements Class not found: " + classtype);
-				}
 			}
 		} catch(IllegalArgumentException ex) {
 			//System.out.println("No interpret: " + classify.getDataType());

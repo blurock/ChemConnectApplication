@@ -4,5 +4,4 @@ info/esblurock/reaction/core/ontology/base/GenericSimpleQueries.class
 info/esblurock/reaction/core/ontology/base/AlternativeEntryWithAppFiles.class
 info/esblurock/reaction/core/ontology/base/authentification/UserQueries.class
 info/esblurock/reaction/core/ontology/base/AlternativeEntry.class
-info/esblurock/reaction/core/ontology/base/QueryFactory.class
 info/esblurock/reaction/core/ontology/base/OntologyBase$Util.class

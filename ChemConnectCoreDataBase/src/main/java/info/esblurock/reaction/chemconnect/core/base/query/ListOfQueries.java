@@ -12,4 +12,17 @@ public class ListOfQueries extends ArrayList<QuerySetupBase> implements Serializ
 		this.add(newquery);
 	}
 
+	public String toString() {
+		return toString("");
+	}
+	
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(prefix + " ListOfQueries  ------------------------------------------\n");
+		for(QuerySetupBase base : this) {
+			build.append(base.toString(prefix));
+		}
+		build.append(prefix + " ListOfQueries  ------------------------------------------\n");
+		return build.toString();
+	}
 }

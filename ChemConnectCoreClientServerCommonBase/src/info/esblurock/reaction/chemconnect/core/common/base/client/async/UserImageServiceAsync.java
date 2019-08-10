@@ -63,8 +63,8 @@ public interface UserImageServiceAsync {
 	void getSetOfDatabaseObjectHierarchyForUser(String classType,
 			AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
 
-	void createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
+	void createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, String userlevel,
+			DataCatalogID catid, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
@@ -106,6 +106,9 @@ public interface UserImageServiceAsync {
 
 	void createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy, DataCatalogID catalogid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getAllDatabaseObjectHierarchyOwnedUser(String classType,
+			AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
 
 
 }

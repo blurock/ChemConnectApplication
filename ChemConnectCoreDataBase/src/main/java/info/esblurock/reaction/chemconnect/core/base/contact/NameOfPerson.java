@@ -103,6 +103,28 @@ public class NameOfPerson extends ChemConnectCompoundDataStructure {
 		return text;
 	}
 	
+	public String getAlphabeticName() {
+		StringBuilder build = new StringBuilder();
+		boolean familyentered = false;
+		if(familyName != null) {
+			if(familyName.length() > 0) {
+				build.append(familyName);
+				familyentered = true;
+			}
+		}
+		if(givenName != null) {
+			if(givenName != null) {
+				if(givenName.length() > 0) {
+					if(familyentered) {
+						build.append(", ");
+					}
+					build.append(givenName);
+				}
+			}
+		}
+		return build.toString();
+	}
+	
 	@Override
 	public String toString() {
 		return toString("");

@@ -11,4 +11,5 @@ public interface DatabasePersonDefinitionView extends IsWidget {
 		void goTo(Place place);
 	}
 
+	public void refresh();
 }

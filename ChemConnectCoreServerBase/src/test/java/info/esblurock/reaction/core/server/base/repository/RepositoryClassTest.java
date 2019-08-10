@@ -1,14 +1,11 @@
 package info.esblurock.reaction.core.server.base.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-
-import com.esotericsoftware.yamlbeans.YamlWriter;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;

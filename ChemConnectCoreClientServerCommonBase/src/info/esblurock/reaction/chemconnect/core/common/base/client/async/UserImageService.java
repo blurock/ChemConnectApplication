@@ -84,9 +84,12 @@ public interface UserImageService  extends RemoteService  {
 	
 	HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException;
 	
+	ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyOwnedUser(String classType) throws IOException;
+	
 	ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException;
 	
-	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid);
+	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, 
+			NameOfPerson name, String userlevel, DataCatalogID catid);
 	
 	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid);
 	

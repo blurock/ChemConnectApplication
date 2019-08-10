@@ -55,11 +55,14 @@ public class MetaDataKeywords {
 	public static String chemConnectIsolateBlockTypes = "dataset:ChemConnectIsolateBlockTypes";
 	public static String spreadSheetBlockIsolation = "dataset:SpreadSheetBlockIsolation";
 	
+	public static String dataTypeIndividual = "dataset:DataTypeIndividual";
 	public static String emailContactType = "dataset:EmailContactType";
 	public static String telephoneContactType = "dataset:TelephoneContactType";
 	public static String companyHomepage = "dataset:CompanyHomepage";
 	public static String chemConnectContactUser = "dataset:ChemConnectContactUser";
 	public static String purposeUser = "dataset:PurposeUser";
+	
+	public static String dataTypeDataStructure = "dataset:DataTypeDataStructure";
 	
 	public static String dataTypeDevice = "dataset:DataTypeDevice";
 	public static String dataTypeSubSystem = "dataset:DataTypeSubSystem";

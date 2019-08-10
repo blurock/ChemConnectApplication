@@ -65,13 +65,19 @@ public class CreateContactObjects {
 		path.add("User");
 		path.add(account);
 		String catalogBaseName = "User";
-		String dataCatalog = ChemConnectCompoundDataStructure.removeNamespace(DatabaseKeys.conceptUserDataCatagory);
-		String simpleCatalogName = "User";
+		//String dataCatalog = ;
+		//String simpleCatalogName = "User";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
-		DataCatalogID datid = new DataCatalogID(structure, catalogBaseName, dataCatalog, simpleCatalogName, path);
-
+		
+		DataCatalogID userdatid = new DataCatalogID(structure, 
+				catalogBaseName, 
+				MetaDataKeywords.dataTypeIndividual, 
+				person.getAlphabeticName(), path);
 		DatabaseObjectHierarchy user = fillMinimalPersonDescription(object, account, accountClassification, person,
-				datid);
+				userdatid);
+		DataCatalogID datid = new DataCatalogID(structure, catalogBaseName, 
+				DatabaseKeys.conceptUserDataCatagory, 
+				"User", path);
 		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(object, account, user.getObject().getIdentifier(),
 				datid);
 		

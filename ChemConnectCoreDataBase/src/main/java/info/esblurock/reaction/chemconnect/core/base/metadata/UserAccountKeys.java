@@ -11,6 +11,14 @@ public class UserAccountKeys {
 	public static String accessQueryDataQueryPublic = "dataset:AccountPriviledgeDataQueryPublic";
 	public static String accessQueryDataQueryConsortium = "dataset:AccountPriviledgeDataQueryConsortium";
 
+	public static String accessQueryDataModifyUser = "dataset:AccountPriviledgeDataModifyUser";
+	public static String accessQueryDataModifyPublic = "dataset:AccountPriviledgeDataModifyPublic";
+	public static String accessQueryDataModifyConsortium = "dataset:AccountPriviledgeDataModifyConsortium";
+
+	public static String accessQueryDataInputUser = "dataset:AccountPriviledgeDataInputUser";
+	public static String accessQueryDataInputPublic = "dataset:AccountPriviledgeDataInputPublic";
+	public static String accessQueryDataInputConsortium = "dataset:AccountPriviledgeDataInputConsortium";
+
 	public static String publicAccess = "Public";
 	public static String publicOwner = "Administration";
 	public static String access = "access";

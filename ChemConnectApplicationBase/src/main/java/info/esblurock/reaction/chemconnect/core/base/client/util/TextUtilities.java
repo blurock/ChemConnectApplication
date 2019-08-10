@@ -1,9 +1,13 @@
 package info.esblurock.reaction.chemconnect.core.base.client.util;
 
 
+import com.google.gwt.regexp.shared.RegExp;
+
 import gwt.material.design.client.ui.MaterialLink;
 
 public class TextUtilities {
+	private static RegExp urlValidator;
+	private static RegExp urlPlusTldValidator;
 	
 	public static String extractSimpleNameFromCatalog(String name) {
 		int pos = name.indexOf("-");
@@ -38,5 +42,11 @@ public class TextUtilities {
 			link.setText(defaultText);
 		}
 	}
-
+	public static boolean isValidUrl(String url, boolean topLevelDomainRequired) {
+	    if (urlValidator == null || urlPlusTldValidator == null) {
+	        urlValidator = RegExp.compile("^((ftp|http|https)://[\\w@.\\-\\_]+(:\\d{1,5})?(/[\\w#!:.?+=&%@!\\_\\-/]+)*){1}$");
+	        urlPlusTldValidator = RegExp.compile("^((ftp|http|https)://[\\w@.\\-\\_]+\\.[a-zA-Z]{2,}(:\\d{1,5})?(/[\\w#!:.?+=&%@!\\_\\-/]+)*){1}$");
+	    }
+	    return (topLevelDomainRequired ? urlPlusTldValidator : urlValidator).exec(url) != null;
+	}
 }

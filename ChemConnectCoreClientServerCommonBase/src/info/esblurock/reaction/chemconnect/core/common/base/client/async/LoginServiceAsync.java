@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.common.base.client.async;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.base.authorization.ClientIDInformation;
@@ -28,6 +30,8 @@ public interface LoginServiceAsync {
 	void initialization(AsyncCallback<Void> callback);
 
 	void getClientAuthorization(String clientname, AsyncCallback<ClientIDInformation> callback);
+
+	void getAccessCreationList(AsyncCallback<List<String>> callback);
 
 }
 

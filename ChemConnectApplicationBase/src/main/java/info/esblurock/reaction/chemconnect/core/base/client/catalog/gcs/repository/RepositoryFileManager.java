@@ -30,6 +30,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.concepts.Cho
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
+import info.esblurock.reaction.chemconnect.core.base.client.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.base.client.view.RepositoryFileManagerView;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
@@ -110,8 +111,10 @@ implements RepositoryFileManagerView,ChooseFromConceptHeirarchy,HierarchyNodeCal
 	@Override
 	public void insertTree(HierarchyNode hierarchy) {
 		tree.clear();
+		Window.alert(hierarchy.toString());
 		ConvertToMaterialTree.addHierarchyTop(hierarchy, tree);
-		tree.collapse();		
+		//Window.alert(tree.toString());
+		//tree.collapse();		
 	}
 	@UiHandler("tree")
 	public void onClose(CloseEvent<MaterialTreeItem> event) {
@@ -136,7 +139,8 @@ implements RepositoryFileManagerView,ChooseFromConceptHeirarchy,HierarchyNodeCal
 	 */
 	private void selected(MaterialTreeItem item) {
 		if (item.getTreeItems().size() == 0) {
-			String id = item.getText();
+			MaterialTreeItemWithPath node = (MaterialTreeItemWithPath) item;
+			String id = node.getIdentifier();
 			loadCatalogObjectFromID(id);
 		} else {
 			item.expand();

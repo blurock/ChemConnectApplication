@@ -976,7 +976,7 @@ public enum InterpretBaseData {
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 			String httpaddress = "https://homepage.com";
 			String httpaddressType = "dataset:PersonalHomepage";
-			ContactHasSite hassite = new ContactHasSite(structure,httpaddress,httpaddressType);
+			ContactHasSite hassite = new ContactHasSite(structure,httpaddressType,httpaddress);
 			hassite.setIdentifier(rowid);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(hassite);
 			return hierarchy;
@@ -1329,7 +1329,7 @@ public enum InterpretBaseData {
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 			
 			DatabaseObjectHierarchy authormult = InterpretBaseData.ChemConnectCompoundMultiple.createEmptyObject(refobj);
-			InterpretBaseDataUtilities.setChemConnectCompoundMultipleType(authormult,StandardDataKeywords.author);
+			InterpretBaseDataUtilities.setChemConnectCompoundMultipleType(authormult,StandardDataKeywords.authorInformation);
 			
 			DataSetReference reference = new DataSetReference(compound,
 					"DOI","Article Title","Reference String",authormult.getObject().getIdentifier());
@@ -1529,7 +1529,7 @@ public enum InterpretBaseData {
 				throws IOException {
 
 			AuthorInformation author = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("NameOfPerson");
+			InterpretBaseData interpret = InterpretBaseData.NameOfPerson;
 			NameOfPerson person = (NameOfPerson) interpret.fillFromYamlString(top, yaml, sourceID);
 			String linkS = (String) yaml.get(StandardDataKeywords.linkToContact);
 			author = new AuthorInformation(person, linkS);
@@ -1538,7 +1538,7 @@ public enum InterpretBaseData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("NameOfPerson");
+			InterpretBaseData interpret = InterpretBaseData.NameOfPerson;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			AuthorInformation author = (AuthorInformation) object;
 			map.put(StandardDataKeywords.linkToContact, author.getLinkToContact());
