@@ -52,7 +52,7 @@ public class ChemConnectApplicationBase implements EntryPoint {
 			async.initialization(new AsyncCallback<Void>() {
 				@Override
 				public void onSuccess(Void result) {
-					StandardWindowVisualization.successWindowMessage("Initialization Complete");
+					//StandardWindowVisualization.successWindowMessage("Initialization Complete");
 				}
 				@Override
 				public void onFailure(Throwable caught) {

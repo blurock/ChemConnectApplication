@@ -16,7 +16,6 @@ import com.google.appengine.api.blobstore.UploadOptions;
 
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
-import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
@@ -329,7 +328,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public HierarchyNode getIDsFromConceptLink(String concept) throws IOException {
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
-		String username = usession.getUserName();
 		String classType = DatasetOntologyParseBase.findObjectTypeFromLinkConcept(concept);
 		Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects(usession,classType);
 		HierarchyNode topnode = ParseUtilities.parseIDsToHierarchyNode(concept,ids,false);
@@ -504,8 +502,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			NameOfPerson name, 
 			String userLevel,
 			DataCatalogID catid) {
-		String sessionid = getThreadLocalRequest().getSession().getId();
-		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);		
 		DataCatalogID userdatid = new DataCatalogID(catid, 
 				catid.getCatalogBaseName(), 
 				MetaDataKeywords.dataTypeIndividual, 

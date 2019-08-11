@@ -20,8 +20,8 @@
 								textColor="BLACK" />
 						</m:MaterialColumn>
 						<m:MaterialColumn grid="s1">
-							<m:MaterialLink ui:field="refresh" iconType="REFRESH"
-								iconColor="BLACK" />
+							<m:MaterialLink ui:field="refresh"
+								iconType="REFRESH" iconColor="BLACK" />
 						</m:MaterialColumn>
 					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
@@ -32,12 +32,17 @@
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="peopleCreatedHeader"
+				    <m:MaterialRow>
+				        <m:MaterialPanel ui:field="fullnamepanel"/>
+				    </m:MaterialRow>
+				    <m:MaterialRow>
+				        <m:MaterialLink ui:field="ownersHeader"
 						textColor="BLACK" />
+				    </m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
 					<m:MaterialCollapsible
-						ui:field="createdPeople" />
+						ui:field="ownersPeople" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 		</m:MaterialCollapsible>

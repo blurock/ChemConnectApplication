@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.base.client.catalog.choose;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,7 +10,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,8 +22,6 @@ import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
@@ -43,7 +39,8 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 
 public class ChooseFullNameFromCatagoryRow extends Composite
 		implements ChooseCatagoryHierarchyInterface, ChooseFromConceptHeirarchy, SetLineContentInterface,
-		ChooseSimpleNameInterface, SubCatagoryHierarchyCallbackInterface {
+		ChooseSimpleNameInterface, SubCatagoryHierarchyCallbackInterface,
+		RetrieveOwnerPrivilegesInterface {
 
 	private static ChooseFullNameFromCatagoryRowUiBinder uiBinder = GWT
 			.create(ChooseFullNameFromCatagoryRowUiBinder.class);
@@ -89,6 +86,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	String keynameS;
 	String username;
 	ArrayList<String> chosenPath;
+	List<String> owners;
 
 	ObjectVisualizationInterface top;
 
@@ -139,34 +137,20 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	}
 
 	public void getAccessCreationList() {
-		LoginServiceAsync async = LoginService.Util.getInstance();
-		async.getAccessCreationList(new AsyncCallback<List<String>>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				submit.setEnabled(false);
-				accessButton.setEnabled(false);
-				StandardWindowVisualization.errorWindowMessage("Access Creation List", caught.toString());
-			}
-
-			@Override
-			public void onSuccess(List<String> result) {
-				if (result.size() > 0) {
-					submit.setEnabled(true);
-					accessButton.setEnabled(true);
-					dropdown.clear();
-					for (String name : result) {
-						MaterialLink userlink = new MaterialLink(name);
-						dropdown.add(userlink);
-					}
-					access = result.get(0);
-				} else {
-					submit.setEnabled(false);
-					accessButton.setEnabled(false);
-				}
-			}
-		});
+		RetrieveOwnerPrivileges retrieve = new RetrieveOwnerPrivileges(this);
+		retrieve.getPrivileges();
 	}
 
+	private void transferToOwners(List<String> result) {
+		owners = new ArrayList<String>();
+		for(String name : result) {
+			if(name.compareTo("Public") != 0) {
+				owners.add(name);
+			}
+		}
+	}
+
+	
 	@UiHandler("dropdown")
 	void onDropdown(SelectionEvent<Widget> callback) {
 		MaterialLink chosen = (MaterialLink) callback.getSelectedItem();
@@ -331,4 +315,32 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		top.insertCatalogObject(subs);
 	}
 
+	public List<String> getOwners() {
+		return owners;
+	}
+
+	@Override
+	public void setInOwnerPrivilegesFailure(Throwable caught) {
+		submit.setEnabled(false);
+		accessButton.setEnabled(false);
+		StandardWindowVisualization.errorWindowMessage("Access Creation List", caught.toString());		
+	}
+	
+	@Override
+	public void setInOwnerPrivilegesSuccess(List<String> owners) {
+		transferToOwners(owners);
+		if (owners.size() > 0) {
+			submit.setEnabled(true);
+			accessButton.setEnabled(true);
+			dropdown.clear();
+			for (String name : owners) {
+				MaterialLink userlink = new MaterialLink(name);
+				dropdown.add(userlink);
+			}
+			access = owners.get(0);
+		} else {
+			submit.setEnabled(false);
+			accessButton.setEnabled(false);
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.base.client.catalog.person;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,6 +25,8 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.SetOfObjects
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.RetrieveOwnerPrivileges;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.RetrieveOwnerPrivilegesInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.QueryNameOfPersonInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.QueryNameOfPersonModal;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
@@ -33,7 +36,9 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompound
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
-public class DatabasePersonDefinition extends Composite  implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface, QueryNameOfPersonInterface, DatabasePersonDefinitionView {
+public class DatabasePersonDefinition extends Composite  
+implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface, 
+QueryNameOfPersonInterface, DatabasePersonDefinitionView,RetrieveOwnerPrivilegesInterface {
 
 	private static DatabasePersonDefinitionUiBinder uiBinder = GWT.create(DatabasePersonDefinitionUiBinder.class);
 
@@ -51,11 +56,13 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	@UiField
 	MaterialCollapsible existingPeople;
 	@UiField
-	MaterialLink peopleCreatedHeader;
+	MaterialLink ownersHeader;
 	@UiField
-	MaterialCollapsible createdPeople;
+	MaterialCollapsible ownersPeople;
 	@UiField
 	MaterialLink refresh;
+	@UiField
+	MaterialPanel fullnamepanel;
 
 	Presenter listener;
 	ChooseFullNameFromCatagoryRow choose;
@@ -64,6 +71,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	DatabaseObject obj;
 	DataCatalogID datid;
 	ArrayList<String> choices;
+	List<String> owners;
 
 	public DatabasePersonDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -72,21 +80,31 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	}
 
 	void init() {
-		String user = Cookies.getCookie("user");
-		if(user != null) {
-			peopleExisingHeader.setText("Profiles managed by User: " + user);
-		} else {
-			peopleExisingHeader.setText("Profiles managed by User: refresh to see profiles");
-		}
-		peopleCreatedHeader.setText("New person definitions");
-		
+		owners = null;
 		person = new NameOfPerson();
-		
+		headers();
 		String peopleType = MetaDataKeywords.userRoleChoices;;
 		choices = new ArrayList<String>();
 		choices.add(peopleType);
+		choosePanel();
+		RetrieveOwnerPrivileges retrieve = new RetrieveOwnerPrivileges(this);
+		retrieve.getPrivileges();
+	}
+	private void choosePanel() {
+		String user = Cookies.getCookie("user");
 		choose = new ChooseFullNameFromCatagoryRow(this,user,MetaDataKeywords.databasePerson,choices,modalpanel);
-		topPanel.add(choose);
+		fullnamepanel.add(choose);
+		
+	}
+	private void headers() {
+		String user = Cookies.getCookie("user");
+		if(user != null) {
+			ownersHeader.setText("Profiles managed by User: " + user);
+			peopleExisingHeader.setText("Profiles (not managed by " + user + ")");
+		} else {
+			ownersHeader.setText("Profiles managed by User: refresh to see profiles");
+			peopleExisingHeader.setText("Definitions not managed by user");
+		}		
 	}
 	
 	@UiHandler("refresh")
@@ -95,51 +113,19 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	}
 	
 	public void refresh() {
+		RetrieveOwnerPrivileges retrieve = new RetrieveOwnerPrivileges(this);
+		retrieve.getPrivileges();
 		existingPeople.clear();
-		refreshAccessibleUsers();
-		topPanel.clear();
-		String user = Cookies.getCookie("user");
-		choose = new ChooseFullNameFromCatagoryRow(this,user,MetaDataKeywords.databasePerson,choices,modalpanel);
-		topPanel.add(choose);
-		if(user != null) {
-			peopleExisingHeader.setText("Profiles managed by User: " + user);
-		} else {
-			peopleExisingHeader.setText("Profiles managed by User: refresh to see profiles");
-		}
+		ownersPeople.clear();
+		fullnamepanel.clear();
+		choosePanel();
+		headers();
 	}
-
-	private void refreshAccessibleUsers() {
-		String databasePerson = MetaDataKeywords.databasePerson;
-		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		async.getSetOfDatabaseObjectHierarchyForUser(databasePerson,
-				new AsyncCallback<ArrayList<DatabaseObjectHierarchy>>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						StandardWindowVisualization.errorWindowMessage("Set in objects",  caught.toString());
-					}
-
-					@Override
-					public void onSuccess(ArrayList<DatabaseObjectHierarchy> objects) {
-						setInOjbects(objects);
-					}
-			
-		});
-
-	}
-	@Override
-	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
-		for(DatabaseObjectHierarchy object : objects) {
-			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,object,modalpanel);			
-			existingPeople.add(item);
-		}		
-	}
-
+	
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		this.datid = datid;
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
-		
-		
 		person = new NameOfPerson(structure,"title","name", "familyname");
 		QueryNameOfPersonModal modal = new QueryNameOfPersonModal(person, this);
 		modalpanel.clear();
@@ -164,7 +150,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 					@Override
 					public void onSuccess(DatabaseObjectHierarchy result) {
 						StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,result,modalpanel);		
-						createdPeople.add(item);
+						ownersPeople.add(item);
 					}
 		});
 	}
@@ -182,5 +168,59 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 	}
+
+	
+	@Override
+	public void setInOwnerPrivilegesSuccess(List<String> owners) {
+		this.owners = owners;
+		refreshAccessibleUsers();		
+	}
+
+	@Override
+	public void setInOwnerPrivilegesFailure(Throwable caught) {
+		StandardWindowVisualization.errorWindowMessage("Get Privileges", caught.toString());
+	}
+	
+	private void refreshAccessibleUsers() {
+		String databasePerson = MetaDataKeywords.databasePerson;
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		async.getSetOfDatabaseObjectHierarchyForUser(databasePerson,
+				new AsyncCallback<ArrayList<DatabaseObjectHierarchy>>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						StandardWindowVisualization.errorWindowMessage("Set in objects",  caught.toString());
+					}
+					@Override
+					public void onSuccess(ArrayList<DatabaseObjectHierarchy> objects) {
+						setInOjbects(objects);
+					}
+		});
+
+	}
+	
+	@Override
+	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
+		for(DatabaseObjectHierarchy object : objects) {
+			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,object,modalpanel);
+			DatabaseObject obj = item.getHierarchy().getObject();
+			if(managed(obj)) {
+				ownersPeople.add(item);
+			} else {
+				existingPeople.add(item);
+			}
+		}		
+	}
+	private boolean managed(DatabaseObject obj) {
+		boolean ans = false;
+		if(owners != null) {
+			String owner = obj.getOwner();
+			ans = owners.contains(owner);
+		} else {
+			String user = Cookies.getCookie("user");
+			ans = obj.getOwner().compareTo(user) == 0;
+		}
+		return ans;
+	}
+
 
 }
