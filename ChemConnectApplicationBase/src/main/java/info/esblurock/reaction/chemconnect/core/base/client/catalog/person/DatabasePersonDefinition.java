@@ -207,6 +207,8 @@ QueryNameOfPersonInterface, DatabasePersonDefinitionView,RetrieveOwnerPrivileges
 				ownersPeople.add(item);
 			} else {
 				existingPeople.add(item);
+				StandardDatasetIndividualInformation header = (StandardDatasetIndividualInformation) item.getHeader();
+				header.setModifyAllowed(false);
 			}
 		}		
 	}

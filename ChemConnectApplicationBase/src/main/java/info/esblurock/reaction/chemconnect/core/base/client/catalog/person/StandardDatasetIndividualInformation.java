@@ -73,6 +73,10 @@ public class StandardDatasetIndividualInformation extends Composite implements Q
 		
 	}
 
+	public void setModifyAllowed(boolean allowed) {
+		save.setVisible(allowed);
+		delete.setVisible(allowed);
+	}
 	@UiHandler("save")
 	public void clickSave(ClickEvent event) {
 		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
