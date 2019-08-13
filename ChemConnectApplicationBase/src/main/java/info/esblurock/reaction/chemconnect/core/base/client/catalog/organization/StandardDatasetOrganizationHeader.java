@@ -85,4 +85,9 @@ public class StandardDatasetOrganizationHeader extends Composite  implements Set
 			}
 		}
 	}
+	public void setModifyAllowed(boolean allowed) {
+		save.setVisible(allowed);
+		delete.setVisible(allowed);
+	}
+
 }

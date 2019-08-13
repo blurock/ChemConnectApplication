@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPl
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.RepositoryFileManagerPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
@@ -187,6 +188,12 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	public void onPeopleClick(ClickEvent event) {
 		setSubTitle("Manage Contact Info");
 		goTo(new DatabasePersonDefinitionPlace("Manage Contact Info"));
+	}
+
+	@UiHandler("organizations")
+	public void onOrganizationsClick(ClickEvent event) {
+		setSubTitle("Manage Organization Info");
+		goTo(new OrganizationDefinitionPlace("Manage Organization Info"));
 	}
 
 	private void goTo(Place place) {

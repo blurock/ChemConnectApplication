@@ -17,7 +17,7 @@
 					<m:MaterialRow>
 						<m:MaterialColumn grid="s11">
 							<m:MaterialLink ui:field="peopleExisingHeader"
-								textColor="BLACK" />
+								textColor="BLACK" fontSize="2em"/>
 						</m:MaterialColumn>
 						<m:MaterialColumn grid="s1">
 							<m:MaterialLink ui:field="refresh"
@@ -33,11 +33,11 @@
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
 				    <m:MaterialRow>
-				        <m:MaterialPanel ui:field="fullnamepanel"/>
+				        <m:MaterialLink ui:field="ownersHeader"
+						textColor="BLACK" fontSize="2em"/>
 				    </m:MaterialRow>
 				    <m:MaterialRow>
-				        <m:MaterialLink ui:field="ownersHeader"
-						textColor="BLACK" />
+				        <m:MaterialPanel ui:field="fullnamepanel"/>
 				    </m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>

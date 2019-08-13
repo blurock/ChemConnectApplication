@@ -69,24 +69,19 @@ public class QueryFactory {
 	}
 	
 	public static List<String> getAccessCreationList(UserSessionData user) {
-		System.out.println("getAccessCreationList: UserSessionData\n" + user);
 		Set<String> privileges = UserQueries.getListOfInputPriviledges(user);
-		System.out.println("getAccessCreationList: privileges:\n" + privileges);
 		String consortiumaccess = UserAccountKeys.accessQueryDataInputConsortium;
 		String useraccess = UserAccountKeys.accessQueryDataInputUser;
 		String publicaccess = UserAccountKeys.accessQueryDataInputPublic;
 		ArrayList<String> names = new ArrayList<String>();
 		
 		if(privileges.contains(useraccess)) {
-			System.out.println("getAccessCreationList: user: " + user.getUserName());
 			names.add(user.getUserName());
 		}
 		if(privileges.contains(publicaccess)) {
-			System.out.println("getAccessCreationList: Public");
 			names.add("Public");
 		}
 		if(privileges.contains(consortiumaccess)) {
-			System.out.println("getAccessCreationList: Consortium");
 			List<String> consortium = getListOfUserConsortium(user.getUserName());
 			for(String name : consortium) {
 				names.add(name);

@@ -46,7 +46,6 @@ public class LoginUtilities {
 	 * 
 	 */
 	public static UserSessionData isSessionActive(String sessionid) {
-		System.out.println("isSessionActive: " + sessionid);
 		return DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 	}
 	/** loginAsCurrentUser
@@ -64,7 +63,6 @@ public class LoginUtilities {
 	 * @return The user session data of the current user.
 	 */
 	public static UserSessionData loginAsCurrentUser(String sessionid, String hostname, String IP) {
-		System.out.println("loginAsCurrentUser: " + sessionid);
 		UserSessionData sessionuser = isSessionActive(sessionid);
 		if(sessionuser == null) {
 			sessionuser = newLoginAsGuest(sessionid,hostname,IP);

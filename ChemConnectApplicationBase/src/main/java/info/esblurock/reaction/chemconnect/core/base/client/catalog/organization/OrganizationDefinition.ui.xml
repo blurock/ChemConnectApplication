@@ -1,29 +1,48 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
+		}
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialPanel ui:field="topPanel" />
-		<m:MaterialCollapsible ui:field="contentcollapsible">
+		<m:MaterialCollapsible
+			ui:field="contentcollapsible">
 			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader margin="0">
-					<m:MaterialLink ui:field="organizationExisingHeader" textColor="BLACK"/>
+				<m:MaterialCollapsibleHeader>
+					<m:MaterialRow>
+						<m:MaterialColumn grid="s11">
+							<m:MaterialLink ui:field="orgExisingHeader"
+								textColor="BLACK" fontSize="2em"/>
+						</m:MaterialColumn>
+						<m:MaterialColumn grid="s1">
+							<m:MaterialLink ui:field="refresh"
+								iconType="REFRESH" iconColor="BLACK" />
+						</m:MaterialColumn>
+					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialCollapsible ui:field="existingOrgs" />
+					<m:MaterialCollapsible
+						ui:field="existingOrganizations" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader margin="0">
-							<m:MaterialLink ui:field="organizationCreatedHeader" textColor="BLACK"/>
+				<m:MaterialCollapsibleHeader>
+				    <m:MaterialRow>
+				        <m:MaterialLink ui:field="ownersHeader"
+						textColor="BLACK" fontSize="2em"/>
+				    </m:MaterialRow>
+				    <m:MaterialRow>
+				        <m:MaterialPanel ui:field="fullnamepanel"/>
+				    </m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialCollapsible ui:field="createdOrgs" />
+					<m:MaterialCollapsible
+						ui:field="ownersOrganization" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 		</m:MaterialCollapsible>

@@ -44,9 +44,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		//String sessionid = util.getId();
 		String ip = getThreadLocalRequest().getRemoteAddr();
 		String host = getThreadLocalRequest().getRemoteHost();
-		System.out.println("loginGuestServer(): " + sessionid);
 		UserSessionData sessionuser = LoginUtilities.loginAsCurrentUser(sessionid, host, ip);
-		System.out.println("loginGuestServer(): \n" + sessionuser);
 		return sessionuser;
 	}
 	@Override
@@ -110,9 +108,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	}
 	public List<String> getAccessCreationList() {
 		String sessionid = getThreadLocalRequest().getSession().getId();
-		System.out.println("getAccessCreationList(): " + sessionid);
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
-		System.out.println("getAccessCreationList(): \n"+ usession);
 		List<String>  accesslst = new ArrayList<String>();
 		if(usession != null) {
 			accesslst = QueryFactory.getAccessCreationList(usession);

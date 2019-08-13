@@ -59,18 +59,18 @@
 							textColor="BLACK" />
 						<m:MaterialLink ui:field="upload" separator="true"
 							textColor="BLACK" />
-						<m:MaterialLink ui:field="isolate" separator="true"
-							textColor="BLACK" />
+						<!-- m:MaterialLink ui:field="isolate" separator="true"
+							textColor="BLACK" / -->
 						<m:MaterialLink ui:field="repository" separator="true"
 							textColor="BLACK" />
-						<m:MaterialLink ui:field="specification"
-							separator="true" textColor="BLACK" />
-						<m:MaterialLink ui:field="protocol"
-							separator="true" textColor="BLACK" />
-						<m:MaterialLink ui:field="dataSet" separator="true"
-							textColor="BLACK" />
-						<m:MaterialLink ui:field="devices" separator="true"
-							textColor="BLACK" />
+						<!--  m:MaterialLink ui:field="specification"
+							separator="true" textColor="BLACK" / -->
+						<!--  m:MaterialLink ui:field="protocol"
+							separator="true" textColor="BLACK"  / -->
+						<!--  m:MaterialLink ui:field="dataSet" separator="true"
+							textColor="BLACK" /  -->
+						<!--  m:MaterialLink ui:field="devices" separator="true"
+							textColor="BLACK" / -->
 						<m:MaterialLink ui:field="people" separator="true"
 							textColor="BLACK" />
 						<m:MaterialLink ui:field="organizations"

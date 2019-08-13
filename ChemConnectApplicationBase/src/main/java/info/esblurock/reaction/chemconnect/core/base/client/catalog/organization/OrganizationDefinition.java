@@ -1,12 +1,14 @@
 package info.esblurock.reaction.chemconnect.core.base.client.catalog.organization;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,12 +25,16 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.SetOfObjects
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.RetrieveOwnerPrivileges;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.RetrieveOwnerPrivilegesInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.view.OrganizationDefinitionView;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
-public class OrganizationDefinition extends Composite implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface, OrganizationDefinitionView {
+public class OrganizationDefinition extends Composite 
+	implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface, 
+	OrganizationDefinitionView,RetrieveOwnerPrivilegesInterface {
 
 	private static OrganizationDefinitionUiBinder uiBinder = GWT.create(OrganizationDefinitionUiBinder.class);
 
@@ -36,9 +42,6 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	}
 
 
-	String defaultCatagory;
-	String enterkeyS;
-	String keynameS;
 	@UiField
 	MaterialCollapsible contentcollapsible;
 	@UiField
@@ -46,17 +49,26 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	@UiField
 	MaterialPanel topPanel;
 	@UiField
-	MaterialLink organizationExisingHeader;
+	MaterialLink orgExisingHeader;
 	@UiField
-	MaterialCollapsible existingOrgs;
+	MaterialCollapsible existingOrganizations;
 	@UiField
-	MaterialLink organizationCreatedHeader;
+	MaterialLink ownersHeader;
 	@UiField
-	MaterialCollapsible createdOrgs;
+	MaterialCollapsible ownersOrganization;
+	@UiField
+	MaterialLink refresh;
+	@UiField
+	MaterialPanel fullnamepanel;
 	
 	Presenter listener;
 	ChooseFullNameFromCatagoryRow choose;
 	String access;
+	String defaultCatagory;
+	String enterkeyS;
+	String keynameS;
+	ArrayList<String> choices;
+	List<String> owners;
 
 	public OrganizationDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -64,34 +76,44 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	}
 
 	private void init() {
+		owners = null;
+		headers();
 		String orgType = MetaDataKeywords.organizationClassifications;
-		
-		organizationExisingHeader.setText("Existing Organization Definitions");
-		organizationCreatedHeader.setText("New Organizations");
-		
-		ArrayList<String> choices = new ArrayList<String>();
+		choices = new ArrayList<String>();
 		choices.add(orgType);
+		choosePanel();
+		RetrieveOwnerPrivileges retrieve = new RetrieveOwnerPrivileges(this);
+		retrieve.getPrivileges();
+		orgExisingHeader.setText("Existing Organization Definitions");
+	}
+	private void choosePanel() {
 		String user = Cookies.getCookie("user");
-		String organization = MetaDataKeywords.organization;
-		choose = new ChooseFullNameFromCatagoryRow(this,user,organization,choices,modalpanel);
-		topPanel.add(choose);
-		
-		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		async.getSetOfDatabaseObjectHierarchyForUser(organization,
-				new AsyncCallback<ArrayList<DatabaseObjectHierarchy>>() {
-			@Override
-			public void onFailure(Throwable ex) {
-				MaterialLoader.loading(false);
-				StandardWindowVisualization.errorWindowMessage("Set of catalog elements",ex.toString());
-			}
-
-			@Override
-			public void onSuccess(ArrayList<DatabaseObjectHierarchy> objects) {
-				MaterialLoader.loading(false);
-				setInOjbects(objects);
-			}			
-		});
-		
+		choose = new ChooseFullNameFromCatagoryRow(this,user,MetaDataKeywords.organization,choices,modalpanel);
+		fullnamepanel.add(choose);
+	}
+	private void headers() {
+		String user = Cookies.getCookie("user");
+		if(user != null) {
+			ownersHeader.setText("Organizations managed by User: " + user);
+			orgExisingHeader.setText("Organizations (not managed by " + user + ")");
+		} else {
+			ownersHeader.setText("Organizations managed by User: refresh to see profiles");
+			orgExisingHeader.setText("Organizations not managed by user");
+		}		
+	}
+	@UiHandler("refresh")
+	public void refreshClicked(ClickEvent event) {
+		refresh();
+	}
+	
+	public void refresh() {
+		RetrieveOwnerPrivileges retrieve = new RetrieveOwnerPrivileges(this);
+		retrieve.getPrivileges();
+		existingOrganizations.clear();
+		ownersOrganization.clear();
+		fullnamepanel.clear();
+		choosePanel();
+		headers();
 	}
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
@@ -110,25 +132,62 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 			public void onSuccess(DatabaseObjectHierarchy transfer) {
 				MaterialLoader.loading(false);
 				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,transfer,modalpanel);		
-				createdOrgs.add(item);
+				ownersOrganization.add(item);
 			}
 			
 		});
 	}
-
+	
+	
 	@Override
-	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
-		for(DatabaseObjectHierarchy object : objects) {
-			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,object,modalpanel);			
-			existingOrgs.add(item);
-		}
-		
+	public void setInOwnerPrivilegesSuccess(List<String> owners) {
+		this.owners = owners;
+		refreshAccessibleUsers();		
 	}
 
 	@Override
-	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
-		contentcollapsible.add(item);
+	public void setInOwnerPrivilegesFailure(Throwable caught) {
+		StandardWindowVisualization.errorWindowMessage("Get Privileges", caught.toString());
+	}
+	
+	private void refreshAccessibleUsers() {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		async.getSetOfDatabaseObjectHierarchyForUser(MetaDataKeywords.organization,
+				new AsyncCallback<ArrayList<DatabaseObjectHierarchy>>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						StandardWindowVisualization.errorWindowMessage("Set in objects",  caught.toString());
+					}
+					@Override
+					public void onSuccess(ArrayList<DatabaseObjectHierarchy> objects) {
+						setInOjbects(objects);
+					}
+		});
+	}
+	@Override
+	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
+		for(DatabaseObjectHierarchy object : objects) {
+			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,object,modalpanel);
+			DatabaseObject obj = item.getHierarchy().getObject();
+			if(managed(obj)) {
+				ownersOrganization.add(item);
+			} else {
+				existingOrganizations.add(item);
+				StandardDatasetOrganizationHeader header = (StandardDatasetOrganizationHeader) item.getHeader();
+				header.setModifyAllowed(false);
+			}
+		}		
+	}
+	private boolean managed(DatabaseObject obj) {
+		boolean ans = false;
+		if(owners != null) {
+			String owner = obj.getOwner();
+			ans = owners.contains(owner);
+		} else {
+			String user = Cookies.getCookie("user");
+			ans = obj.getOwner().compareTo(user) == 0;
+		}
+		return ans;
 	}
 	@Override
 	public void setName(String titleName) {
@@ -138,5 +197,12 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
+		existingOrganizations.add(item);
+	}
+
 
 }

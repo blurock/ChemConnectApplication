@@ -282,7 +282,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				fileset.add(readhierarchy);
 			}
 		} else {
-			System.out.println("getUploadedStagedFiles: no user session connected");
+			//System.out.println("getUploadedStagedFiles: no user session connected");
 		}
 		return fileset;
 	}
