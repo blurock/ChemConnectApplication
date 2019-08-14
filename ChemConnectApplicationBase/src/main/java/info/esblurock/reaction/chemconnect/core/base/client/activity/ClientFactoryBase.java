@@ -5,6 +5,7 @@ import com.google.gwt.place.shared.PlaceController;
 
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.ConsortiumManagementView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
@@ -30,6 +31,7 @@ public interface ClientFactoryBase {
 	AuthentificationTopPanelInterface getTopPanel();
 	OrganizationDefinitionView getOrganizationDefinitionView();
 	RepositoryFileManagerView getRepositoryFileManagerView();
+	ConsortiumManagementView getConsortiumManagementView();
 	
 	void setTopPanel(AuthentificationTopPanelInterface toppanel);
 	}

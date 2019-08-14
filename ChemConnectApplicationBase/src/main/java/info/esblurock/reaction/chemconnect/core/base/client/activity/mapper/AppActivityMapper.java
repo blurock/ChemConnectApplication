@@ -8,6 +8,7 @@ import com.google.gwt.place.shared.Place;
 
 import info.esblurock.reaction.chemconnect.core.base.client.activity.AboutSummaryActivity;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
+import info.esblurock.reaction.chemconnect.core.base.client.activity.ConsortiumManagementActivity;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.DatabasePersonDefinitionActivity;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.FirstPageActivity;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.FirstSiteLandingPageActivity;
@@ -17,6 +18,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.activity.RepositoryF
 import info.esblurock.reaction.chemconnect.core.base.client.activity.UploadFileToBlobStorageActivity;
 
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ConsortiumManagementPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
@@ -59,6 +61,8 @@ public class AppActivityMapper implements ActivityMapper  {
 			return new FirstPageActivity((FirstPagePlace) place, clientFactory);
 		} else if (place instanceof RepositoryFileManagerPlace) {
 			return new RepositoryFileManagerActivity((RepositoryFileManagerPlace) place, clientFactory);
+		} else if (place instanceof ConsortiumManagementPlace) {
+			return new ConsortiumManagementActivity((ConsortiumManagementPlace) place, clientFactory);
 		}
 		return null;
 	}

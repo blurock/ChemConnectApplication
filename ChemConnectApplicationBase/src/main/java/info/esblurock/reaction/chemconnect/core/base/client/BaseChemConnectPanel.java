@@ -18,6 +18,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ConsortiumManagementPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
@@ -66,6 +67,8 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	MaterialLink people;
 	@UiField
 	MaterialLink organizations;
+	@UiField
+	MaterialLink consortia;
 	@UiField
 	MaterialLink logout;
 	@UiField
@@ -194,6 +197,12 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	public void onOrganizationsClick(ClickEvent event) {
 		setSubTitle("Manage Organization Info");
 		goTo(new OrganizationDefinitionPlace("Manage Organization Info"));
+	}
+
+	@UiHandler("consortia")
+	public void onConsortiaClick(ClickEvent event) {
+		setSubTitle("Manage Consortium Info");
+		goTo(new ConsortiumManagementPlace("Manage Consortium Info"));
 	}
 
 	private void goTo(Place place) {

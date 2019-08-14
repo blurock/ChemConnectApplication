@@ -75,7 +75,9 @@
 							textColor="BLACK" />
 						<m:MaterialLink ui:field="organizations"
 							separator="true" textColor="BLACK" />
-					</m:MaterialDropDown>
+						<m:MaterialLink ui:field="consortia"
+							separator="true" textColor="BLACK" />
+											</m:MaterialDropDown>
 					<m:MaterialDropDown ui:field="dpTutorial"
 						activator="dp-tutorial" belowOrigin="true">
 						<m:MaterialLink text="Start" separator="true"

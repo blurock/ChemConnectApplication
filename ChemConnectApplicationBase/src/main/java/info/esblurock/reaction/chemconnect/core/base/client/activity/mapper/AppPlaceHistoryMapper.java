@@ -4,6 +4,7 @@ import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
 
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ConsortiumManagementPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstPagePlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
@@ -19,7 +20,8 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBl
 	ManageCatalogHierarchyPlace.Tokenizer.class,
 	FirstPagePlace.Tokenizer.class,
 	AboutSummaryPlace.Tokenizer.class,
-	RepositoryFileManagerPlace.Tokenizer.class
+	RepositoryFileManagerPlace.Tokenizer.class,
+	ConsortiumManagementPlace.Tokenizer.class
 })
 
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {

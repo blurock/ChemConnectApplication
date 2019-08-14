@@ -8,6 +8,7 @@ import com.google.gwt.user.client.Window;
 import info.esblurock.reaction.chemconnect.core.base.client.about.AboutSummary;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.AuthentificationTopPanelInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.ManageCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.consortium.ConsortiumManagement;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.UploadFileToBlobStorage;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.repository.RepositoryFileManager;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.organization.OrganizationDefinition;
@@ -15,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.person.Datab
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstPage;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.view.AboutSummaryView;
+import info.esblurock.reaction.chemconnect.core.base.client.view.ConsortiumManagementView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstPageView;
 import info.esblurock.reaction.chemconnect.core.base.client.view.FirstSiteLandingPageView;
@@ -37,7 +39,7 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	private final ManageCatalogHierarchyView manageCatalogHierarchyView = new ManageCatalogHierarchy();
 	private final UploadFileToBlobStorageView uploadFileToBlobStorageView = new UploadFileToBlobStorage();
 	private final RepositoryFileManagerView repositoryFileManager = new RepositoryFileManager();
-
+	private final ConsortiumManagementView consortiumManagement = new ConsortiumManagement();
 	@Override
 	public EventBus getEventBus() {
 		return eventBus;
@@ -98,6 +100,11 @@ public class ClientFactoryBaseImpl implements ClientFactoryBase {
 	@Override
 	public void  setTopPanel(AuthentificationTopPanelInterface toppanel) {
 		this.toppanel = toppanel;
+	}
+
+	@Override
+	public ConsortiumManagementView getConsortiumManagementView() {
+		return consortiumManagement;
 	}
 
 
