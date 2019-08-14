@@ -21,7 +21,7 @@ public class Consortium extends ChemConnectDataStructure {
 	}
 
 	public Consortium(ChemConnectDataStructure structure, String consortiumName, String consortiumMember) {
-		super();
+		super(structure);
 		this.consortiumMember = consortiumMember;
 		this.consortiumName = consortiumName;
 	}

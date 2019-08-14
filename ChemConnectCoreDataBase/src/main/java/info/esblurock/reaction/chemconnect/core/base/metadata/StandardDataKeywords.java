@@ -173,9 +173,10 @@ public class StandardDataKeywords {
 
 
 	// Consortium
-	public static String DatabaseUserIDReadAccess = "dataset:userReadAccess";
-	public static String DatabaseUserIDWriteAccess = "dataset:userWriteAccess";
-	public static String parameterSetDescriptionsS = "rdf:Property";
+	public static String consortium = "dataset:Consortium";
+	public static String consortiumMember = "dataset:ConsortiumMember";
+	public static String consortiumMemberName = "dataset:ConsortiumMemberName";
+	public static String consortiumName = "dataset:ConsortiumName";
 
 	// ConvertInputDataBase
 	public static String inputTypeS = "dataset:inputType";

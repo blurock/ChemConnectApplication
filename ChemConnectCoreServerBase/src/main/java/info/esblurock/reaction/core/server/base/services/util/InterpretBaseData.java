@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DescriptionDataData
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.base.dataset.consortium.Consortium;
+import info.esblurock.reaction.chemconnect.core.base.dataset.consortium.ConsortiumMember;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
@@ -655,7 +656,7 @@ public enum InterpretBaseData {
 			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			imageobj.setIdentifier(catid);
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(imageobj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehierarchy.getObject();
 			ImageInformation image = new ImageInformation(structure);
@@ -931,8 +932,7 @@ public enum InterpretBaseData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject descrobj = new DatabaseObject(obj);
 			descrobj.nullKey();
 			DataElementInformation element = DatasetOntologyParseBase
@@ -1857,42 +1857,27 @@ public enum InterpretBaseData {
 				throws IOException {
 
 			Consortium consortium = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
-
-			HashSet<String> DatabaseUserIDReadAccess 
-				= InterpretBaseDataUtilities.interpretMultipleYaml(StandardDataKeywords.DatabaseUserIDReadAccess,yaml);
-			HashSet<String> DatabaseUserIDWriteAccess
-				= InterpretBaseDataUtilities.interpretMultipleYaml(StandardDataKeywords.DatabaseUserIDWriteAccess,yaml);
-			HashSet<String> DataSetCatalogID
-				= InterpretBaseDataUtilities.interpretMultipleYaml(StandardDataKeywords.parameterSetDescriptionsS,yaml);
-			HashSet<String> OrganizationID
-			= InterpretBaseDataUtilities.interpretMultipleYaml(StandardDataKeywords.originfoKeyS,yaml);
+			String consortiumName = (String) yaml.get(StandardDataKeywords.consortiumName);
+			String consortiumMemberName = (String) yaml.get(StandardDataKeywords.consortiumMemberName);
 
 			consortium = new Consortium(datastructure, 
-					DatabaseUserIDReadAccess, DatabaseUserIDWriteAccess,
-					DataSetCatalogID, OrganizationID);
+					consortiumName, consortiumMemberName);
 
 			return consortium;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			Consortium consortium = (Consortium) object;
-
-			InterpretBaseDataUtilities.putMultipleInYaml(StandardDataKeywords.DatabaseUserIDReadAccess, 
-					map,consortium.getDatabaseUserIDReadAccess());
-			InterpretBaseDataUtilities.putMultipleInYaml(StandardDataKeywords.DatabaseUserIDWriteAccess, 
-					map,consortium.getDatabaseUserIDWriteAccess());
-			InterpretBaseDataUtilities.putMultipleInYaml(StandardDataKeywords.parameterSetDescriptionsS, 
-					map,consortium.getDataSetCatalogID());
-			InterpretBaseDataUtilities.putMultipleInYaml(StandardDataKeywords.originfoKeyS, 
-					map,consortium.getOrganizationID());
-
+			map.put(StandardDataKeywords.consortiumName, consortium.getConsortiumName());
+			map.put(StandardDataKeywords.consortiumMemberName, consortium.getConsortiumMember());
+			
 			return map;
 		}
 
@@ -1907,12 +1892,97 @@ public enum InterpretBaseData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				DatabaseObject obj) {
-			return null;
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject consortiumobj = new DatabaseObject(obj);
+			consortiumobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.consortium);
+			String conid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			consortiumobj.setIdentifier(conid);
+			
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
+			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(consortiumobj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehierarchy.getObject();
+			
+
+			DatabaseObjectHierarchy memhier = InterpretBaseData.ChemConnectCompoundMultiple.createEmptyObject(consortiumobj);
+			InterpretBaseDataUtilities.setChemConnectCompoundMultipleType(memhier,StandardDataKeywords.consortiumMember);
+
+			Consortium consortium = new Consortium(structure, 
+					"ConsortiumName",
+					memhier.getObject().getIdentifier());
+			consortium.setIdentifier(conid);
+			DatabaseObjectHierarchy consorthier = new DatabaseObjectHierarchy(consortium);
+			consorthier.transferSubObjects(structurehierarchy);
+			consorthier.addSubobject(memhier);
+			
+			return consorthier;
 		}
 
-	}, ConvertInputDataBase {
+	}, ConsortiumMember {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject memobj = new DatabaseObject(obj);
+			memobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.consortiumMember);
+			String memid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			memobj.setIdentifier(memid);
+			
+			DatabaseObjectHierarchy compoundhier = InterpretBaseData.ChemConnectCompoundDataStructure.createEmptyObject(memobj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+			ConsortiumMember member = new ConsortiumMember(structure,
+					"ConsortiumName", "ConsortiumMemberName");
+			member.setIdentifier(memid);
+			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(member);
+			return top;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ConsortiumMember member = null;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			ChemConnectCompoundDataStructure datastructure = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml,
+					sourceID);
+
+			String consortiumName = (String) yaml.get(StandardDataKeywords.consortiumName);
+			String consortiumMemberName = (String) yaml.get(StandardDataKeywords.consortiumMemberName);
+
+			member = new ConsortiumMember(datastructure,
+					consortiumName,consortiumMemberName);
+			return member;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject object) throws IOException {
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			ConsortiumMember member = (ConsortiumMember) object;
+
+			map.put(StandardDataKeywords.consortiumName, member.getConsortiumName());
+			map.put(StandardDataKeywords.consortiumMemberName, member.getConsortiumMemberName());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ConsortiumMember.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ConsortiumMember.class.getCanonicalName();
+		}
+		
+	},
+	
+	ConvertInputDataBase {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
