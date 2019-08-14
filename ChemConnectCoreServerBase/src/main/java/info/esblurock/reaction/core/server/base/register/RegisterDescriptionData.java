@@ -4,13 +4,13 @@ import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.base.dataset.AuthorInformation;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectObjectLink;
-import info.esblurock.reaction.chemconnect.core.base.dataset.Consortium;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataSetReference;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.base.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.base.dataset.consortium.Consortium;
 
 public class RegisterDescriptionData {
 	public static void register() {

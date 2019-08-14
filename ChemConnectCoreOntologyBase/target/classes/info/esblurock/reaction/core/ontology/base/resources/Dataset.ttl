@@ -2847,21 +2847,58 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:subClassOf :UserInformation ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                              owl:someValuesFrom :DatabaseUserIDReadAccess
+                              owl:someValuesFrom :ConsortiumMember
                             ] ,
                             [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                              owl:someValuesFrom :DatabaseUserIDWriteAccess
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                              owl:someValuesFrom :ParameterValue
+                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :ConsortiumName
                             ] ;
             <http://purl.org/dc/elements/1.1/type> "Consortium"^^xsd:string ;
             <http://purl.org/dc/terms/identifier> "dataset:Consortium"^^xsd:string ;
-            rdfs:isDefinedBy <http://www.w3.org/ns/prov#Organization> ;
+            rdfs:comment "This is the Consortium catalog object. It holds the information about the consortium. The consortium is defined by the consortium name and the set of members." ;
             rdfs:label "Consortium of users"^^xsd:string ;
             <http://www.w3.org/2004/02/skos/core#altLabel> "consortium"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#ConsortiumMember
+:ConsortiumMember rdf:type owl:Class ;
+                  rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :ConsortiumMemberName
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :ConsortiumName
+                                  ] ;
+                  <http://purl.org/dc/elements/1.1/type> "ConsortiumMember" ;
+                  <http://purl.org/dc/terms/identifier> "dataset:ConsortiumMember" ;
+                  rdfs:comment "The description of the consortium, the consortium name paired with a member (name) of the consortium" ;
+                  rdfs:label "Consortium Member" ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "consortmem" .
+
+
+###  http://www.esblurock.info/dataset#ConsortiumMemberName
+:ConsortiumMemberName rdf:type owl:Class ;
+                      rdfs:subClassOf :ShortStringLabel ;
+                      <http://purl.org/dc/elements/1.1/type> "ShortLabel" ;
+                      <http://purl.org/dc/terms/identifier> "dataset:ConsortiumMemberName" ;
+                      rdfs:comment "The username of a member of a consortium" ;
+                      rdfs:label "Consortium Member Name" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "dataset:consortmember" .
+
+
+###  http://www.esblurock.info/dataset#ConsortiumName
+:ConsortiumName rdf:type owl:Class ;
+                rdfs:subClassOf :ShortStringLabel ;
+                <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                <http://purl.org/dc/terms/identifier> "dataset:ConsortiumName" ;
+                rdfs:comment "The name of the consortium, used as the username and access to signify that the object is managed by the consortium" ;
+                rdfs:label "Consortium Name" ;
+                <http://www.w3.org/2004/02/skos/core#altLabel> "consortname" .
 
 
 ###  http://www.esblurock.info/dataset#ContactEmail
