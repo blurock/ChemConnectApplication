@@ -10,7 +10,8 @@ import info.esblurock.reaction.chemconnect.core.base.transfer.CompoundDataStruct
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
-import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 
 public class ReadWriteDatabaseObjectsWithSubobjects {
 
@@ -27,10 +28,7 @@ public class ReadWriteDatabaseObjectsWithSubobjects {
 	public static void addDatabaseObject(String identifier, String structure, String elementName, Map<String,DatabaseObject> map) {
 		DatabaseObject obj = null;
 		try {
-			System.out.println("addDatabaseObject");
-			System.out.println("addDatabaseObject  identifier: " + identifier);
-			System.out.println("addDatabaseObject structure:   " + structure);
-			InterpretBaseData interpret = InterpretBaseData.valueOf(structure);
+			InterpretDataInterface interpret = InterpretDataBase.valueOf(structure);
 			obj = interpret.readElementFromDatabase(identifier);
 			System.out.println("addDatabaseObject: " + obj);
 			if(obj != null) {
@@ -51,7 +49,7 @@ public class ReadWriteDatabaseObjectsWithSubobjects {
 		System.out.println("readObjectAndSubObjects: structure:  " + structure);
 		System.out.println("readObjectAndSubObjects: elementName " + elementName);
 				try {
-			InterpretBaseData interpret = InterpretBaseData.valueOf(structure);
+			InterpretDataInterface interpret = InterpretDataBase.valueOf(structure);
 			Map<String, Object> mapping = interpret.createYamlFromObject(object);
 			System.out.println("readObjectAndSubObjects  map:\n" + mapping.toString());
 			

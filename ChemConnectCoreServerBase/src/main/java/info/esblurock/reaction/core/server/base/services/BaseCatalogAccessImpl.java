@@ -11,7 +11,8 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.BaseCatalogAccess;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.gps.GeocodingLatituteAndLongitude;
-import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 
 public class BaseCatalogAccessImpl extends ServerBase implements BaseCatalogAccess {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +28,7 @@ public ChemConnectRecordInformation getChemConnectRecordInformation(DatabaseObje
 		String structureS = DatasetOntologyParseBase.dataTypeOfStructure(obj);
 		CompoundDataStructure structure = getChemConnectCompoundDataStructure(structureS);
 		String objecttype = obj.getClass().getSimpleName();
-		InterpretBaseData interpret = InterpretBaseData.valueOf(objecttype);
+		InterpretDataInterface interpret = InterpretDataBase.valueOf(objecttype);
 		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
 		ChemConnectRecordInformation info = new ChemConnectRecordInformation(obj,structureS,structure,mapping);
 		

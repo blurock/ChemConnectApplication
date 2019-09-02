@@ -25,7 +25,8 @@ import info.esblurock.reaction.core.server.base.db.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.base.db.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
@@ -116,7 +117,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		DatabaseObject object = objecthierarchy.getObject();
 		String name = object.getClass().getSimpleName();
 		mapping.put("structure", name);
-		InterpretBaseData interpret = InterpretBaseData.valueOf(name);
+		InterpretDataInterface interpret = InterpretDataBase.valueOf(name);
 		Map<String, Object> objmapping = interpret.createYamlFromObject(object);
 		if(name.compareTo("ChemConnectCompoundMultiple") == 0) {
 			Map<String, Object> multmap = new HashMap<String, Object>();
@@ -186,7 +187,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 			Map<String, Object> mapping, String sourceID) throws IOException {
 		String structurename = (String) mapping.get("structure");
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy();
-		InterpretBaseData interpret = InterpretBaseData.valueOf(structurename);
+		InterpretDataInterface interpret = InterpretDataBase.valueOf(structurename);
 		if (structurename.compareTo("ChemConnectCompoundMultiple") == 0) {
 			ChemConnectCompoundMultiple mult = (ChemConnectCompoundMultiple) interpret.fillFromYamlString(top, mapping, sourceID);
 			Map<String, Object> submap = (Map<String, Object>) mapping.get("dataset:ChemConnectCompoundMultiple");

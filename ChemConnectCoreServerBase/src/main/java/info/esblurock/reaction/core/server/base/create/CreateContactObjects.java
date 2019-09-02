@@ -45,6 +45,8 @@ import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseDataUtilities;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 
 public class CreateContactObjects {
 	public static DatabaseObjectHierarchy createNewUser(UserSessionData usession, UserAccount uaccount, NameOfPerson person) {
@@ -469,7 +471,7 @@ public class CreateContactObjects {
 		obj.nullKey();
 		ClassificationInformation info = DatasetOntologyParseBase.getIdentificationInformation(dataType);
 		String structureName = info.getDataType();
-		InterpretBaseData interpret = InterpretBaseData.valueOf(structureName);
+		InterpretDataInterface interpret = InterpretDataBase.valueOf(structureName);
 		DatabaseObjectHierarchy hierarchy = interpret.createEmptyObject(obj);
 		String uid = hierarchy.getObject().getIdentifier() + numS;
 		hierarchy.getObject().setIdentifier(uid);
@@ -480,7 +482,7 @@ public class CreateContactObjects {
 		String structureS = DatasetOntologyParseBase.dataTypeOfStructure(obj);
 		CompoundDataStructure structure = getChemConnectCompoundDataStructure(structureS);
 		String objecttype = obj.getClass().getSimpleName();
-		InterpretBaseData interpret = InterpretBaseData.valueOf(objecttype);
+		InterpretDataInterface interpret = InterpretDataBase.valueOf(objecttype);
 		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
 		ChemConnectRecordInformation info = new ChemConnectRecordInformation(obj,structureS,structure,mapping);
 		

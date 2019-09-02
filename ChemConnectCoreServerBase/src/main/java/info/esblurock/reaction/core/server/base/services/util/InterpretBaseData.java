@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -47,7 +46,7 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryDataFile;
 import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
 
-public enum InterpretBaseData {
+public enum InterpretBaseData implements InterpretDataInterface {
 
 	DatabaseObject {
 		@Override
@@ -123,7 +122,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top,
 				Map<String, Object> yaml, String sourceID) throws IOException {
 			ChemConnectDataStructure datastructure = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String descriptionDataDataS = (String) yaml.get(StandardDataKeywords.descriptionDataDataS);			
@@ -143,7 +142,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.descriptionDataDataS, datastructure.getDescriptionDataData());
@@ -211,7 +210,7 @@ public enum InterpretBaseData {
 				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ChemConnectCompoundDataStructure datastructure = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
 			
 			String parentCatalogS = (String) yaml.get(StandardDataKeywords.parentCatalogS);
@@ -223,7 +222,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ChemConnectCompoundDataStructure datastructure = (ChemConnectCompoundDataStructure) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.parentCatalogS, datastructure.getParentLink());
@@ -300,7 +299,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			DataCatalogID datastructure = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
 			
 			String CatalogBaseNameS = (String) yaml.get(StandardDataKeywords.CatalogBaseName);
@@ -355,7 +354,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(
 				DatabaseObject object) throws IOException {
 			ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			map.put(StandardDataKeywords.elementType, multi.getType());
 			return map;
@@ -670,7 +669,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ImageInformation image = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 			String imageType = (String) yaml.get(StandardDataKeywords.imageType);
 			String imageURL = (String) yaml.get(StandardDataKeywords.imageURL);
@@ -681,7 +680,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ImageInformation imageinformation = (ImageInformation) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.imageType, imageinformation.getImageType());
@@ -734,7 +733,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			DatasetImage image = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 			String imageInformationID = (String) yaml.get(MetaDataKeywords.imageInformationID);			
 			image = new DatasetImage(structure,imageInformationID);
@@ -744,7 +743,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DatasetImage datasetImage = (DatasetImage) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			map.put(MetaDataKeywords.imageInformationID, datasetImage.getImageInformation());
 			return map;
@@ -820,7 +819,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			PurposeConceptPair datastructure = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
 			
 			String conceptS = (String) yaml.get(StandardDataKeywords.datacubeConcept);
@@ -834,7 +833,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(
 				DatabaseObject object) throws IOException {
 			PurposeConceptPair datastructure = (PurposeConceptPair) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.datacubeConcept, datastructure.getConcept());
@@ -878,7 +877,7 @@ public enum InterpretBaseData {
 				throws IOException {
 
 			DescriptionDataData descdata = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String titleS = (String) yaml.get(StandardDataKeywords.titleKeyS);
@@ -906,7 +905,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DescriptionDataData description = (DescriptionDataData) object;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			String sourceDateS = InterpretBaseDataUtilities.dateToString(description.getSourceDate());
@@ -971,7 +970,7 @@ public enum InterpretBaseData {
 			String rowid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			rowobj.setIdentifier(rowid);
 			
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			DatabaseObjectHierarchy compoundhier = interpret.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 			String httpaddress = "https://homepage.com";
@@ -985,7 +984,7 @@ public enum InterpretBaseData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 			String httpaddress = (String) yaml.get(StandardDataKeywords.siteOfS);
 			String httpaddressType = (String) yaml.get(StandardDataKeywords.siteTypeS);
@@ -997,7 +996,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ContactHasSite sites = (ContactHasSite) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.siteOfS, sites.getHttpAddress());
@@ -1079,7 +1078,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String streetaddress = (String) yaml.get(StandardDataKeywords.streetaddressKeyS);
@@ -1098,7 +1097,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ContactLocationInformation location = (ContactLocationInformation) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.streetaddressKeyS, location.getAddressAddress());
@@ -1150,7 +1149,7 @@ public enum InterpretBaseData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String GPSLongitude = (String) yaml.get(StandardDataKeywords.longitudeKeyS);
@@ -1165,7 +1164,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			GPSLocation location = (GPSLocation) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.longitudeKeyS, location.getGPSLatitude());
@@ -1207,7 +1206,7 @@ public enum InterpretBaseData {
 				throws IOException {
 
 			OrganizationDescription descdata = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 			
 			String organizationalUnitS = (String) yaml.get(StandardDataKeywords.organizationUnit);
@@ -1227,7 +1226,7 @@ public enum InterpretBaseData {
 
 			OrganizationDescription org = (OrganizationDescription) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.organizationClassification, org.getOrganizationClassification());
@@ -1276,7 +1275,7 @@ public enum InterpretBaseData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String referenceDOIS = (String) yaml.get(StandardDataKeywords.referenceDOI);
@@ -1294,7 +1293,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DataSetReference ref = (DataSetReference) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.referenceDOI, ref.getDOI());
@@ -1344,7 +1343,7 @@ public enum InterpretBaseData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 
@@ -1360,7 +1359,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DataObjectLink ref = (DataObjectLink) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.dataStructureIdentifierS, ref.getDataStructure());
@@ -1403,7 +1402,7 @@ public enum InterpretBaseData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String userClassification = (String) yaml.get(StandardDataKeywords.userClassification);
@@ -1418,7 +1417,7 @@ public enum InterpretBaseData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			PersonalDescription person = (PersonalDescription) object;
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDataKeywords.userClassification, person.getUserClassification());
@@ -1469,7 +1468,7 @@ public enum InterpretBaseData {
 				throws IOException {
 
 			NameOfPerson person = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String nameTitleS = (String) yaml.get(StandardDataKeywords.titleName);
@@ -1482,7 +1481,7 @@ public enum InterpretBaseData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			NameOfPerson name = (NameOfPerson) object;
@@ -1512,7 +1511,7 @@ public enum InterpretBaseData {
 			String personid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			personobj.setIdentifier(personid);
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehier.getObject();
 			NameOfPerson person = new NameOfPerson(structure, "title", "firstname", "lastname");
@@ -1564,7 +1563,7 @@ public enum InterpretBaseData {
 			String authorid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			personobj.setIdentifier(authorid);
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("NameOfPerson");
+			InterpretBaseData interpret = InterpretBaseData.NameOfPerson;
 			DatabaseObjectHierarchy personhier = interpret.createEmptyObject(obj);
 			NameOfPerson person = (NameOfPerson) personhier.getObject();
 			AuthorInformation author = new AuthorInformation(person, "no link");
@@ -1580,7 +1579,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			IndividualInformation org = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String contactLocationInformationID = (String) yaml.get(StandardDataKeywords.locationKeyS);
@@ -1598,7 +1597,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			IndividualInformation individual = (IndividualInformation) object;
@@ -1657,7 +1656,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			Organization org = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 
@@ -1680,7 +1679,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			Organization org = (Organization) object;
@@ -1735,7 +1734,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			UserAccountInformation account = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) objdata;
 			String emailS = (String) yaml.get(StandardDataKeywords.emailKeyS);
@@ -1748,7 +1747,7 @@ public enum InterpretBaseData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectCompoundDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			UserAccountInformation account = (UserAccountInformation) object;
@@ -1794,7 +1793,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			UserAccount account = null;
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 
@@ -1810,7 +1809,7 @@ public enum InterpretBaseData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretBaseData interpret = InterpretBaseData.valueOf("ChemConnectDataStructure");
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			UserAccount account = (UserAccount) object;
@@ -1987,7 +1986,7 @@ public enum InterpretBaseData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 			
 			ConvertInputDataBase convert = null;
@@ -2001,7 +2000,7 @@ public enum InterpretBaseData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 
-			InterpretBaseData interpret = InterpretBaseData.valueOf("DatabaseObject");
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			ConvertInputDataBase base = (ConvertInputDataBase) object;

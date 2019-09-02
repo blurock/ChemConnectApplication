@@ -35,7 +35,6 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
 public class StandardDatabaseRepositoryFileStaging extends Composite implements ObjectVisualizationInterface {
 

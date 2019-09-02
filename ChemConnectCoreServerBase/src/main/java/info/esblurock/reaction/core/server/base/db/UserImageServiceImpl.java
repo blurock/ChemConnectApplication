@@ -33,6 +33,8 @@ import info.esblurock.reaction.core.server.base.db.yaml.ReadWriteYamlDatabaseObj
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.ServerBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 import info.esblurock.reaction.core.server.base.services.util.ParseUtilities;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
@@ -480,7 +482,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		} else {
 			ClassificationInformation info = DatasetOntologyParseBase.getIdentificationInformation(dataType);
 			String structureName = info.getDataType();
-			InterpretBaseData interpret = InterpretBaseData.valueOf(structureName);
+			InterpretDataInterface interpret = InterpretDataBase.valueOf(structureName);
 			hierarchy = interpret.createEmptyObject(obj);
 		}
 		return hierarchy;

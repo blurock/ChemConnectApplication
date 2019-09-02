@@ -18,6 +18,8 @@ import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.queries.QueryFactory;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataObjectLink;
@@ -42,7 +44,7 @@ public class ExtractCatalogInformation {
 		DataElementInformation element = new DataElementInformation(type, 
 				null, true, 0, null, null,null);
 		ClassificationInformation classify = DatasetOntologyParseBase.getIdentificationInformation(null, element);
-		InterpretBaseData interpret = InterpretBaseData.valueOf(classify.getDataType());
+		InterpretDataInterface interpret = InterpretDataBase.valueOf(classify.getDataType());
 		DatabaseObject subobj = interpret.readElementFromDatabase(id);
 		DatabaseObject obj = findTopObject(subobj);
 		String dtype = DatasetOntologyParseBase.getTypeFromDataType(obj.getClass().getSimpleName());
@@ -80,7 +82,7 @@ public class ExtractCatalogInformation {
 			for(String name : lst ) {
 				if(parent == null) {
 					try {
-						InterpretBaseData interpret = InterpretBaseData.valueOf(name);
+						InterpretDataInterface interpret = InterpretDataBase.valueOf(name);
 						if(interpret != null) {
 							parent = interpret.readElementFromDatabase(compound.getParentLink());
 						}
@@ -148,18 +150,18 @@ public class ExtractCatalogInformation {
 		List<DataElementInformation> substructures = DatasetOntologyParseBase.subElementsOfStructure(t);
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
-			InterpretBaseData interpret = InterpretBaseData.valueOf(type);
+			InterpretDataInterface interpret = InterpretDataBase.valueOf(type);
 			if(asSinglet) {
 				DatabaseObject obj = interpret.readElementFromDatabase(id);
 				hierarchy = readSingletInformation(obj, interpret, substructures);
 			} else {
-				InterpretBaseData multiinterpret = InterpretBaseData.valueOf("ChemConnectCompoundMultiple");
+				InterpretBaseData multiinterpret = InterpretBaseData.ChemConnectCompoundMultiple;
 				ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(id);
 				hierarchy = new DatabaseObjectHierarchy(multi);
 				String parentid = multi.getIdentifier();
 				ClassificationInformation classification = DatasetOntologyParseBase.getIdentificationInformation(multi.getType());
 				List<DataElementInformation> mulitsubstructures = DatasetOntologyParseBase.subElementsOfStructure(t);
-				InterpretBaseData clsinterpret = InterpretBaseData.valueOf(classification.getDataType());
+				InterpretDataInterface clsinterpret = InterpretDataBase.valueOf(classification.getDataType());
 				String classtype = clsinterpret.canonicalClassName();
 					List<DatabaseObject> objs = QueryBase.getDatabaseObjectsFromSingleProperty(classtype,"parentLink",parentid);
 					for(DatabaseObject obj: objs) {
@@ -196,7 +198,7 @@ public class ExtractCatalogInformation {
 	 * 
 	 */
 	private static DatabaseObjectHierarchy readSingletInformation(DatabaseObject obj, 
-			InterpretBaseData interpret,
+			InterpretDataInterface interpret,
 			List<DataElementInformation> substructures) throws IOException {
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(obj);
 		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
