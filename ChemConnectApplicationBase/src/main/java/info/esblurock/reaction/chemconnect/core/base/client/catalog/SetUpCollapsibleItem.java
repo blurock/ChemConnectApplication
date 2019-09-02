@@ -32,7 +32,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DescriptionDataData
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 
-public enum SetUpCollapsibleItem {
+public enum SetUpCollapsibleItem implements SetUpCollapsibleItemInterface {
 
 	DatasetCatalogHierarchy {
 
@@ -558,7 +558,16 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			DescriptionDataData description=(DescriptionDataData)item.getObject();String purposeconceptID=description.getSourceConcept();DatabaseObjectHierarchy hierarchy=item.getHierarchy();DatabaseObjectHierarchy phierarchy=hierarchy.getSubObject(purposeconceptID);StandardDatasetObjectHierarchyItem subitem=new StandardDatasetObjectHierarchyItem(item,phierarchy,item.getModalpanel());SetUpCollapsibleItem setup=SetUpCollapsibleItem.valueOf("PurposeConceptPair");setup.addInformation(subitem);PrimitiveConceptRow conceptrow=(PrimitiveConceptRow)subitem.getHeader();StandardDatasetDescriptionDataDataHeader header=new StandardDatasetDescriptionDataDataHeader(description,conceptrow);item.addHeader(header);
+			DescriptionDataData description=(DescriptionDataData)item.getObject();
+			String purposeconceptID=description.getSourceConcept();
+			DatabaseObjectHierarchy hierarchy=item.getHierarchy();
+			DatabaseObjectHierarchy phierarchy=hierarchy.getSubObject(purposeconceptID);
+			StandardDatasetObjectHierarchyItem subitem=new StandardDatasetObjectHierarchyItem(item,phierarchy,item.getModalpanel());
+			SetUpCollapsibleItem setup=SetUpCollapsibleItem.PurposeConceptPair;
+			setup.addInformation(subitem);
+			PrimitiveConceptRow conceptrow=(PrimitiveConceptRow)subitem.getHeader();
+			StandardDatasetDescriptionDataDataHeader header=new StandardDatasetDescriptionDataDataHeader(description,conceptrow);
+			item.addHeader(header);
 		}
 
 		@Override

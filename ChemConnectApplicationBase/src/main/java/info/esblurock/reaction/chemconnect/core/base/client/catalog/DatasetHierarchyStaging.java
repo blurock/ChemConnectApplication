@@ -14,7 +14,7 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHiera
 public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStaging> {
 	
 	int priority;
-	SetUpCollapsibleItem setup;
+	SetUpCollapsibleItemInterface setup;
 	DatabaseObjectHierarchy hierarchy;
 	String type;
 	DatabaseObject object;
@@ -50,7 +50,7 @@ public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStagi
 	public int getPriority() {
 		return priority;
 	}
-	public SetUpCollapsibleItem getSetup() {
+	public SetUpCollapsibleItemInterface getSetup() {
 		return setup;
 	}
 
@@ -62,14 +62,14 @@ public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStagi
 	public int compare(DatasetHierarchyStaging o1, DatasetHierarchyStaging o2) {
 		return o1.getPriority() - o2.getPriority();
 	}
-	public static SetUpCollapsibleItem getSetup(DatabaseObject object) {
+	public static SetUpCollapsibleItemInterface getSetup(DatabaseObject object) {
 		String structure = object.getClass().getSimpleName();
-		SetUpCollapsibleItem setup = null;
+		SetUpCollapsibleItemInterface setup = null;
 		try {
-			setup = SetUpCollapsibleItem.valueOf(structure);
+			setup = SetUpCollapsibleItemBase.valueOf(structure);
 		} catch (Exception ex) {
 			String message = structure + " has not been not found: " + ex.getClass().getSimpleName() + "\n"
-					+ structure + " not found: " + SetUpCollapsibleItem.values();
+					+ structure + " not found: " + SetUpCollapsibleItemBase.values();
 			StandardWindowVisualization.errorWindowMessage("DatasetHierarchyStaging", message);
 		}
 		return setup;

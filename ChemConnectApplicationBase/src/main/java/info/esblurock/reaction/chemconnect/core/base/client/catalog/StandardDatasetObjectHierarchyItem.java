@@ -143,7 +143,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 	}
 
 	private void addSubObjects(DatabaseObject object) {
-		SetUpCollapsibleItem setup = DatasetHierarchyStaging.getSetup(object);
+		SetUpCollapsibleItemInterface setup = DatasetHierarchyStaging.getSetup(object);
 		if (setup != null) {
 			setup.addInformation(this);
 			if (setup.addSubitems()) {
@@ -164,7 +164,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 		if (multipleB) {
 			ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
 			String subtype = TextUtilities.removeNamespace(multiple.getType());
-			SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(subtype);
+			SetUpCollapsibleItemInterface setup = SetUpCollapsibleItemBase.valueOf(subtype);
 			multinfoB = multipleB & setup.isInformation();
 		}
 		ArrayList<DatasetHierarchyStaging> staginglist = DatasetHierarchyStaging.computeStaging(hierarchy);
@@ -173,7 +173,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 			if (multinfoB) {
 				addMultipleInfoItem(sub);
 			} else {
-				SetUpCollapsibleItem setup = substage.getSetup();
+				SetUpCollapsibleItemInterface setup = substage.getSetup();
 				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(this,sub, modalpanel);
 				if (setup != null) {
 					if (setup.isInformation()) {
@@ -184,7 +184,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 						if(submultipleB) {
 							ChemConnectCompoundMultiple m = (ChemConnectCompoundMultiple) sub.getObject();
 							String subtype = TextUtilities.removeNamespace(m.getType());
-							SetUpCollapsibleItem subsetup = SetUpCollapsibleItem.valueOf(subtype);
+							SetUpCollapsibleItemInterface subsetup = SetUpCollapsibleItemBase.valueOf(subtype);
 							if(subsetup.isInformation()) {
 								addInfoItem(item);
 							} else {
@@ -244,7 +244,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 	}
 
 	public void updateDatabaseObjectHierarchy() {
-		SetUpCollapsibleItem setup = DatasetHierarchyStaging.getSetup(object);
+		SetUpCollapsibleItemInterface setup = DatasetHierarchyStaging.getSetup(object);
 		boolean includesubs = true;
 		if (includesubs) {
 			for (StandardDatasetObjectHierarchyItem sub : subitems) {
