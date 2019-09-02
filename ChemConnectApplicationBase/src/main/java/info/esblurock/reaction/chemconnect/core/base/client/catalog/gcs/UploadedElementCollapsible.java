@@ -281,7 +281,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			MaterialToast.fireToast("Specify exact file type for interpretation and press Submit again");
 			askForType();
 		}
-		InterpretUploadedFileBase interpret = InterpretUploadedFileBase
+		InterpretUploadedFileInterface interpret = InterpretUploadedFileBase
 				.valueOf(ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog()));
 		interpret.interpretStructure(obj, catid, visualType, info, this);
 	}
