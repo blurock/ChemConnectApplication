@@ -1,11 +1,12 @@
-package info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs;
+package info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visualize;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.VisualizationOfBlobStorage;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 
-public enum VisualizeMedia {
+public enum VisualizeMedia implements VisualizeMediaInterface {
 
 	FileTypeImageJPEG {
 
@@ -67,6 +68,8 @@ public enum VisualizeMedia {
 			DataCatalogID catid, 
 			boolean titleGiven,
 			VisualizationOfBlobStorage visual);
+	abstract public void insertVisualization(DatabaseObjectHierarchy object, String title, 
+			VisualizationOfBlobStorage visual);
 	
 	
 	protected void getInterpretedBlobImage(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
@@ -74,7 +77,6 @@ public enum VisualizeMedia {
 				
 		
 	}
-	abstract public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual);
 	
 		
 	
