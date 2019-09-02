@@ -8,7 +8,7 @@
 	}
 	</ui:style>
 	<m:MaterialPanel>
-		<m:MaterialRow>
+		<m:MaterialRow margin="0">
 			<m:MaterialColumn grid="s3">
 				<m:MaterialTooltip ui:field="catalogtypeid">
 					<m:MaterialLink ui:field="catalog" textColor="BLACK" />
@@ -23,7 +23,7 @@
 				<m:MaterialLink ui:field="objectname" textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow>
+		<m:MaterialRow  margin="0">
 			<m:MaterialColumn grid="s8">
 				<m:MaterialButton ui:field="submit" width="80%"
 					backgroundColor="GREY_LIGHTEN_3" textColor="BLACK" />

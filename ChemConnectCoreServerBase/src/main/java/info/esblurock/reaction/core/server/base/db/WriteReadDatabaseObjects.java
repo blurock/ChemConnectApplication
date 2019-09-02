@@ -216,6 +216,30 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 	}
 
+	/** The available objects to the user
+	 * 
+	 * @param classname The canonical classname
+	 * @param usersession The user session data (to determine user)
+	 * @return The list of DatabaseObject's that are available to query for the user
+	 */
+	public static List<DatabaseObject> getAvailableDatabaseObject(String classname, UserSessionData usersession) {
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QuerySetupBase ownerquery = new QuerySetupBase(usersession.getUserName(),
+				classname, 
+				values);
+		ListOfQueries queries = QueryFactory.produceQueryList(ownerquery, usersession);
+		SetOfQueryResults results;
+		List<DatabaseObject> objs = null;
+		try {
+			results = QueryBase.StandardSetOfQueries(queries);
+			objs = results.retrieveAndClear();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return objs;
+	}
+	
+	
 	public static ArrayList<NameOfPerson> getIDHierarchyFromFamilyNameAndUser(String user,
 			String familyname) throws IOException {
 		String classname = NameOfPerson.class.getCanonicalName();

@@ -89,6 +89,7 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 		upload.setText("file staging and interpretation");
 		people.setText("researchers in database");
 		organizations.setText("organizations in database");
+		consortia.setText("Consortia");
 		repository.setText("manage repository");
 		logout.setText("Logout");
 		logouttooltip.setText("Log out current user (to Guest");

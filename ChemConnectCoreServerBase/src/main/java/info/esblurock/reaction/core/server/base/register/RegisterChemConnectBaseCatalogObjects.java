@@ -23,6 +23,7 @@ public class RegisterChemConnectBaseCatalogObjects  implements ServletContextLis
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();
 		RegisterTransactionData.register();
+		RegisterConsortiumObjects.register();
 		
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);

@@ -16,16 +16,31 @@ public class CreateConsortiumCatalogObject {
 		catid.setIdentifier(consortium.getCatalogDataID());
 		CreateContactObjects.insertDataCatalogID(hierarchy, catid);
 		
-		DatabaseObjectHierarchy multimemhier = hierarchy.getSubObject(consortium.getConsortiumMember());
-		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multimemhier.getObject();
-		DatabaseObjectHierarchy memhierarchy = InterpretBaseData.ConsortiumMember.createEmptyObject(multilnk);
-		ConsortiumMember member = (ConsortiumMember) memhierarchy.getObject();
-		multilnk.setNumberOfElements(1);
-		String newid = member.getIdentifier() + "1";
-		member.setIdentifier(newid);
-		member.setConsortiumMemberName(catid.getOwner());
-		member.setConsortiumName(consortiumName);
-		multimemhier.addSubobject(memhierarchy);
+		addConsortiumMember(hierarchy, consortiumName, catid.getOwner());
 		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy addConsortiumMember(DatabaseObjectHierarchy consortiumhierarchy, 
+			String consortiumName, String consortiumMember) {
+		Consortium consortium = (Consortium) consortiumhierarchy.getObject();
+
+		DatabaseObjectHierarchy hierarchy = InterpretBaseData.ConsortiumMember.createEmptyObject(consortium);
+		ConsortiumMember member = (ConsortiumMember) hierarchy.getObject();
+		member.setConsortiumName(consortiumName);
+		member.setConsortiumMemberName(consortiumMember);
+		
+		DatabaseObjectHierarchy membershier = consortiumhierarchy.getSubObject(consortium.getConsortiumMember());
+		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) membershier.getObject();
+
+		int numlinks = membershier.getSubobjects().size();
+		String numlinkS = Integer.toString(numlinks);
+		String newid = member.getIdentifier() + numlinkS;
+		member.setIdentifier(newid);
+		multilnk.setNumberOfElements(numlinks+1);
+		membershier.addSubobject(hierarchy);
+		
+		
+		return hierarchy;
+		
 	}
 }

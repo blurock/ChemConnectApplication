@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import info.esblurock.reaction.core.ontology.base.authentification.UserQueries;
+import info.esblurock.reaction.core.server.base.db.consortium.ReadInConsortium;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.ListOfQueries;
@@ -24,7 +25,7 @@ public class QueryFactory {
 				QuerySetupBase newquery = query.produceWithAccess(user.getUserName());
 				queries.add(newquery);
 			} else if (access.compareTo(UserAccountKeys.accessQueryDataQueryConsortium) == 0) {
-				List<String> consortiumlist = getListOfUserConsortium(user.getUserName());
+				Set<String> consortiumlist = getListOfUserConsortium(user);
 				for (String consortium : consortiumlist) {
 					QuerySetupBase newquery = query.produceWithAccess(consortium);
 					queries.add(newquery);
@@ -37,15 +38,15 @@ public class QueryFactory {
 		ListOfQueries queries = new ListOfQueries();
 		Set<String> accessset = UserQueries.getListOfModifyPriviledges(usersession);
 		String username = usersession.getUserName();
-		addModifyAccess(queries,username,accessset,query,username);
-		List<String> consortiumlist = getListOfUserConsortium(username);
+		addModifyAccess(queries,username,accessset,query,usersession);
+		Set<String> consortiumlist = getListOfUserConsortium(usersession);
 		for(String name : consortiumlist) {
-			addModifyAccess(queries,name,accessset,query,username);			
+			addModifyAccess(queries,name,accessset,query,usersession);			
 		}
 		return queries;
 	}
 	
-	private static void addModifyAccess(ListOfQueries queries, String owner, Set<String> accessset, QuerySetupBase query, String username) {
+	private static void addModifyAccess(ListOfQueries queries, String owner, Set<String> accessset, QuerySetupBase query, UserSessionData usersession) {
 		SetOfQueryPropertyValues values = query.getQueryvalues();
 		SetOfQueryPropertyValues uservalues = new SetOfQueryPropertyValues(values);
 		QueryPropertyValue ownervalue = new QueryPropertyValue("owner", owner);
@@ -56,10 +57,10 @@ public class QueryFactory {
 				QuerySetupBase newquery = ownerquery.produceWithAccess(UserAccountKeys.publicAccess);
 				queries.add(newquery);
 			} else if (access.compareTo(UserAccountKeys.accessQueryDataModifyUser) == 0) {
-				QuerySetupBase newquery = ownerquery.produceWithAccess(username);
+				QuerySetupBase newquery = ownerquery.produceWithAccess(usersession.getUserName());
 				queries.add(newquery);
 			} else if (access.compareTo(UserAccountKeys.accessQueryDataModifyConsortium) == 0) {
-				List<String> consortiumlist = getListOfUserConsortium(username);
+				Set<String> consortiumlist = getListOfUserConsortium(usersession);
 				for (String consortium : consortiumlist) {
 					QuerySetupBase newquery = ownerquery.produceWithAccess(consortium);
 					queries.add(newquery);
@@ -82,7 +83,7 @@ public class QueryFactory {
 			names.add("Public");
 		}
 		if(privileges.contains(consortiumaccess)) {
-			List<String> consortium = getListOfUserConsortium(user.getUserName());
+			Set<String> consortium = getListOfUserConsortium(user);
 			for(String name : consortium) {
 				names.add(name);
 			}
@@ -90,8 +91,7 @@ public class QueryFactory {
 		return names;
 	}
 	
-	public static List<String> getListOfUserConsortium(String user) {
-		ArrayList<String> consortiumlist = new ArrayList<String>();
-		return consortiumlist;
+	public static Set<String> getListOfUserConsortium(UserSessionData user) {
+		return ReadInConsortium.getConsortiumNamesForUser(user);
 	}
 }

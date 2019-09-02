@@ -227,6 +227,11 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 		topbodypanel.add(item);
 		subitems.add(item);
 	}
+	
+	public void clearSubObjectPanel() {
+		topbodypanel.setVisible(false);
+		topbodypanel.clear();
+	}
 
 	public void writeDatabaseObjectHierarchy() {
 		updateDatabaseObjectHierarchy();

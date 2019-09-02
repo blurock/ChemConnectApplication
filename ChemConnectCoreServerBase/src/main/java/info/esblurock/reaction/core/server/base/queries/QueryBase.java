@@ -152,7 +152,13 @@ public class QueryBase {
 	 * 
 	 */
 	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
-		Class<?> cls = Class.forName(parameters.getQueryClass());
+		Class<?> cls = null;
+		try {
+		cls = Class.forName(parameters.getQueryClass());
+		} catch(ClassNotFoundException ex) {
+			System.out.println("System Error: StandardQueryResult\n" + parameters.toString());
+			throw new ClassNotFoundException("System Error: StandardQueryResult\n" + parameters.toString());
+		}
 		Query<?> query = ofy().load().type(cls);
 		/*
 		if(parameters.getCursorS() != null) {

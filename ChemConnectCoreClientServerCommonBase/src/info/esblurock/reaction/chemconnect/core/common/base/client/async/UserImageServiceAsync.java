@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.common.base.client.async;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -14,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 public interface UserImageServiceAsync {
@@ -110,5 +112,15 @@ public interface UserImageServiceAsync {
 	void getAllDatabaseObjectHierarchyOwnedUser(String classType,
 			AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
 
+	void createConsortiumCatalogObject(DataCatalogID catid, String consortiumName,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void getConsortiumForUser(AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
+
+	void getAvailableDatabaseObjects(String classname, AsyncCallback<List<DatabaseObject>> callback);
+
+	void getAvailableUsernames(AsyncCallback<List<String>> callback);
+
+	void addConsortiumMember(DatabaseObjectHierarchy consortiumhierarchy, String consortiumName, String consortiumMember,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 }

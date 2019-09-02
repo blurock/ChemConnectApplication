@@ -56,6 +56,14 @@ public enum DeleteBaseCatalogStructures {
 			return null;
 		}
 
+	},
+	Consortium {
+
+		@Override
+		public String deleteStructure(String ID) throws IOException {
+			return null;
+		}
+		
 	};
 
 	public abstract String deleteStructure(String ID) throws IOException;

@@ -21,7 +21,6 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.ResultBinding;
 
-
 public class OntologyBase {
 
 	/**
@@ -42,16 +41,13 @@ public class OntologyBase {
 			if (unitsmodel == null) {
 				unitsmodel = ModelFactory.createOntologyModel();
 				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
-				
-				
-				
 
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTQudt(), alt.getQUDTQudtLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTDimension(), alt.getQUDTQudtLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(), alt.getQUDTQuantityLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getPhysicsUnit(), alt.getPhysicsUnitLocal());
-				//unitsmodel.read(alt.getPhysicsUnit());
+				// unitsmodel.read(alt.getPhysicsUnit());
 				unitsmodel.read("http://data.nasa.gov/qudt/owl/quantity");
 				unitsmodel.read("http://data.nasa.gov/qudt/owl/unit");
 			}
@@ -69,63 +65,80 @@ public class OntologyBase {
 				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
 				datasetmodel = ModelFactory.createOntologyModel();
 				/*
-				datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
-				System.out.println("Vcard:      " + alt.getVcardLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getSSNURL(), alt.getSSNLocal());
-				System.out.println("ssn:        " + alt.getSSNLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getDataCubeURL(), alt.getDataCubleLocal());
-				System.out.println("data cube: " + alt.getDataCubleLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(), alt.getQUDTQuantityLocal());
-				System.out.println("qudt:      " + alt.getQUDTQuantityLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getFoafURL(), alt.getFoafLocal());
-				System.out.println("foaf:      " + alt.getFoafLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
-				System.out.println("skos:      " + alt.getSKOSLocal());
-				*/
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(),
+				 * alt.getVcardLocal()); System.out.println("Vcard:      " +
+				 * alt.getVcardLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getSSNURL(),
+				 * alt.getSSNLocal()); System.out.println("ssn:        " + alt.getSSNLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getDataCubeURL(),
+				 * alt.getDataCubleLocal()); System.out.println("data cube: " +
+				 * alt.getDataCubleLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(),
+				 * alt.getQUDTQuantityLocal()); System.out.println("qudt:      " +
+				 * alt.getQUDTQuantityLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getFoafURL(),
+				 * alt.getFoafLocal()); System.out.println("foaf:      " + alt.getFoafLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(),
+				 * alt.getSKOSLocal()); System.out.println("skos:      " + alt.getSKOSLocal());
+				 */
 				/*
-				datasetmodel.getDocumentManager().addAltEntry(alt.getDctermsURL(), alt.getDcTermsLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getDCITypeURL(), alt.getDCITypeLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getProvoURL(), alt.getProvoLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getOrgURL(), alt.getOrgLocal());
-				
-				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQudt(), alt.getQUDTQudtLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDimension(), alt.getQUDTQudtLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getPhysicsUnit(), alt.getPhysicsUnitLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(), alt.getQUDTOwlLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnitOwl(), alt.getQUDTUnitOwlLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getElements(), alt.getElementsLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getSOSA(), alt.getSOSALocal());
-				*/
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getDctermsURL(),
+				 * alt.getDcTermsLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getDCITypeURL(),
+				 * alt.getDCITypeLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getProvoURL(),
+				 * alt.getProvoLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getOrgURL(),
+				 * alt.getOrgLocal());
+				 * 
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQudt(),
+				 * alt.getQUDTQudtLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDimension(),
+				 * alt.getQUDTQudtLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(),
+				 * alt.getQUDTUnitLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getPhysicsUnit(),
+				 * alt.getPhysicsUnitLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(),
+				 * alt.getQUDTOwlLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnitOwl(),
+				 * alt.getQUDTUnitOwlLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getElements(),
+				 * alt.getElementsLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getSOSA(),
+				 * alt.getSOSALocal());
+				 */
 				/*
-				datasetmodel.read(alt.getQUDTQudt());
-				datasetmodel.read(alt.getQUDTDimension());
-				datasetmodel.read(alt.getQUDTUnit());
-				datasetmodel.read(alt.getPhysicsUnit());
-				datasetmodel.read(alt.getQUDTQuantity());
-				datasetmodel.read(alt.getQUDTUnitOwl());
-				*/
-/*
-				System.out.println("dcat:      " + alt.getDCatLocal());
-				datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(), alt.getDCatLocal());
-
-				datasetmodel.getDocumentManager().addAltEntry("http://www.w3.org/2004/02/skos/core", "https://github.com/w3c/dxwg/blob/dcat-2pwd-internal-review/dcat/rdf/dcat.ttl");
-				datasetmodel.read(alt.getVcardURL());
-				datasetmodel.read(alt.getDataCubeURL());
-				datasetmodel.read(alt.getSKOSURL());
-				datasetmodel.read(alt.getSOSA());
-				datasetmodel.read("http://www.w3.org/ns/prov.ttl");
-				datasetmodel.read("https://github.com/w3c/dxwg/blob/dcat-2pwd-internal-review/dcat/rdf/dcat.ttl");
-				datasetmodel.read("http://qudt.org/1.1/vocab/dimensionalunit");
-				datasetmodel.read("http://qudt.org/1.1/vocab/dimension");
-				datasetmodel.read("http://qudt.org/1.1/vocab/quantity");
-				datasetmodel.read("http://qudt.org/1.1/vocab/unit");
-				
-				//datasetmodel.read(alt.getElements());
-				*/
+				 * datasetmodel.read(alt.getQUDTQudt());
+				 * datasetmodel.read(alt.getQUDTDimension());
+				 * datasetmodel.read(alt.getQUDTUnit());
+				 * datasetmodel.read(alt.getPhysicsUnit());
+				 * datasetmodel.read(alt.getQUDTQuantity());
+				 * datasetmodel.read(alt.getQUDTUnitOwl());
+				 */
+				/*
+				 * System.out.println("dcat:      " + alt.getDCatLocal());
+				 * datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(),
+				 * alt.getDCatLocal());
+				 * 
+				 * datasetmodel.getDocumentManager().addAltEntry(
+				 * "http://www.w3.org/2004/02/skos/core",
+				 * "https://github.com/w3c/dxwg/blob/dcat-2pwd-internal-review/dcat/rdf/dcat.ttl"
+				 * ); datasetmodel.read(alt.getVcardURL());
+				 * datasetmodel.read(alt.getDataCubeURL()); datasetmodel.read(alt.getSKOSURL());
+				 * datasetmodel.read(alt.getSOSA());
+				 * datasetmodel.read("http://www.w3.org/ns/prov.ttl"); datasetmodel.read(
+				 * "https://github.com/w3c/dxwg/blob/dcat-2pwd-internal-review/dcat/rdf/dcat.ttl"
+				 * ); datasetmodel.read("http://qudt.org/1.1/vocab/dimensionalunit");
+				 * datasetmodel.read("http://qudt.org/1.1/vocab/dimension");
+				 * datasetmodel.read("http://qudt.org/1.1/vocab/quantity");
+				 * datasetmodel.read("http://qudt.org/1.1/vocab/unit");
+				 * 
+				 * //datasetmodel.read(alt.getElements());
+				 */
 				String filename = "/info/esblurock/reaction/core/ontology/base/resources/Dataset.ttl";
 				InputStream str = OntologyBase.class.getResourceAsStream(filename);
-				
+
 				try {
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
 				} catch (Exception ex) {
@@ -171,11 +184,9 @@ public class OntologyBase {
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>" + "\n"
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>" + "\n"
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" + "\n"
-				+ "PREFIX unit: <http://qudt.org/vocab/unit#>" + "\n"
-				+ "PREFIX qudt: <http://qudt.org/schema/qudt#>" + "\n"
-				+ "PREFIX qudt-vocab: <http://qudt.org/1.1/vocab/quantity#>" + "\n"
-				+ "PREFIX prov: <http://www.w3.org/ns/prov#>\n"
-				+ "PREFIX qb: <http://purl.org/linked-data/cube#>\n"
+				+ "PREFIX unit: <http://qudt.org/vocab/unit#>" + "\n" + "PREFIX qudt: <http://qudt.org/schema/qudt#>"
+				+ "\n" + "PREFIX qudt-vocab: <http://qudt.org/1.1/vocab/quantity#>" + "\n"
+				+ "PREFIX prov: <http://www.w3.org/ns/prov#>\n" + "PREFIX qb: <http://purl.org/linked-data/cube#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n";
 		return queryPrefix;
 	}
@@ -184,16 +195,13 @@ public class OntologyBase {
 		String databasePrefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" 
-				+ "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
+				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
 				+ "PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n"
-				+ "PREFIX qb: <http://purl.org/linked-data/cube#>\n"
-                + "PREFIX ssn: <http://www.w3.org/ns/ssn#>" + "\n"
-				+ "PREFIX prov: <http://www.w3.org/ns/prov#>\n"
-				+ "PREFIX qudt: <http://qudt.org/schema/qudt#>" + "\n"
-                + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" + "\n"
-                 + "PREFIX qudt-vocab: <http://qudt.org/1.1/vocab/quantity#>" + "\n";
+				+ "PREFIX qb: <http://purl.org/linked-data/cube#>\n" + "PREFIX ssn: <http://www.w3.org/ns/ssn#>" + "\n"
+				+ "PREFIX prov: <http://www.w3.org/ns/prov#>\n" + "PREFIX qudt: <http://qudt.org/schema/qudt#>" + "\n"
+				+ "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" + "\n"
+				+ "PREFIX qudt-vocab: <http://qudt.org/1.1/vocab/quantity#>" + "\n";
 		return databasePrefix;
 	}
 
@@ -201,8 +209,7 @@ public class OntologyBase {
 	 * The prefix data (standard namespaces) is appended to the SELECT part of the
 	 * query
 	 * 
-	 * @param queryS:
-	 *            The query beginning with SELECT
+	 * @param queryS: The query beginning with SELECT
 	 * @return The raw ResultSet to the query
 	 */
 	public static boolean datasetASK(String queryS) {
@@ -212,10 +219,10 @@ public class OntologyBase {
 		QueryExecution qe = null;
 		boolean results = false;
 		try {
-		qe = QueryExecutionFactory.create(query, model);
-		results = qe.execAsk();
+			qe = QueryExecutionFactory.create(query, model);
+			results = qe.execAsk();
 		} finally {
-		qe.close();
+			qe.close();
 		}
 		return results;
 	}
@@ -224,23 +231,22 @@ public class OntologyBase {
 	 * The prefix data (standard namespaces) is appended to the SELECT part of the
 	 * query
 	 * 
-	 * @param queryS:
-	 *            The query beginning with SELECT
+	 * @param queryS: The query beginning with SELECT
 	 * @return The raw ResultSet to the query
 	 */
 	public static ResultSet datasetQueryBase(String queryS) {
 		OntModel model = OntologyBase.Util.getDatabaseOntology();
 		String fullquery = getStandardPrefixDatabase() + queryS;
-		
+
 		Query query = QueryFactory.create(fullquery);
 		QueryExecution qe = null;
 		ResultSet results = null;
 		try {
-		qe = QueryExecutionFactory.create(query, model);
-		results = qe.execSelect();
-		results = ResultSetFactory.copyResults(results) ;
+			qe = QueryExecutionFactory.create(query, model);
+			ResultSet results1 = qe.execSelect();
+			results = ResultSetFactory.copyResults(results1);
 		} finally {
-		qe.close();
+			qe.close();
 		}
 		return results;
 	}
@@ -251,8 +257,7 @@ public class OntologyBase {
 	 * Each member of the List is a map from keywords to RDF nodes. Each member
 	 * represents a result.
 	 * 
-	 * @param results:
-	 *            The Result set from a query
+	 * @param results: The Result set from a query
 	 * @return A mapping from keywords to RDFNodes
 	 */
 	public static List<Map<String, RDFNode>> resultSetToMap(ResultSet results) {
@@ -275,8 +280,7 @@ public class OntologyBase {
 	/**
 	 * From the query a list of mappings from keywords to RDFNodes
 	 * 
-	 * @param queryS
-	 *            The query string
+	 * @param queryS The query string
 	 * @return A list of mappings from keywords to RDFNodes
 	 */
 	public static List<Map<String, RDFNode>> resultSetToMap(String queryS) {
@@ -293,8 +297,7 @@ public class OntologyBase {
 	 * Literal the value is isolated and converted to a string. Anything else is
 	 * just converted to a String.
 	 * 
-	 * @param results
-	 *            A list of mappings from keywords to RDFNodes
+	 * @param results A list of mappings from keywords to RDFNodes
 	 * @return A list of mappings from a keyword to a String result.
 	 */
 	public static ArrayList<Map<String, String>> resultmapToStrings(List<Map<String, RDFNode>> results) {
@@ -333,10 +336,8 @@ public class OntologyBase {
 	/**
 	 * A help routine to isolate a single property from the list of mappings.
 	 * 
-	 * @param property
-	 *            The property to be isolated
-	 * @param stringlst
-	 *            A list of mappings from a keyword to a String result.
+	 * @param property  The property to be isolated
+	 * @param stringlst A list of mappings from a keyword to a String result.
 	 * @return A list of the String of the property
 	 */
 	public static List<String> isolateProperty(String property, List<Map<String, String>> stringlst) {
@@ -350,8 +351,7 @@ public class OntologyBase {
 	}
 
 	/**
-	 * @param namespace
-	 *            The full namespace name (from Resource.getNamespace())
+	 * @param namespace The full namespace name (from Resource.getNamespace())
 	 * @return The standard abbreviated namespace name
 	 */
 	public static String convertNameSpace(String namespace) {

@@ -2,6 +2,7 @@ package info.esblurock.reaction.chemconnect.core.common.base.client.async;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -17,6 +18,7 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 
@@ -125,4 +127,15 @@ public interface UserImageService  extends RemoteService  {
 	
 	DatabaseObjectHierarchy createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy,
 			DataCatalogID catalogid) throws IOException;
+	
+	public DatabaseObjectHierarchy createConsortiumCatalogObject(DataCatalogID catid, String consortiumName) throws IOException;
+
+	public DatabaseObjectHierarchy addConsortiumMember(DatabaseObjectHierarchy consortiumhierarchy, 
+			String consortiumName, String consortiumMember) throws IOException;
+	public ArrayList<DatabaseObjectHierarchy> getConsortiumForUser();
+	
+	List<DatabaseObject> getAvailableDatabaseObjects(String classname);
+	
+	public List<String> getAvailableUsernames();
+
 }

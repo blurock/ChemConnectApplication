@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.base.query;
 
 import java.io.Serializable;
 
-import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 
 

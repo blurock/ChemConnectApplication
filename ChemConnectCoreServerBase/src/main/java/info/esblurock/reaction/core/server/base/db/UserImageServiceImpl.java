@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -25,7 +26,9 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.create.CreateBaseCatalogObjects;
+import info.esblurock.reaction.core.server.base.create.CreateConsortiumCatalogObject;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
+import info.esblurock.reaction.core.server.base.db.consortium.ReadInConsortium;
 import info.esblurock.reaction.core.server.base.db.yaml.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.ServerBase;
@@ -46,6 +49,7 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageUploadTransaction;
 import info.esblurock.reaction.chemconnect.core.base.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.base.login.UserAccount;
 
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {
@@ -122,8 +126,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public DatabaseObjectHierarchy createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy,
 			DataCatalogID catalogid) throws IOException {
 		catalogid.setSourceID(stagehierarchy.getObject().getSourceID());
-		System.out.println("createRepositoryDataFile: stagehierarchy\n" + stagehierarchy.toString("UserImageServiceImpl"));
-		System.out.println("createRepositoryDataFile: catalogid\n" + catalogid.toString("UserImageServiceImpl"));
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData sessiondata = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		
@@ -150,15 +152,10 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseWriteBase.writeObjectWithTransaction(repositoryhier, 
 				MetaDataKeywords.transferFileIntoCatagoryHierarchy,
 				sessiondata);
-		System.out.println("createRepositoryDataFile: update stagehierarchy");
 		staging.setStagingFilePresent(MetaDataKeywords.stagedFileProcessed);
 		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(stagehierarchy, 
 				MetaDataKeywords.updateCatalogObjectEvent);
 		
-		System.out.println("createRepositoryDataFile: repgcs\n" 
-		+ repgcs.toString("UserImageServiceImpl "));
-		System.out.println("createRepositoryDataFile: stagegcs\n" 
-		+ stagegcs.toString("UserImageServiceImpl"));
 		GCSServiceRoutines.moveBlob(repgcs, stagegcs);
 		GCSServiceRoutines.deleteBlob(stagegcs);
 		
@@ -532,6 +529,45 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	
+	public DatabaseObjectHierarchy createConsortiumCatalogObject(DataCatalogID catid, String consortiumName) throws IOException {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		String username = usession.getUserName();
+		DatabaseObjectHierarchy hierarchy = null;
+		if(username.compareTo(catid.getOwner()) == 0) {
+			String sourceID = QueryBase.getDataSourceIdentification(username);
+			catid.setSourceID(sourceID);
+			hierarchy = CreateConsortiumCatalogObject.createConsortiumCatalogObject(catid, consortiumName);
+		} else {
+			throw new IOException("Owner mismatch: client: " + catid.getOwner() + "  server: " + username);
+		}
+		return hierarchy;
+	}
+	
+	public DatabaseObjectHierarchy addConsortiumMember(DatabaseObjectHierarchy consortiumhier, 
+			String consortiumName, String consortiumMember) throws IOException {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		String username = usession.getUserName();
+		DatabaseObjectHierarchy hierarchy = null;
+		if(username.compareTo(consortiumhier.getObject().getOwner()) == 0) {
+			String sourceID = QueryBase.getDataSourceIdentification(username);
+			consortiumhier.getObject().setSourceID(sourceID);
+			hierarchy = CreateConsortiumCatalogObject.addConsortiumMember(consortiumhier, 
+					consortiumName, consortiumMember);
+		} else {
+			throw new IOException("Owner mismatch: client: " + consortiumhier.getObject().getOwner() + "  server: " + username);
+		}
+		return hierarchy;
+	}
+	
+	
+	
+	public ArrayList<DatabaseObjectHierarchy> getConsortiumForUser() {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		return ReadInConsortium.getConsortiumForUser(usession);
+	}
 	
 	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) throws IOException {
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
@@ -589,6 +625,25 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			throw new IOException("Error in writing objects");
 		}
 
+	}
+	
+	public List<DatabaseObject> getAvailableDatabaseObjects(String classname) {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		return WriteReadDatabaseObjects.getAvailableDatabaseObject(classname, usession);
+	}
+	
+	public List<String> getAvailableUsernames() {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		String classname = UserAccount.class.getCanonicalName();
+		List<DatabaseObject> objs = WriteReadDatabaseObjects.getAvailableDatabaseObject(classname, usession);
+		List<String> usernames = new ArrayList<String>();
+		for(DatabaseObject obj : objs) {
+			UserAccount account = (UserAccount) obj;
+			usernames.add(account.getAccountUserName());
+		}
+		return usernames;
 	}
 	
 	
@@ -676,5 +731,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

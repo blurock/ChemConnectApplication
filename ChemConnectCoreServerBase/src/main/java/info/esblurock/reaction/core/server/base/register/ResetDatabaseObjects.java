@@ -19,5 +19,6 @@ public class ResetDatabaseObjects {
 		RegisterUserLoginData.reset();
 		RegisterImageInformation.reset();
 		RegisterGCSClasses.reset();
+		RegisterConsortiumObjects.reset();
 	}
 }

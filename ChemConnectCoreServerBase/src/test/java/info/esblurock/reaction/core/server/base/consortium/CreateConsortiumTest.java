@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.base.consortium;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ class CreateConsortiumTest {
 
 	@Test
 	void test() {
-		DatabaseObject obj = new DatabaseObject("blurock-consortium", "owner", "access", "1");
+		DatabaseObject obj = new DatabaseObject("blurock-consortium", "owner", "blurock", "1");
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"blurock-consortium");
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("blurock");
@@ -26,6 +26,17 @@ class CreateConsortiumTest {
 				path);
 		DatabaseObjectHierarchy hierarchy = CreateConsortiumCatalogObject.createConsortiumCatalogObject(catid,"NewConsortium");
 		System.out.println(hierarchy.toString("Create: "));
+		
+		DatabaseObjectHierarchy memhierarchy = 
+				CreateConsortiumCatalogObject.addConsortiumMember(hierarchy, "MyConsortium", "member");
+		System.out.println(memhierarchy.toString("New Member: "));
+		
+		System.out.println(hierarchy.toString("With new member: "));
+		
+		
+		
+		
+		
 	}
 
 }

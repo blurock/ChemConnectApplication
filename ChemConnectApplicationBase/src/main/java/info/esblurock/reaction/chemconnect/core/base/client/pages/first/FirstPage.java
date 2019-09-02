@@ -83,7 +83,7 @@ public class FirstPage extends Composite implements FirstPageView {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				StandardWindowVisualization.errorWindowMessage("Read in current user", caught.toString());
+				StandardWindowVisualization.errorWindowMessage("Read in current user: " + account, caught.toString());
 				topPanel.setLoginVisibility(true);
 			}
 

@@ -4,6 +4,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.consortium.ConsortiumHeader;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.consortium.ConsortiumMemberHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactHasSiteHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.StandardDatasetContactLocationInformationHeader;
@@ -211,7 +213,66 @@ public enum SetUpCollapsibleItem {
 		public boolean addSubitems() {
 			return false;
 		}
-	}, RepositoryFileStaging {
+	}, Consortium {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			ConsortiumHeader header = new ConsortiumHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 700;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	}, ConsortiumMember {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			ConsortiumMemberHeader header = new ConsortiumMemberHeader(item);
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	},
+	
+	RepositoryFileStaging {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

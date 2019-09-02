@@ -1861,7 +1861,7 @@ public enum InterpretBaseData {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 			String consortiumName = (String) yaml.get(StandardDataKeywords.consortiumName);
-			String consortiumMemberName = (String) yaml.get(StandardDataKeywords.consortiumMemberName);
+			String consortiumMemberName = (String) yaml.get(StandardDataKeywords.consortiumMember);
 
 			consortium = new Consortium(datastructure, 
 					consortiumName, consortiumMemberName);
@@ -1876,7 +1876,7 @@ public enum InterpretBaseData {
 
 			Consortium consortium = (Consortium) object;
 			map.put(StandardDataKeywords.consortiumName, consortium.getConsortiumName());
-			map.put(StandardDataKeywords.consortiumMemberName, consortium.getConsortiumMember());
+			map.put(StandardDataKeywords.consortiumMember, consortium.getConsortiumMember());
 			
 			return map;
 		}
@@ -1933,7 +1933,7 @@ public enum InterpretBaseData {
 			DatabaseObjectHierarchy compoundhier = InterpretBaseData.ChemConnectCompoundDataStructure.createEmptyObject(memobj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 			ConsortiumMember member = new ConsortiumMember(structure,
-					"ConsortiumName", "ConsortiumMemberName");
+					"ConsortiumName", obj.getOwner());
 			member.setIdentifier(memid);
 			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(member);
 			return top;

@@ -1247,6 +1247,11 @@ xsd:date rdf:type rdfs:Datatype .
                                  rdfs:subClassOf :AccountPriviledgeManagement .
 
 
+###  http://www.esblurock.info/dataset#AdministrativeConsortiumType
+:AdministrativeConsortiumType rdf:type owl:Class ;
+                              rdfs:subClassOf :ConsortiumTypeChoice .
+
+
 ###  http://www.esblurock.info/dataset#Administrator
 :Administrator rdf:type owl:Class ;
                rdfs:subClassOf :UserRoleChoices ,
@@ -2901,6 +2906,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 <http://www.w3.org/2004/02/skos/core#altLabel> "consortname" .
 
 
+###  http://www.esblurock.info/dataset#ConsortiumTypeChoice
+:ConsortiumTypeChoice rdf:type owl:Class ;
+                      rdfs:subClassOf :ChemConnectClassifications .
+
+
 ###  http://www.esblurock.info/dataset#ContactEmail
 :ContactEmail rdf:type owl:Class ;
               rdfs:subClassOf :Email .
@@ -3006,6 +3016,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#CoolingHeatFluxBurnerPlate
 :CoolingHeatFluxBurnerPlate rdf:type owl:Class ;
                             rdfs:subClassOf :HeatFluxBurnerBurnerConcept .
+
+
+###  http://www.esblurock.info/dataset#CooperatingResearchGroupsConsortiumType
+:CooperatingResearchGroupsConsortiumType rdf:type owl:Class ;
+                                         rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#Cori-FlowMassController
@@ -3579,6 +3594,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:subClassOf :OrganizationClassifications .
 
 
+###  http://www.esblurock.info/dataset#DepartmentConsortiumType
+:DepartmentConsortiumType rdf:type owl:Class ;
+                          rdfs:subClassOf :ConsortiumTypeChoice .
+
+
 ###  http://www.esblurock.info/dataset#DerivedParameter
 :DerivedParameter rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectConceptProperties .
@@ -4037,6 +4057,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ExperimentalConditionParameters
 :ExperimentalConditionParameters rdf:type owl:Class ;
                                  rdfs:subClassOf :ChemConnectObservable .
+
+
+###  http://www.esblurock.info/dataset#ExperimentalConsortiumType
+:ExperimentalConsortiumType rdf:type owl:Class ;
+                            rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#ExperimentalIgnitionDelayTime
@@ -5187,6 +5212,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        ] ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
  ] .
+
+
+###  http://www.esblurock.info/dataset#GenericConsortiumType
+:GenericConsortiumType rdf:type owl:Class ;
+                       rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#GroupHomepage
@@ -6358,6 +6388,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                               <http://purl.org/dc/terms/identifier> "dataset:includesUncertaintyParameter" .
 
 
+###  http://www.esblurock.info/dataset#IndustialPartnerConsortiumType
+:IndustialPartnerConsortiumType rdf:type owl:Class ;
+                                rdfs:subClassOf :ConsortiumTypeChoice .
+
+
 ###  http://www.esblurock.info/dataset#InitialReadFromUserInterface
 :InitialReadFromUserInterface rdf:type owl:Class ;
                               rdfs:subClassOf :InitialReadInOfRepositoryFile ;
@@ -6431,6 +6466,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#Intensity
 :Intensity rdf:type owl:Class ;
            rdfs:subClassOf :ChemConnectValueParameter .
+
+
+###  http://www.esblurock.info/dataset#InternationalCooperationConsortiumType
+:InternationalCooperationConsortiumType rdf:type owl:Class ;
+                                        rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#InterpretationProtocolApplication
@@ -7729,6 +7769,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
            rdfs:subClassOf :KeywordUnit .
 
 
+###  http://www.esblurock.info/dataset#ModelingConsortiumType
+:ModelingConsortiumType rdf:type owl:Class ;
+                        rdfs:subClassOf :ConsortiumTypeChoice .
+
+
 ###  http://www.esblurock.info/dataset#MolarAmountParameter
 :MolarAmountParameter rdf:type owl:Class ;
                       rdfs:subClassOf :SpeciesAmount ,
@@ -7916,6 +7961,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :givenName
                               ] .
+
+
+###  http://www.esblurock.info/dataset#NationalPartnersConsortiumType
+:NationalPartnersConsortiumType rdf:type owl:Class ;
+                                rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#NickelSkimmer
@@ -8235,6 +8285,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#OrganizationClassifications
 :OrganizationClassifications rdf:type owl:Class ;
                              rdfs:subClassOf :ChemConnectClassifications .
+
+
+###  http://www.esblurock.info/dataset#OrganizationConsoritiumType
+:OrganizationConsoritiumType rdf:type owl:Class ;
+                             rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationDataCatagory
@@ -9583,6 +9638,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ResearchGroup
 :ResearchGroup rdf:type owl:Class ;
                rdfs:subClassOf :OrganizationClassifications .
+
+
+###  http://www.esblurock.info/dataset#ResearchGroupConsortiumType
+:ResearchGroupConsortiumType rdf:type owl:Class ;
+                             rdfs:subClassOf :ConsortiumTypeChoice .
 
 
 ###  http://www.esblurock.info/dataset#ResearchInstitute

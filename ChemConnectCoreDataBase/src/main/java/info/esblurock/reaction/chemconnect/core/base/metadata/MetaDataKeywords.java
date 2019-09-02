@@ -144,5 +144,8 @@ public class MetaDataKeywords {
 	public static String stringSource = "dataset:StringSource";
 	public static String BLOBSOURCE   = "dataset:BlobSourceFile";
 	public static String localFile   = "dataset:LocalFileSystem";
+	
+	public static String consortiumTypeChoice = "dataset:ConsortiumTypeChoice";
+	public static String consortium = "dataset:Consortium";
 
 }
