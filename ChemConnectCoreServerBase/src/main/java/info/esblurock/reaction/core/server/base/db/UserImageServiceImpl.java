@@ -25,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInf
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.create.CreateBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.create.CreateConsortiumCatalogObject;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
@@ -482,7 +483,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		} else {
 			ClassificationInformation info = DatasetOntologyParseBase.getIdentificationInformation(dataType);
 			String structureName = info.getDataType();
-			InterpretDataInterface interpret = InterpretDataBase.valueOf(structureName);
+			InterpretDataInterface interpret = InitializationBase.getInterpret().valueOf(structureName);
 			hierarchy = interpret.createEmptyObject(obj);
 		}
 		return hierarchy;

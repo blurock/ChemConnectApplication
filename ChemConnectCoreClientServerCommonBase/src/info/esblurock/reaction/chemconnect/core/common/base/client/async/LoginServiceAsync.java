@@ -33,5 +33,7 @@ public interface LoginServiceAsync {
 
 	void getAccessCreationList(AsyncCallback<List<String>> callback);
 
+	void initializeBaseSystem(AsyncCallback<UserSessionData> callback);
+
 }
 

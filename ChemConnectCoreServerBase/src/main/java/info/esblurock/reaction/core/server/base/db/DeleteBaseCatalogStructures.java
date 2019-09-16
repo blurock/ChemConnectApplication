@@ -11,6 +11,7 @@ import info.esblurock.reaction.chemconnect.core.base.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageInformation;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
@@ -113,7 +114,7 @@ public enum DeleteBaseCatalogStructures {
 	public static DatabaseObject getEntity(String sourceClass, String ID) throws IOException {
 		DatabaseObject entity = null;
 		Class<?> typeclass;
-		InterpretDataInterface interpret = InterpretDataBase.valueOf(sourceClass);
+		InterpretDataInterface interpret = InitializationBase.getInterpret().valueOf(sourceClass);
 		if (interpret != null) {
 			interpret.canonicalClassName();
 			try {

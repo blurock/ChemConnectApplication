@@ -13,10 +13,11 @@ class InterpretDataValueOf {
 
 	@Test
 	void test() {
-		InterpretDataInterface interpret1 = InterpretDataBase.valueOf("DatabaseObject");
+		InterpretDataBase interpretDataBase = new InterpretDataBase();
+		InterpretDataInterface interpret1 = interpretDataBase.valueOf("DatabaseObject");
 		System.out.println("DatabaseObject: " + interpret1.canonicalClassName());
 		
-		InterpretDataInterface interpret2 = InterpretDataBase.valueOf("XXXX");
+		InterpretDataInterface interpret2 = interpretDataBase.valueOf("XXXX");
 		if(interpret2 == null) {
 			System.out.println("XXXX returned null as it should");
 		} else {

@@ -9,6 +9,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -16,9 +17,13 @@ import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFacto
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppPlaceHistoryMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
+import info.esblurock.reaction.chemconnect.core.base.client.authentication.SetUpUserCookies;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.InterpretUploadedFileBase;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visualize.VisualizeMediaBase;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
 
@@ -33,20 +38,51 @@ public class ChemConnectApplicationBase implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		String redirect = Cookies.getCookie("redirect");
-		String account_name = Cookies.getCookie("user");
+		ClientEnumerateUtilities.interpretUploadedFile = new InterpretUploadedFileBase();
+		ClientEnumerateUtilities.visualizeMedia = new VisualizeMediaBase();
+		LoginServiceAsync async = LoginService.Util.getInstance();
+		async.initializeBaseSystem(new AsyncCallback<UserSessionData>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				StandardWindowVisualization.errorWindowMessage("Module Initialization: SERIOUS ERRIR system abort", 
+						caught.toString());
+			}
+
+			@Override
+			public void onSuccess(UserSessionData user) {
+				Window.alert("Session: " + user.toString());
+				
+				setUpModuleAfterInitialization(user);
+			}
+		});
+		
+	}
+	private void setUpModuleAfterInitialization(UserSessionData user) {
+		//String redirect = Cookies.getCookie("redirect");
+		//String account_name = Cookies.getCookie("user");
 		Cookies.removeCookie("redirect");
+		
+		ClientFactoryBase clientFactory = GWT.create(ClientFactoryBase.class);
+		toppanel = new BaseChemConnectPanel(clientFactory);
+		setUpInterface(clientFactory);			
+		toppanel.loginCallback(user);
+		toppanel.setLoginVisibility(user.getUserName().compareTo("guest")== 0);
+		SetUpUserCookies.setup(user);
+		/*
 		boolean firsttime = true;
 		if(redirect == null || account_name == null) {
 			firsttime = true;
 		}  else if(redirect.compareTo(account_name) == 0) {
 			firsttime = false;
 		}
-		ClientFactoryBase clientFactory = GWT.create(ClientFactoryBase.class);
-		toppanel = new BaseChemConnectPanel(clientFactory);
-		setUpInterface(clientFactory);			
+		
 		if(firsttime) {
-			LoginAsGuest glogin = new LoginAsGuest(toppanel);
+			toppanel.loginCallback(user);
+			toppanel.setLoginVisibility(true);
+			SetUpUserCookies.setup(user);
+
+			//LoginAsGuest glogin = new LoginAsGuest(toppanel);
 			glogin.login();
 			LoginServiceAsync async = LoginService.Util.getInstance();
 			async.initialization(new AsyncCallback<Void>() {
@@ -59,7 +95,11 @@ public class ChemConnectApplicationBase implements EntryPoint {
 					StandardWindowVisualization.errorWindowMessage("", caught.toString());
 				}
 			});
+			
+		} else {
+			
 		}
+		*/
 	}
 	
 	

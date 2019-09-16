@@ -27,6 +27,7 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.ClientEnumerateUtilities;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.choose.ObjectVisualizationInterface;
@@ -281,8 +282,9 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			MaterialToast.fireToast("Specify exact file type for interpretation and press Submit again");
 			askForType();
 		}
-		InterpretUploadedFileInterface interpret = InterpretUploadedFileBase
-				.valueOf(ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog()));
+		String catalogname = ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog());
+		InterpretUploadedFileInterface interpret = 
+				ClientEnumerateUtilities.interpretUploadedFile.valueOf(catalogname);
 		interpret.interpretStructure(obj, catid, visualType, info, this);
 	}
 

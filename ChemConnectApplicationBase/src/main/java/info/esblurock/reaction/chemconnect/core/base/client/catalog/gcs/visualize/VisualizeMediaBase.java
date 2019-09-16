@@ -2,7 +2,7 @@ package info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visuali
 
 public class VisualizeMediaBase {
 
-	public static VisualizeMediaInterface valueOf(String element) {
+	public VisualizeMediaInterface valueOf(String element) {
 		VisualizeMediaInterface visual = null;
 		try {
 			visual = VisualizeMedia.valueOf(element);

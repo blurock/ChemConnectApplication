@@ -21,6 +21,7 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.db.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.base.db.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
@@ -117,7 +118,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		DatabaseObject object = objecthierarchy.getObject();
 		String name = object.getClass().getSimpleName();
 		mapping.put("structure", name);
-		InterpretDataInterface interpret = InterpretDataBase.valueOf(name);
+		InterpretDataInterface interpret = InitializationBase.getInterpret().valueOf(name);
 		Map<String, Object> objmapping = interpret.createYamlFromObject(object);
 		if(name.compareTo("ChemConnectCompoundMultiple") == 0) {
 			Map<String, Object> multmap = new HashMap<String, Object>();
@@ -187,7 +188,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 			Map<String, Object> mapping, String sourceID) throws IOException {
 		String structurename = (String) mapping.get("structure");
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy();
-		InterpretDataInterface interpret = InterpretDataBase.valueOf(structurename);
+		InterpretDataInterface interpret = InitializationBase.getInterpret().valueOf(structurename);
 		if (structurename.compareTo("ChemConnectCompoundMultiple") == 0) {
 			ChemConnectCompoundMultiple mult = (ChemConnectCompoundMultiple) interpret.fillFromYamlString(top, mapping, sourceID);
 			Map<String, Object> submap = (Map<String, Object>) mapping.get("dataset:ChemConnectCompoundMultiple");

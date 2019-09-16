@@ -25,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.queries.QueryFactory;
 import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
@@ -60,7 +61,7 @@ public class WriteReadDatabaseObjects {
 	}
 	public static Set<String> getIDsOfAllDatabaseObjectsOwnedByUser(UserSessionData usersession,String classType) throws IOException {
 		String name = DatasetOntologyParseBase.getChemConnectDirectTypeHierarchy(classType);
-		InterpretDataInterface interpret = InterpretDataBase.valueOf(name);
+		InterpretDataInterface interpret = InitializationBase.getInterpret().valueOf(name);
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		QuerySetupBase query = new QuerySetupBase(interpret.canonicalClassName(), values);
 		ListOfQueries queries = QueryFactory.userCanModifyQuery(query, usersession);
@@ -70,7 +71,7 @@ public class WriteReadDatabaseObjects {
 		
 	public static Set<String> getIDsOfAllDatabaseObjects(UserSessionData usersession, String classType) throws IOException {
 		String name = DatasetOntologyParseBase.getChemConnectDirectTypeHierarchy(classType);
-		InterpretDataInterface interpret = InterpretDataBase.valueOf(name);
+		InterpretDataInterface interpret = InitializationBase.getInterpret().valueOf(name);
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		QuerySetupBase query = new QuerySetupBase(interpret.canonicalClassName(), values);
 		ListOfQueries queries = QueryFactory.produceQueryList(query, usersession);

@@ -9,13 +9,17 @@ import org.junit.jupiter.api.Test;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.db.yaml.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
 
 class RepositoryClassTest {
 
 	@Test
 	void testRepositoryFileStaging() {
+		
+		InitializationBase.initialization();
 		String id = "ID";
 		String access = "access";
 		String owner = "owner";
@@ -34,7 +38,7 @@ class RepositoryClassTest {
 		System.out.println("3---------------------------------------------------");
 		System.out.println(hierarchy.toString("Created: "));
 		System.out.println("3---------------------------------------------------");
-		
+
 		try {
 			String yaml = ReadWriteYamlDatabaseObjectHierarchy.yamlStringFromDatabaseObjectHierarchyNoUpdate(hierarchy);
 			System.out.println("4---------------------------------------------------");
@@ -50,6 +54,7 @@ class RepositoryClassTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
 	}
 
 	@Test
@@ -72,7 +77,7 @@ class RepositoryClassTest {
 		System.out.println("3---------------------------------------------------");
 		System.out.println(hierarchy.toString("RepositoryDataFile Created: "));
 		System.out.println("3---------------------------------------------------");
-		
+		/*
 		try {
 			String yaml = ReadWriteYamlDatabaseObjectHierarchy.yamlStringFromDatabaseObjectHierarchyNoUpdate(hierarchy);
 			System.out.println("4---------------------------------------------------");
@@ -88,5 +93,6 @@ class RepositoryClassTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 }

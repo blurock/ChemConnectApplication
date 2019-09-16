@@ -14,11 +14,13 @@ import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.queries.QueryFactory;
 import info.esblurock.reaction.core.server.base.services.ServerBase;
 import info.esblurock.reaction.core.server.base.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
 
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
@@ -36,6 +38,18 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	String adminpass = "laguna";
 	String guestlevel = UserAccountKeys.accessTypeQuery;
 	String adminlevel = UserAccountKeys.accessTypeSuperUser;
+	
+	public UserSessionData initializeBaseSystem() throws IOException {
+		InitializationBase.interpretDataBase = new InterpretDataBase();
+		AuthorizationIDs.readInAuthorizationIDs(getServletContext());
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData user = LoginUtilities.isSessionActive(sessionid);
+		if(user == null) {
+			user = loginGuestServer();
+		}
+		System.out.println("initializeBaseSystem():" +sessionid + "\n" + user.toString("Current: "));
+		return user;
+	}
 
 	@Override
 	public UserSessionData loginGuestServer() throws IOException {

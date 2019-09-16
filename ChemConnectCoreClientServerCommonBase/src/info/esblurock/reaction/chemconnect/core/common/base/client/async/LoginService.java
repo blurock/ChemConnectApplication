@@ -32,6 +32,8 @@ public interface LoginService extends RemoteService {
 		}
 	}
 
+	public UserSessionData initializeBaseSystem() throws IOException;
+	
 	public UserSessionData loginGuestServer() throws IOException;
 
 	public UserSessionData logout();
