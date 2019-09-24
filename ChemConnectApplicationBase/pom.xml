@@ -5,9 +5,9 @@
 
 	<!-- POM file generated with GWT webAppCreator -->
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>info.esblurock.reaction.chemconnect.core.base</groupId>
+	<groupId>info.esblurock</groupId>
 	<artifactId>ChemConnectApplicationBase</artifactId>
-	<packaging>war</packaging>
+	<packaging>${p.type}</packaging>
 	<version>1.0</version>
 	<name>ChemConnectApplicationBase</name>
 
@@ -23,6 +23,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<appengine.maven.plugin.version>2.0.0</appengine.maven.plugin.version>
+		<p.type>war</p.type>
 	</properties>
 
 	<dependencyManagement>
@@ -57,7 +58,7 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<scope>runtime</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -193,8 +194,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<attachClasses>true</attachClasses>
 					<moduleName>info.esblurock.reaction.chemconnect.core.base.ChemConnectApplicationBase</moduleName>
-					<moduleShortName>ChemConnectApplicationBase</moduleShortName>
+					<moduleShortName>ChemConnectApplicationExpData</moduleShortName>
 					<failOnError>true</failOnError>
 					<!-- GWT compiler 2.8 requires 1.8, hence define sourceLevel here if 
 						you use a different source language for java compilation -->
@@ -232,6 +234,20 @@
 					<port>8181</port>
 					<address>0.0.0.0</address>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-a-jar</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>

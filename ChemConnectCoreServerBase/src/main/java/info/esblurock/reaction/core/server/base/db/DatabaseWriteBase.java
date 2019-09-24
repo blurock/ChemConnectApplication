@@ -8,7 +8,6 @@ import info.esblurock.reaction.chemconnect.core.base.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.base.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.base.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.base.query.SingleQueryResult;
-import info.esblurock.reaction.chemconnect.core.base.session.SessionEvent;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;

@@ -179,6 +179,48 @@
 					<moduleShortName>ChemConnectCore</moduleShortName>
 				</configuration>
 			</plugin>
+			
+			
+			
+			<plugin>
+				<groupId>net.ltgt.gwt.maven</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>1.0-rc-6</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>import-sources</goal>
+							<goal>compile</goal>
+							<goal>import-test-sources</goal>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<attachClasses>true</attachClasses>
+					<moduleName>info.esblurock.reaction.chemconnect.core.base.ChemConnectApplicationBase</moduleName>
+					<moduleShortName>ChemConnectApplicationBase</moduleShortName>
+					<failOnError>true</failOnError>
+					<!-- GWT compiler 2.8 requires 1.8, hence define sourceLevel here if 
+						you use a different source language for java compilation -->
+					<sourceLevel>1.8</sourceLevel>
+					<!-- Compiler configuration -->
+					<compilerArgs>
+						<!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
+						<arg>-compileReport</arg>
+						<arg>-XcompilerMetrics</arg>
+					</compilerArgs>
+					<!-- DevMode configuration -->
+					<warDir>${project.build.directory}/${project.build.finalName}</warDir>
+					<classpathScope>compile+runtime</classpathScope>
+					<!-- URL(s) that should be opened by DevMode (gwt:devmode). -->
+					<startupUrls>
+						<startupUrl>ChemConnectApplicationExpData.html</startupUrl>
+					</startupUrls>
+				</configuration>
+			</plugin>
+			
+			
 		</plugins>
 	</build>
 </project>
