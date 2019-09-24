@@ -2,6 +2,7 @@ package info.esblurock.reaction.chemconnect.expdata.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -21,6 +22,14 @@ import info.esblurock.reaction.chemconnect.core.base.client.authentication.Faceb
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.GoogleAuthentification;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LinkedInAuthentification;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
+import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ConsortiumManagementPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.RepositoryFileManagerPlace;
+import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 
 public class ChemConnectApplicationFrame extends Composite implements AuthentificationTopPanelInterface {
@@ -147,5 +156,61 @@ public class ChemConnectApplicationFrame extends Composite implements Authentifi
 		setLoginVisibility(true);
 		username.setText(Cookies.getCookie("user"));
 	}
+	
+	@UiHandler("home")
+	public void onHome(ClickEvent event) {
+		subtitle.setText("ChemConnect: The Intelligent Repository");
+		goTo(new FirstSiteLandingPagePlace("Home"));
+	}
+
+	@UiHandler("about")
+	public void onAboutClick(ClickEvent event) {
+		setSubTitle("About ChemConnect");
+		goTo(new AboutSummaryPlace("About ChemConnect"));
+	}
+
+	@UiHandler("catalog")
+	public void onCatalogClick(ClickEvent event) {
+		setSubTitle("Manage Catalog Structure");
+		goTo(new ManageCatalogHierarchyPlace("Manage Catalog Structure"));
+	}
+
+	@UiHandler("upload")
+	public void onUploadClick(ClickEvent event) {
+		setSubTitle("File staging");
+		goTo(new UploadFileToBlobStoragePlace("File staging"));
+	}
+
+	@UiHandler("repository")
+	public void onRepositoryClick(ClickEvent event) {
+		setSubTitle("Repository Manager");
+		goTo(new RepositoryFileManagerPlace("Manage Repository"));
+	}
+
+	@UiHandler("people")
+	public void onPeopleClick(ClickEvent event) {
+		setSubTitle("Manage Contact Info");
+		goTo(new DatabasePersonDefinitionPlace("Manage Contact Info"));
+	}
+
+	@UiHandler("organizations")
+	public void onOrganizationsClick(ClickEvent event) {
+		setSubTitle("Manage Organization Info");
+		goTo(new OrganizationDefinitionPlace("Manage Organization Info"));
+	}
+
+	@UiHandler("consortia")
+	public void onConsortiaClick(ClickEvent event) {
+		setSubTitle("Manage Consortium Info");
+		goTo(new ConsortiumManagementPlace("Manage Consortium Info"));
+	}
+	private void goTo(Place place) {
+		clientFactory.getPlaceController().goTo(place);
+	}
+	public void setSubTitle(String subtitletext) {
+		subtitle.setText(subtitletext);
+	}
+
+
 	
 }
