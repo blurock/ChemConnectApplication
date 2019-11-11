@@ -123,4 +123,9 @@ public interface UserImageServiceAsync {
 
 	void addConsortiumMember(DatabaseObjectHierarchy consortiumhierarchy, String consortiumName, String consortiumMember,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getIDHierarchyFromDataCatalogAndUser(String datacatalog, AsyncCallback<HierarchyNode> callback);
+
+	void getBlobDatasetObject(GCSBlobFileInformation info, DatabaseObject obj, DataCatalogID catid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 }

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.base.client.ClientEnumerateUtilities;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.SetUpCollapsibleItem;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.SetUpCollapsibleItemBase;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.SetUpCollapsibleItemInterface;
@@ -79,7 +80,7 @@ public class ChemConnectCompoundMultipleHeader extends Composite implements Crea
 	}
 	public StandardDatasetObjectHierarchyItem addMultipleObject(DatabaseObjectHierarchy obj) {
 		String type = obj.getObject().getClass().getSimpleName();
-		SetUpCollapsibleItemInterface setup = SetUpCollapsibleItemBase.valueOf(type);
+		SetUpCollapsibleItemInterface setup = ClientEnumerateUtilities.setUpCollapsible.valueOf(type);
 		StandardDatasetObjectHierarchyItem itemobj = null;
 		if(setup != null) {
 			MaterialPanel modalpanel = item.getModalpanel();

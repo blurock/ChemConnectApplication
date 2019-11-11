@@ -24,6 +24,7 @@ import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
+import info.esblurock.reaction.core.ontology.base.OntologyBase;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
@@ -372,6 +373,10 @@ public class WriteReadDatabaseObjects {
 	
 	public static void deleteObject(String id, String type) throws IOException {
 		System.out.println("deleteObject: " + id + "   " + type);
+		DeleteBaseCatalogStructures.deleteObject(type, id);
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id, type);
+		deleteHierarchy(hierarchy);
+		
 		List<DatabaseObject> infoset =  QueryBase.getDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
 				"identifier",id);
 		System.out.println("deleteObject: size=" + infoset.size());
@@ -379,7 +384,7 @@ public class WriteReadDatabaseObjects {
 		if(infoset.size() > 0) {
 			for(DatabaseObject obj : infoset) {
 				TransactionInfo info = (TransactionInfo) obj;
-				System.out.println("deleteObject: " + info.toString());
+				System.out.println(info.toString("WriteReadDatabaseObjects.deleteObject: "));
 				DatabaseWriteBase.deleteTransactionInfo(info, type);
 				System.out.println("deleteObject: done delete");
 			}

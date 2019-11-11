@@ -25,11 +25,16 @@ import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInf
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.core.server.base.activity.repositoryfile.util.CreateRepositoryCatagoryFiles;
+import info.esblurock.reaction.core.server.base.activity.repositoryfile.util.InitialStagingUtilities;
+import info.esblurock.reaction.core.server.base.activity.repositoryfile.util.RetrieveRepositoryFileInfo;
 import info.esblurock.reaction.core.server.base.authentification.InitializationBase;
 import info.esblurock.reaction.core.server.base.create.CreateBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.create.CreateConsortiumCatalogObject;
 import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.db.consortium.ReadInConsortium;
+import info.esblurock.reaction.core.server.base.db.interpret.FileInterpretationBase;
+import info.esblurock.reaction.core.server.base.db.interpret.FileInterpretationInterface;
 import info.esblurock.reaction.core.server.base.db.yaml.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.services.ServerBase;
@@ -38,6 +43,9 @@ import info.esblurock.reaction.core.server.base.services.util.InterpretDataBase;
 import info.esblurock.reaction.core.server.base.services.util.InterpretDataInterface;
 import info.esblurock.reaction.core.server.base.services.util.ParseUtilities;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.activity.read.ActivityRepositoryInitialReadInfo;
+import info.esblurock.reaction.chemconnect.core.base.activity.read.ActivityRepositoryInitialReadURL;
+import info.esblurock.reaction.chemconnect.core.base.client.util.ActivityUtilities;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
@@ -71,7 +79,22 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public static String keywordParameter = "identifier";
 	public static String blobkeyParameter = "blobKey";
 	public static String keyAsStringParameter = "keyAsString";
-
+	
+	@Override
+	public DatabaseObjectHierarchy processActivity() {
+		
+	}
+	
+	@Override
+	public DatabaseObjectHierarchy getBlobDatasetObject(GCSBlobFileInformation info, 
+			DatabaseObject obj, DataCatalogID catid) throws IOException {
+		String type = ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog());
+		
+		FileInterpretationInterface interpret = InitializationBase.fileInterpretationBase.valueOf(type);
+		DatabaseObjectHierarchy hierarchy = interpret.interpretBlobFile(info, obj, catid);
+		return hierarchy;
+	}
+	
 	@Override
 	public ImageServiceInformation getBlobstoreUploadUrl(String keywordName, boolean uploadService) {
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
@@ -128,10 +151,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	public DatabaseObjectHierarchy createRepositoryDataFile(DatabaseObjectHierarchy stagehierarchy,
 			DataCatalogID catalogid) throws IOException {
-		catalogid.setSourceID(stagehierarchy.getObject().getSourceID());
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData sessiondata = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
-		
+		return CreateRepositoryCatagoryFiles.createRepositoryDataFile(stagehierarchy, catalogid, sessiondata);
+		/*
+		catalogid.setSourceID(stagehierarchy.getObject().getSourceID());
+		CreateRepositoryCatagoryFiles.createRepositoryDataFile(stagehierarchy, catalogid, sessiondata);
 		RepositoryFileStaging staging = (RepositoryFileStaging) stagehierarchy.getObject();
 		DatabaseObjectHierarchy stagegcshierarchy = stagehierarchy.getSubObject(staging.getBlobFileInformation());
 		GCSBlobFileInformation stagegcs = (GCSBlobFileInformation) stagegcshierarchy.getObject();
@@ -163,6 +188,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		GCSServiceRoutines.deleteBlob(stagegcs);
 		
 		return repositoryhier;
+		*/
 	}
 	
 	@Override
@@ -257,11 +283,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public ArrayList<DatabaseObjectHierarchy> getUploadedStagedFiles() throws IOException {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		return RetrieveRepositoryFileInfo.getUploadedStagedFiles(usession);
+		/*
 		ArrayList<DatabaseObjectHierarchy> fileset = new ArrayList<DatabaseObjectHierarchy>();
 		SingleQueryResult result = null;
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
-		String sessionid = getThreadLocalRequest().getSession().getId();
-		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		if(usession != null) {
 			String username = usession.getUserName();
 			values.add("owner", username);
@@ -285,16 +313,19 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			//System.out.println("getUploadedStagedFiles: no user session connected");
 		}
 		return fileset;
+		*/
 	}
 
 
 	
 	public ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		return RetrieveRepositoryFileInfo.getUploadedFiles(usession);
+		/*
 		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
 		SingleQueryResult result = null;
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
-		String sessionid = getThreadLocalRequest().getSession().getId();
-		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		if(usession != null) {
 			String username = usession.getUserName();
 			values.add("owner", username);
@@ -313,6 +344,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			}
 		}
 		return fileset;
+		*/
 	}
 
 	public HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException {
@@ -353,6 +385,19 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
+		String sessionid = getThreadLocalRequest().getSession().getId();
+		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		String sourceID = "";
+		
+		
+		ActivityRepositoryInitialReadInfo actread = 
+				ActivityUtilities.generateActivityRepositoryInitialReadInfo(obj, 
+						"", 
+						requestUrl, 
+						fileSourceType);
+		ActivityRepositoryInitialReadURL urlact = new ActivityRepositoryInitialReadURL(actread);
+		return InitialStagingUtilities.retrieveBlobFromURL(actread, usession, sourceID);
+		/*
 		String uploadDescriptionText = "Uploaded File from URL";
 
 		URL urlconnect = new URL(requestUrl);
@@ -361,8 +406,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		URL urlstream = new URL(requestUrl);
 		InputStream in = urlstream.openStream();
-		String sessionid = getThreadLocalRequest().getSession().getId();
-		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
 		String username = usession.getUserName();
 		String path = GCSServiceRoutines.createUploadPath(username);
 		String name = extractNameFromURL(requestUrl);
@@ -391,8 +434,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		retrieveContentFromStream(in, source);
 
 		return source;
+		*/
 	}
-	
+	/*
 	public String extractNameFromURL(String url) {
 		int pos = url.lastIndexOf("/");
 		String name = url;
@@ -401,10 +445,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		return name;
 	}
-
+*/
 	public GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException {
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData usession = DatabaseWriteBase.getUserSessionDataFromSessionID(sessionid);
+		return InitialStagingUtilities.retrieveBlobFromContent(filename, content, usession);
+		/*
 		String username = usession.getUserName();
 		String path = GCSServiceRoutines.createUploadPath(username);
 		String contentType = "text/plain";
@@ -432,11 +478,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				MetaDataKeywords.initialReadFromUserInterface,usession);
 		
 		return source;
+		*/
 	}
+	/*
 	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) throws IOException {
 		GCSServiceRoutines.writeBlob(source.getGSFilename(), source.getFiletype(), in);
 	}
-
+*/
 	public ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyOwnedUser(String classType) throws IOException {
 		ArrayList<DatabaseObjectHierarchy> objects = null;
 		String sessionid = getThreadLocalRequest().getSession().getId();

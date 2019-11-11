@@ -4,6 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.SimpleCatalogObject;
 
 @SuppressWarnings("serial")
 @Entity

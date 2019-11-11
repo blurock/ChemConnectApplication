@@ -27,7 +27,7 @@
 		<!-- Servlets -->
 	<servlet>
 		<servlet-name>gcsfileupload</servlet-name>
-		<servlet-class>info.esblurock.reaction.core.server.base.db.FileUploadServlet</servlet-class>
+		<servlet-class>info.esblurock.reaction.core.server.base.activity.repositoryfile.FileUploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>gcsfileupload</servlet-name>

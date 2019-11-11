@@ -4,9 +4,9 @@
 	xmlns:m="urn:import:gwt.material.design.client.ui"
 	xmlns:ma="urn:import:gwt.material.design.addins.client">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
+		}
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialRow margin="0" backgroundColor="GREY">
@@ -39,8 +39,9 @@
 					backgroundColor="GREY">
 					<m:MaterialLink ui:field="home" padding="12"
 						waves="DEFAULT" text="Home" textColor="WHITE" />
-					<m:MaterialLink ui:field="createbutton" padding="12" waves="DEFAULT"
-						text="Create" textColor="WHITE" activates="dp-create" />
+					<m:MaterialLink ui:field="createbutton" padding="12"
+						waves="DEFAULT" text="Create" textColor="WHITE"
+						activates="dp-create" />
 					<m:MaterialLink ui:field="about" padding="12"
 						waves="DEFAULT" text="About" textColor="WHITE" />
 					<m:MaterialTooltip ui:field="logintooltip">
@@ -59,25 +60,25 @@
 							textColor="BLACK" />
 						<m:MaterialLink ui:field="upload" separator="true"
 							textColor="BLACK" />
-						<!-- m:MaterialLink ui:field="isolate" separator="true"
-							textColor="BLACK" / -->
-						<m:MaterialLink ui:field="repository" separator="true"
+						<m:MaterialLink ui:field="repository"
+							separator="true" textColor="BLACK" />
+						<m:MaterialLink ui:field="isolate" separator="true"
 							textColor="BLACK" />
-						<!--  m:MaterialLink ui:field="specification"
-							separator="true" textColor="BLACK" / -->
-						<!--  m:MaterialLink ui:field="protocol"
-							separator="true" textColor="BLACK"  / -->
-						<!--  m:MaterialLink ui:field="dataSet" separator="true"
-							textColor="BLACK" /  -->
-						<!--  m:MaterialLink ui:field="devices" separator="true"
-							textColor="BLACK" / -->
+						<!-- m:MaterialLink ui:field="specification" separator="true" textColor="BLACK" 
+							/ -->
+						<!-- m:MaterialLink ui:field="protocol" separator="true" textColor="BLACK" 
+							/ -->
+						<!-- m:MaterialLink ui:field="dataSet" separator="true" textColor="BLACK" 
+							/ -->
+						<!-- m:MaterialLink ui:field="devices" separator="true" textColor="BLACK" 
+							/ -->
 						<m:MaterialLink ui:field="people" separator="true"
 							textColor="BLACK" />
 						<m:MaterialLink ui:field="organizations"
 							separator="true" textColor="BLACK" />
 						<m:MaterialLink ui:field="consortia"
 							separator="true" textColor="BLACK" />
-											</m:MaterialDropDown>
+					</m:MaterialDropDown>
 					<m:MaterialDropDown ui:field="dpTutorial"
 						activator="dp-tutorial" belowOrigin="true">
 						<m:MaterialLink text="Start" separator="true"
@@ -100,8 +101,8 @@
 							separator="true" text="Google" textColor="BLACK" />
 						<m:MaterialLink ui:field="facebookLogin"
 							separator="true" text="Facebook" textColor="BLACK" />
-																	</m:MaterialDropDown>
-					</ma:menubar.MaterialMenuBar>
+					</m:MaterialDropDown>
+				</ma:menubar.MaterialMenuBar>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>

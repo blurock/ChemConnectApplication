@@ -137,5 +137,10 @@ public interface UserImageService  extends RemoteService  {
 	List<DatabaseObject> getAvailableDatabaseObjects(String classname);
 	
 	public List<String> getAvailableUsernames();
+	
+	HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException;
+	
+	DatabaseObjectHierarchy getBlobDatasetObject(GCSBlobFileInformation info, DatabaseObject obj,
+			DataCatalogID catid) throws IOException;
 
 }

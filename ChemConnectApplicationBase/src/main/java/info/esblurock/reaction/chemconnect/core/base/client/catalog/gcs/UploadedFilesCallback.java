@@ -2,15 +2,11 @@ package info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
-import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 
 public class UploadedFilesCallback implements AsyncCallback<ArrayList<DatabaseObjectHierarchy>> {
 

@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.core.data.expdata.observations.SpreadSheetInputInformation;
 
 public class SpreadSheetInputInformationHeader extends Composite {
 

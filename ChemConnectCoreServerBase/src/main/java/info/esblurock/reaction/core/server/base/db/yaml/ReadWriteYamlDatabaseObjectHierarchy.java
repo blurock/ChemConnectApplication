@@ -231,7 +231,8 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		ArrayList<DatabaseObjectHierarchy> lst = new ArrayList<DatabaseObjectHierarchy>();
 		Map<String, Object> mapping = getAndModifyYamlMap(addr,newuser);
 		recoverConceptFromLinks(tophierarchy,mapping,lst);
-		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(tophierarchy);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(tophierarchy,
+				MetaDataKeywords.initalReadFromYamlFile);
 		for(DatabaseObjectHierarchy hierarchy : lst) {
 			WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(hierarchy);
 		}

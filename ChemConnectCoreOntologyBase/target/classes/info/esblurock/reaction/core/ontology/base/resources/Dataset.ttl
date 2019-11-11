@@ -12,6 +12,7 @@
                                                  <http://www.w3.org/2006/vcard/ns> ,
                                                  <http://www.w3.org/ns/dcat> ,
                                                  <http://qudt.org/1.1/vocab/quantity> ,
+                                                 <http://www.w3.org/ns/prov-o-20130430> ,
                                                  <http://www.w3.org/ns/ssn/> ,
                                                  <http://xmlns.com/foaf/0.1/> ,
                                                  <http://www.w3.org/2004/02/skos/core> ;
@@ -740,6 +741,10 @@ xsd:date rdf:type rdfs:Datatype .
 :purpose rdf:type owl:ObjectProperty .
 
 
+###  http://www.esblurock.info/dataset#transaction
+:transaction rdf:type owl:ObjectProperty .
+
+
 ###  http://www.w3.org/2003/01/geo/wgs84_pos#location
 <http://www.w3.org/2003/01/geo/wgs84_pos#location> rdf:type owl:ObjectProperty ;
                                                    rdfs:subPropertyOf <http://xmlns.com/foaf/0.1/based_near> .
@@ -1245,6 +1250,148 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.esblurock.info/dataset#AccountPriviledgeUserManagement
 :AccountPriviledgeUserManagement rdf:type owl:Class ;
                                  rdfs:subClassOf :AccountPriviledgeManagement .
+
+
+###  http://www.esblurock.info/dataset#ActivityInformationRecord
+:ActivityInformationRecord rdf:type owl:Class ;
+                           rdfs:subClassOf <http://www.w3.org/ns/dcat#CatalogRecord> ;
+                           <http://purl.org/dc/elements/1.1/type> "ActivityInformationRecord" ;
+                           <http://purl.org/dc/terms/identifier> "dataset:activityinfo" ;
+                           rdfs:comment "This is the base element for information transfered to Activities" ;
+                           rdfs:label "Activity Record" ;
+                           <http://www.w3.org/2004/02/skos/core#altLabel> "activityinfo" .
+
+
+###  http://www.esblurock.info/dataset#ActivityInformationRecordBase
+:ActivityInformationRecordBase rdf:type owl:Class ;
+                               rdfs:subClassOf :ActivityInformationRecord ;
+                               <http://purl.org/dc/elements/1.1/type> "ActivityInformationRecordBase" ;
+                               <http://purl.org/dc/terms/identifier> "dataset:activitybase" ;
+                               rdfs:comment "All activity records under this one are part of the base system" ;
+                               rdfs:label "Activity Information Record Base" ;
+                               <http://www.w3.org/2004/02/skos/core#altLabel> "activitybase" .
+
+
+###  http://www.esblurock.info/dataset#ActivityInformationRecordExpData
+:ActivityInformationRecordExpData rdf:type owl:Class ;
+                                  rdfs:subClassOf :ActivityInformationRecord ;
+                                  <http://purl.org/dc/elements/1.1/type> "ActivityInformationRecordExpData" ;
+                                  <http://purl.org/dc/terms/identifier> "dataset:activityexpdata" ;
+                                  rdfs:comment "These are the activities having to do with the ExpData (experimental data) system." ;
+                                  rdfs:label "Activity Information Experimental Data" ;
+                                  <http://www.w3.org/2004/02/skos/core#altLabel> "dataset:activityexpdata" .
+
+
+###  http://www.esblurock.info/dataset#ActivityInformationRecordID
+:ActivityInformationRecordID rdf:type owl:Class ;
+                             rdfs:subClassOf :DatabaseID ;
+                             <http://purl.org/dc/terms/identifier> "dataset:activityinfoid" ;
+                             rdfs:comment "The ID of the base information needed for an activity" ;
+                             rdfs:label "Activity Information Record ID" .
+
+
+###  http://www.esblurock.info/dataset#ActivityInformationRecordIDAndType
+:ActivityInformationRecordIDAndType rdf:type owl:Class ;
+                                    rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ActivityInformationRecordID
+                                                    ] ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ActivityInformationRecordType
+                                                    ] ;
+                                    <http://purl.org/dc/elements/1.1/type> "ActivityInformationRecordIDAndType" ;
+                                    <http://purl.org/dc/terms/identifier> "dataset:actiivtyinfoidandtype" ;
+                                    rdfs:comment "This is the information that is needed, id and type, to read in the information needed for an activity." ;
+                                    rdfs:label "Activity Information Record ID and type" ;
+                                    <http://www.w3.org/2004/02/skos/core#altLabel> "activityinfoidandtype" .
+
+
+###  http://www.esblurock.info/dataset#ActivityInformationRecordType
+:ActivityInformationRecordType rdf:type owl:Class ;
+                               rdfs:subClassOf :Classification ;
+                               <http://purl.org/dc/terms/identifier> "dataset:activityinformationtype" ;
+                               rdfs:comment "This is the type of Activity information record. It is used for reading the database (along with the id)." ;
+                               rdfs:label "Activity Information Record Type" ;
+                               <http://www.w3.org/2004/02/skos/core#altLabel> "activityinfotype" .
+
+
+###  http://www.esblurock.info/dataset#ActivityRepositoryInformation
+:ActivityRepositoryInformation rdf:type owl:Class ;
+                               rdfs:subClassOf :ActivityInformationRecordBase ;
+                               <http://purl.org/dc/elements/1.1/type> "ActivityRepositoryInformation" ;
+                               <http://purl.org/dc/terms/identifier> "dataset:repositoryinfo" ;
+                               rdfs:comment "These activities have to do with repository file information" ;
+                               rdfs:label "Activity Repository Information" ;
+                               <http://www.w3.org/2004/02/skos/core#altLabel> "repinfo" .
+
+
+###  http://www.esblurock.info/dataset#ActivityRepositoryInitialReadInfo
+:ActivityRepositoryInitialReadInfo rdf:type owl:Class ;
+                                   rdfs:subClassOf :ActivityRepositoryInformation ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :DescriptionTitle
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :FileSourceIdentifier
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :FileSourceType
+                                                   ] ;
+                                   <http://purl.org/dc/elements/1.1/type> "RepositoryInitialReadInfo" ;
+                                   <http://purl.org/dc/terms/identifier> "repinitialreadinfo" ;
+                                   rdfs:comment "This is the necessary information for an initial repository read" ;
+                                   rdfs:label "Initial Repository Read Info" ;
+                                   <http://www.w3.org/2004/02/skos/core#altLabel> "repinitialread" .
+
+
+###  http://www.esblurock.info/dataset#ActivityRepositoryInitialReadLocalFile
+:ActivityRepositoryInitialReadLocalFile rdf:type owl:Class ;
+                                        rdfs:subClassOf :ActivityRepositoryInitialReadInfo ;
+                                        <http://purl.org/dc/elements/1.1/type> "ActivityRepositoryInitialReadLocalFile" ;
+                                        <http://purl.org/dc/terms/identifier> "initialrepositorylocal" ;
+                                        rdfs:comment "Repository file content uploaded from file through interface GUI" ;
+                                        rdfs:label "From local file" ;
+                                        <http://www.w3.org/2004/02/skos/core#altLabel> "replocal" .
+
+
+###  http://www.esblurock.info/dataset#ActivityRepositoryInitialReadStringContent
+:ActivityRepositoryInitialReadStringContent rdf:type owl:Class ;
+                                            rdfs:subClassOf :ActivityRepositoryInitialReadInfo ,
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :transaction ;
+                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                              owl:onClass :InitialReadFromUserInterface
+                                                            ] ;
+                                            <http://purl.org/dc/elements/1.1/type> "ActivityRepositoryInitialReadStringContent" ;
+                                            <http://purl.org/dc/terms/identifier> "initialrepositorystring" ;
+                                            rdfs:comment "The repository file comes from content from the user interface (a string)" ;
+                                            rdfs:label "File Content from GUI" ;
+                                            <http://www.w3.org/2004/02/skos/core#altLabel> "repstring" .
+
+
+###  http://www.esblurock.info/dataset#ActivityRepositoryInitialReadURL
+:ActivityRepositoryInitialReadURL rdf:type owl:Class ;
+                                  rdfs:subClassOf :ActivityRepositoryInitialReadInfo ,
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty :transaction ;
+                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                    owl:onClass :InitialReadFromWebLocation
+                                                  ] ;
+                                  <http://purl.org/dc/elements/1.1/type> "ActivityRepositoryInitialReadURL" ;
+                                  <http://purl.org/dc/terms/identifier> "dataset:initialrepositoryurl" ;
+                                  rdfs:comment "Read in a repository file given an URL address" ;
+                                  rdfs:label "Repository File from URL" ;
+                                  <http://www.w3.org/2004/02/skos/core#altLabel> "repurl" .
 
 
 ###  http://www.esblurock.info/dataset#AdministrativeConsortiumType
@@ -1766,7 +1913,9 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#CatagoryTypeChoices
 :CatagoryTypeChoices rdf:type owl:Class ;
-                     rdfs:subClassOf :ChemConnectClassifications .
+                     rdfs:subClassOf :ChemConnectClassifications ;
+                     rdfs:comment "This specifies the type of catalog data within the given catagory."^^xsd:string ;
+                     rdfs:label "Data type within Catagory"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#CatalogBaseName
@@ -1784,6 +1933,78 @@ xsd:date rdf:type rdfs:Datatype .
                     <http://purl.org/dc/terms/identifier> "dataset:CatalogPath" ;
                     rdfs:label "Catalog Path Element" ;
                     <http://www.w3.org/2004/02/skos/core#prefLabel> "catpath" .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcess
+:CatalogProcess rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/prov#Activity> .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessBase
+:CatalogProcessBase rdf:type owl:Class ;
+                    rdfs:subClassOf :CatalogProcess .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessDataExp
+:CatalogProcessDataExp rdf:type owl:Class ;
+                       rdfs:subClassOf :CatalogProcess .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessInitialRepositoryFileStaging
+:CatalogProcessInitialRepositoryFileStaging rdf:type owl:Class ;
+                                            rdfs:subClassOf :CatalogRepositoryFileProcess ;
+                                            <http://purl.org/dc/elements/1.1/type> "InitialRepositoryFileStaging" ;
+                                            rdfs:comment "This is the first upload of the file into the staging area." ;
+                                            rdfs:label "Initial File staging" .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessInitialRepositoryStagingContent
+:CatalogProcessInitialRepositoryStagingContent rdf:type owl:Class ;
+                                               rdfs:subClassOf :CatalogProcessInitialRepositoryFileStaging ,
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty <http://purl.org/dc/terms/source> ;
+                                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                 owl:onClass :ActivityRepositoryInitialReadStringContent
+                                                               ] .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessInitialRepositoryStagingLocal
+:CatalogProcessInitialRepositoryStagingLocal rdf:type owl:Class ;
+                                             rdfs:subClassOf :CatalogProcessInitialRepositoryFileStaging ,
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://purl.org/dc/terms/source> ;
+                                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                               owl:onClass :ActivityRepositoryInitialReadLocalFile
+                                                             ] .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessInitialRepositoryStagingURL
+:CatalogProcessInitialRepositoryStagingURL rdf:type owl:Class ;
+                                           rdfs:subClassOf :CatalogProcessInitialRepositoryFileStaging ,
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty <http://purl.org/dc/terms/source> ;
+                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                             owl:onClass :ActivityRepositoryInitialReadURL
+                                                           ] .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessRepositoryFileCatagorization
+:CatalogProcessRepositoryFileCatagorization rdf:type owl:Class ;
+                                            rdfs:subClassOf :CatalogRepositoryFileProcess ;
+                                            rdfs:comment "The file is catagorized. This means the staged file is put into the catalog hierarchy, including the type of interpretation of the file. The file, in its original form is put into the catagory hierarchy." ;
+                                            rdfs:label "File Catagorization" .
+
+
+###  http://www.esblurock.info/dataset#CatalogProcessRepositoryFileInterpretation
+:CatalogProcessRepositoryFileInterpretation rdf:type owl:Class ;
+                                            rdfs:subClassOf :CatalogRepositoryFileProcess ;
+                                            rdfs:comment "The catagorized file is interpreted and the result is put into the catalog hierarchy" ;
+                                            rdfs:label "File catagorization and interpretation" .
+
+
+###  http://www.esblurock.info/dataset#CatalogRepositoryFileProcess
+:CatalogRepositoryFileProcess rdf:type owl:Class ;
+                              rdfs:subClassOf :CatalogProcessBase .
 
 
 ###  http://www.esblurock.info/dataset#ChemConectChemicalComposition
@@ -2159,7 +2380,9 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectParameterTypeChoice
 :ChemConnectParameterTypeChoice rdf:type owl:Class ;
-                                rdfs:subClassOf :ChemConnectClassifications .
+                                rdfs:subClassOf :ChemConnectClassifications ;
+                                rdfs:comment "The general type of parameter, whether it is fixed or dynamic"^^xsd:string ;
+                                rdfs:label "General Parameter Type"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectPrimitiveCompound
@@ -2343,7 +2566,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ChemConnectUncertaintyTypes
 :ChemConnectUncertaintyTypes rdf:type owl:Class ;
-                             rdfs:subClassOf :ChemConnectClassifications .
+                             rdfs:subClassOf :ChemConnectClassifications ;
+                             rdfs:comment "Specification of the type of uncertainty. The type reflects the meaning of the numerical value given as the uncertainty."^^xsd:string ;
+                             rdfs:label "Uncertainty type"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectValueParameter
@@ -2908,7 +3133,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ConsortiumTypeChoice
 :ConsortiumTypeChoice rdf:type owl:Class ;
-                      rdfs:subClassOf :ChemConnectClassifications .
+                      rdfs:subClassOf :ChemConnectClassifications ;
+                      rdfs:comment "This specifies the relationship between the members of the consortium."^^xsd:string ;
+                      rdfs:label "Consortium Type"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactEmail
@@ -3000,7 +3227,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ContactTypes
 :ContactTypes rdf:type owl:Class ;
-              rdfs:subClassOf :ChemConnectClassifications .
+              rdfs:subClassOf :ChemConnectClassifications ;
+              rdfs:comment "This specifies the type of contact information specified within the contact information"^^xsd:string ;
+              rdfs:label "Contact Info Type"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ControlledEvaporationMixing
@@ -3468,6 +3697,22 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:isDefinedBy :DatabaseUser .
 
 
+###  http://www.esblurock.info/dataset#DatabaseIDOutputTransaction
+:DatabaseIDOutputTransaction rdf:type owl:Class ;
+                             rdfs:subClassOf :DatabaseIDTransaction .
+
+
+###  http://www.esblurock.info/dataset#DatabaseIDRequiredTransaction
+:DatabaseIDRequiredTransaction rdf:type owl:Class ;
+                               rdfs:subClassOf :DatabaseIDTransaction .
+
+
+###  http://www.esblurock.info/dataset#DatabaseIDTransaction
+:DatabaseIDTransaction rdf:type owl:Class ;
+                       rdfs:subClassOf :DatabaseID ;
+                       <http://purl.org/dc/terms/identifier> "dataset:transactionid" .
+
+
 ###  http://www.esblurock.info/dataset#DatabasePerson
 :DatabasePerson rdf:type owl:Class ;
                 rdfs:subClassOf :ChemConnectDataStructure ,
@@ -3532,11 +3777,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                              owl:someValuesFrom :DataSetReference
-                                           ] ,
-                                           [ rdf:type owl:Restriction ;
-                                             owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                             owl:onClass :DataCatalogID
                                            ] ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -3999,7 +4239,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#EvaporationSystemTypeChoice
 :EvaporationSystemTypeChoice rdf:type owl:Class ;
-                             rdfs:subClassOf :ChemConnectClassifications .
+                             rdfs:subClassOf :ChemConnectClassifications ;
+                             rdfs:label "Evaporation System Type"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#EvaporatorManufacturer
@@ -4225,9 +4466,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#FileSourceIdentifier
 :FileSourceIdentifier rdf:type owl:Class ;
                       rdfs:subClassOf :ShortStringLabel ;
+                      <http://purl.org/dc/elements/1.1/type> "ShortStringLabel" ;
                       <http://purl.org/dc/terms/identifier> "dataset:fileidentifier" ;
                       rdfs:comment "This is the identifier of the file source. The format of the string depends on the source (which is specified elsewhere)."^^xsd:string ;
-                      rdfs:label "FileSourceIdentifier"^^xsd:string .
+                      rdfs:label "FileSourceIdentifier"^^xsd:string ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "filesrcid" .
 
 
 ###  http://www.esblurock.info/dataset#FileSourceShortName
@@ -4241,7 +4484,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileSourceType
 :FileSourceType rdf:type owl:Class ;
-                rdfs:subClassOf :Classification .
+                rdfs:subClassOf :Classification ;
+                <http://purl.org/dc/elements/1.1/type> "Classification" ;
+                <http://purl.org/dc/terms/identifier> "dataset:fileType" ;
+                rdfs:comment "The repository source file type. This refers to a file type within the ontology" ;
+                rdfs:label "File Source Type" ;
+                <http://www.w3.org/2004/02/skos/core#altLabel> "ftype" .
 
 
 ###  http://www.esblurock.info/dataset#FileSourceTypes
@@ -4364,7 +4612,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileTypeMatrix
 :FileTypeMatrix rdf:type owl:Class ;
-                rdfs:subClassOf :DataTypeFileFormat ;
+                rdfs:subClassOf :DataTypeFileFormat ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/dc/terms/hasFormat> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :DataFileMatrixStructure
+                                ] ;
                 rdfs:comment "Representation of a matrix" ;
                 rdfs:label "Matrix Format" .
 
@@ -6395,19 +6648,49 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#InitialReadFromUserInterface
 :InitialReadFromUserInterface rdf:type owl:Class ;
-                              rdfs:subClassOf :InitialReadInOfRepositoryFile ;
+                              rdfs:subClassOf :InitialReadInOfRepositoryFile ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://purl.org/dc/terms/source> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :ActivityRepositoryInitialReadStringContent
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/ns/prov#activity> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :CatalogProcessInitialRepositoryStagingContent
+                                              ] ;
                               rdfs:comment "The file is read in from the text area of the user interface and put in the staging area." .
 
 
 ###  http://www.esblurock.info/dataset#InitialReadFromWebLocation
 :InitialReadFromWebLocation rdf:type owl:Class ;
-                            rdfs:subClassOf :InitialReadInOfRepositoryFile ;
+                            rdfs:subClassOf :InitialReadInOfRepositoryFile ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://purl.org/dc/terms/source> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :ActivityRepositoryInitialReadURL
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/prov#activity> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :CatalogProcessInitialRepositoryStagingURL
+                                            ] ;
                             rdfs:comment "The file source is a web location. The file is retrieved and put in the staging area." .
 
 
 ###  http://www.esblurock.info/dataset#InitialReadInLocalStorageSystem
 :InitialReadInLocalStorageSystem rdf:type owl:Class ;
-                                 rdfs:subClassOf :InitialReadInOfRepositoryFile ;
+                                 rdfs:subClassOf :InitialReadInOfRepositoryFile ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://purl.org/dc/terms/source> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass :ActivityRepositoryInitialReadLocalFile
+                                                 ] ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://www.w3.org/ns/prov#activity> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass :CatalogProcessInitialRepositoryStagingLocal
+                                                 ] ;
                                  rdfs:comment "The file is read in from the local file system of the client to the staging area." .
 
 
@@ -6415,9 +6698,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :InitialReadInOfRepositoryFile rdf:type owl:Class ;
                                rdfs:subClassOf :RepositoryFile ,
                                                [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                 owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                 owl:onClass :InitialReadInOfRepositoryFile
+                                                 owl:onClass :RepositoryFileStaging
                                                ] ;
                                rdfs:comment "The file was initially uploaded to the file staging area. The source of the file could be the client's file system, a web location or input from the user interface." .
 
@@ -6471,6 +6754,22 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#InternationalCooperationConsortiumType
 :InternationalCooperationConsortiumType rdf:type owl:Class ;
                                         rdfs:subClassOf :ConsortiumTypeChoice .
+
+
+###  http://www.esblurock.info/dataset#InterpretSpreadSheetFromBlobTransaction
+:InterpretSpreadSheetFromBlobTransaction rdf:type owl:Class ;
+                                         rdfs:subClassOf :InterpretSpreadSheetTransaction ;
+                                         <http://purl.org/dc/elements/1.1/type> :GCSInputFileInterpretation ;
+                                         rdfs:comment "This transaction reflects that the spreadsheet interpretation came from a repository (Blob) source"^^xsd:string ;
+                                         rdfs:label "Interpret SpreadSheet from a repository element"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#InterpretSpreadSheetTransaction
+:InterpretSpreadSheetTransaction rdf:type owl:Class ;
+                                 rdfs:subClassOf :SpreadSheetTransaction ;
+                                 <http://purl.org/dc/elements/1.1/type> :ObservationsFromSpreadSheetFull ;
+                                 rdfs:comment "A file (regardless of source) is interpreted as a spreadsheet from the information in SpreadSheetInputInformation."^^xsd:string ;
+                                 rdfs:label "Interpret Spread Sheet"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#InterpretationProtocolApplication
@@ -6784,7 +7083,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ListOfValuesAsString
 :ListOfValuesAsString rdf:type owl:Class ;
-                      rdfs:subClassOf :ArrayListDataObject .
+                      rdfs:subClassOf :ArrayListDataObject ;
+                      <http://purl.org/dc/elements/1.1/type> "ArrayListDataObject" ;
+                      <http://purl.org/dc/terms/identifier> "dataset:valuesasstring" ;
+                      rdfs:comment "A list of values as a string. This makes the requirement that the values cannot have a comma in them." ;
+                      rdfs:label "Values as a String" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "valuesstring" .
 
 
 ###  http://www.esblurock.info/dataset#LocalFileSystem
@@ -8106,15 +8410,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ObservationMatrixValues rdf:type owl:Class ;
                          rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:someValuesFrom :NumberOfColumns
-                                         ] ,
-                                         [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                            owl:someValuesFrom :ObservationValueRow
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :NumberOfColumns
                                          ] ;
                          <http://purl.org/dc/elements/1.1/type> "ObservationMatrixValues"^^xsd:string ;
                          <http://purl.org/dc/terms/identifier> "dataset:matrix"^^xsd:string ;
+                         rdfs:comment "These are the set of observational matrix values" ;
                          rdfs:label "Observation Matrix Values"^^xsd:string ;
                          <http://www.w3.org/2004/02/skos/core#altLabel> "matrixvalues"^^xsd:string .
 
@@ -8182,7 +8488,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:someValuesFrom :ListOfValuesAsString
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :ListOfValuesAsString
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -8191,6 +8498,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                      ] ;
                      <http://purl.org/dc/elements/1.1/type> "ObservationValueRow"^^xsd:string ;
                      <http://purl.org/dc/terms/identifier> "qb:Slice"^^xsd:string ;
+                     rdfs:comment "A single row of the observational values" ;
                      rdfs:label "Spread Sheet Row"^^xsd:string ;
                      <http://www.w3.org/2004/02/skos/core#altLabel> "row"^^xsd:string .
 
@@ -8337,6 +8645,13 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     rdfs:subClassOf :ShortStringLabel .
 
 
+###  http://www.esblurock.info/dataset#OutputTransactionIDAndType
+:OutputTransactionIDAndType rdf:type owl:Class ;
+                            rdfs:subClassOf :TransactionIDAndType ;
+                            owl:disjointWith :RequiredTransactionIDAndType ;
+                            <http://purl.org/dc/terms/identifier> "dataset:outputtransactionid" .
+
+
 ###  http://www.esblurock.info/dataset#OxidizerCompositionMolarPercentage
 :OxidizerCompositionMolarPercentage rdf:type owl:Class ;
                                     rdfs:subClassOf :SpeciesPercentageCompositionObservable ;
@@ -8464,7 +8779,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ParentLinkToDataStructure
 :ParentLinkToDataStructure rdf:type owl:Class ;
                            rdfs:subClassOf :LinkToDataStructure ;
+                           <http://purl.org/dc/elements/1.1/type> "LinkToDataStructure" ;
                            <http://purl.org/dc/terms/identifier> "dcterms:CatalogRecord" ;
+                           rdfs:comment "The link to the parent structure" ;
                            rdfs:label "Identifier to parent data structure" ;
                            <http://www.w3.org/2004/02/skos/core#altLabel> "parent" .
 
@@ -8595,6 +8912,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
           rdfs:subClassOf :ShortStringLabel ;
           <http://purl.org/dc/elements/1.1/type> "ShortString" ;
           <http://purl.org/dc/terms/identifier> "qb:order"^^xsd:string ;
+          rdfs:comment "The position (number starting with zero) within the vector" ;
           rdfs:label "Position"^^xsd:string ;
           <http://www.w3.org/2004/02/skos/core#altLabel> "pos"^^xsd:string .
 
@@ -9607,12 +9925,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#RepositoryFile
 :RepositoryFile rdf:type owl:Class ;
-                rdfs:subClassOf :TransactionEvent .
+                rdfs:subClassOf :TransactionBase .
 
 
 ###  http://www.esblurock.info/dataset#RepositoryFileStaging
 :RepositoryFileStaging rdf:type owl:Class ;
-                       rdfs:subClassOf :SimpleCatalogObject ,
+                       rdfs:subClassOf :SimpleDatasetObject ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -9633,6 +9951,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        rdfs:comment "Repository file staging information. This is the information regarding the first upload of files to the repository."^^xsd:string ;
                        rdfs:label "Repository File Staging"^^xsd:string ;
                        <http://www.w3.org/2004/02/skos/core#altLabel> "staging"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#RequiredTransactionIDAndType
+:RequiredTransactionIDAndType rdf:type owl:Class ;
+                              rdfs:subClassOf :TransactionIDAndType ;
+                              <http://purl.org/dc/terms/identifier> "dataset:requiredtransitionid" .
 
 
 ###  http://www.esblurock.info/dataset#ResearchGroup
@@ -9806,7 +10130,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SimpleCatalogObject
 :SimpleCatalogObject rdf:type owl:Class ;
-                     rdfs:subClassOf :SimpleDatasetObject .
+                     rdfs:subClassOf :SimpleDatasetObject ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :DataCatalogID
+                                     ] .
 
 
 ###  http://www.esblurock.info/dataset#SimpleDatasetObject
@@ -10170,6 +10499,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#SpreadSheetSourceType
 :SpreadSheetSourceType rdf:type owl:Class ;
                        rdfs:subClassOf :Classification .
+
+
+###  http://www.esblurock.info/dataset#SpreadSheetTransaction
+:SpreadSheetTransaction rdf:type owl:Class ;
+                        rdfs:subClassOf :TransactionExpData .
 
 
 ###  http://www.esblurock.info/dataset#StagedFileNotProcessed
@@ -10614,14 +10948,92 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 rdfs:subClassOf :ShortStringLabel .
 
 
+###  http://www.esblurock.info/dataset#TransactionBase
+:TransactionBase rdf:type owl:Class ;
+                 rdfs:subClassOf :TransactionEvent .
+
+
 ###  http://www.esblurock.info/dataset#TransactionEvent
 :TransactionEvent rdf:type owl:Class ;
                   rdfs:subClassOf <http://purl.org/dc/dcmitype/Event> .
 
 
+###  http://www.esblurock.info/dataset#TransactionEventObject
+:TransactionEventObject rdf:type owl:Class ;
+                        rdfs:subClassOf :SimpleCatalogObject ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:someValuesFrom :RequiredTransactionIDAndType
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :ActivityInformationRecord
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :OutputTransactionIDAndType
+                                        ] ;
+                        <http://purl.org/dc/elements/1.1/identifier> "dataset:eventobject" ;
+                        <http://purl.org/dc/elements/1.1/type> "TransactionEventObject" ;
+                        rdfs:comment "This is all the information for a given transaction. This is used as the input to the activity process to specify the input parameters. Afterwards it serves as a record of the transaction and how it was formed." ;
+                        rdfs:label "Transaction Event Object" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "transactionobject" .
+
+
+###  http://www.esblurock.info/dataset#TransactionExpData
+:TransactionExpData rdf:type owl:Class ;
+                    rdfs:subClassOf :TransactionEvent .
+
+
+###  http://www.esblurock.info/dataset#TransactionIDAndType
+:TransactionIDAndType rdf:type owl:Class ;
+                      rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :DatabaseIDTransaction
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :TransactionInfoType
+                                      ] ;
+                      <http://purl.org/dc/elements/1.1/type> "RequiredTransactionIDAndType" ;
+                      <http://purl.org/dc/terms/identifier> "dataset:transactionid" ;
+                      rdfs:comment "This is the required transition id and corresponding type" ;
+                      rdfs:label "Required Transaction ID and Type" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "requiredtransid" .
+
+
+###  http://www.esblurock.info/dataset#TransactionInfoInputIDs
+:TransactionInfoInputIDs rdf:type owl:Class ;
+                         rdfs:subClassOf :ChemConnectCompoundDataStructure .
+
+
+###  http://www.esblurock.info/dataset#TransactionInfoType
+:TransactionInfoType rdf:type owl:Class ;
+                     rdfs:subClassOf :Classification ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/source> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :TransactionEvent
+                                     ] ;
+                     <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                     <http://purl.org/dc/terms/identifier> "dataset:transactiontype" ;
+                     rdfs:comment "The type of tranaction" ;
+                     rdfs:label "Transaction Info Type" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "transtype" .
+
+
 ###  http://www.esblurock.info/dataset#TransferFileIntoCatagoryHierarchy
 :TransferFileIntoCatagoryHierarchy rdf:type owl:Class ;
                                    rdfs:subClassOf :RepositoryFile ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                                                     owl:someValuesFrom :RepositoryDataFile
+                                                   ] ,
                                                    [ rdf:type owl:Restriction ;
                                                      owl:onProperty <http://purl.org/dc/terms/requires> ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -10745,12 +11157,13 @@ Under the general type of is the actual data object referenced by the ChemConnec
                         rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                          owl:someValuesFrom :UserAccountRole
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :ContactEmail
                                         ] ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                          owl:onClass :ContactEmail
+                                          owl:onClass :UserAccountRole
                                         ] ;
                         <http://purl.org/dc/elements/1.1/type> "UserAccountInformation"^^xsd:string ;
                         <http://purl.org/dc/terms/identifier> "dataset:UserAccountInformation"^^xsd:string ;
@@ -12688,6 +13101,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 :DescriptionTitle <http://purl.org/dc/elements/1.1/type> "OneLine" ;
                   <http://purl.org/dc/terms/identifier> "dcterms:title"^^xsd:string ;
+                  rdfs:comment "This is a paragraph description" ;
+                  rdfs:label "Title" ;
                   <http://www.w3.org/2004/02/skos/core#altLabel> "title"^^xsd:string .
 
 
@@ -12934,6 +13349,14 @@ basic geo vocab
 #################################################################
 
 [ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :ActivityRepositoryInitialReadLocalFile
+                :ActivityRepositoryInitialReadStringContent
+                :ActivityRepositoryInitialReadURL
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
   owl:members ( :AuthorizationName
                 :AuthorizationType
                 :CatalogBaseName
@@ -12999,6 +13422,14 @@ basic geo vocab
                 :EstimatedAbsoluteUncertainty
                 :PropagatedAbsoluteUncertainty
                 :StandardDeviationAbsoluteUncertainty
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CatalogProcessInitialRepositoryStagingContent
+                :CatalogProcessInitialRepositoryStagingLocal
+                :CatalogProcessInitialRepositoryStagingURL
               )
 ] .
 

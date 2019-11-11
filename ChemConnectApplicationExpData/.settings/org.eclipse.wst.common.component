@@ -3,16 +3,28 @@
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="ChemConnectCoreClientServerCommonBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreClientServerCommonBase/ChemConnectCoreClientServerCommonBase">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreClientServerCommonExpData-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreClientServerCommonExpData/ChemConnectCoreClientServerCommonExpData">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreData-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreData/ChemConnectCoreData">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreDataBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreDataBase/ChemConnectCoreDataBase">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ChemConnectCoreDataExpData-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreDataExpData/ChemConnectCoreDataExpData">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="ChemConnectCoreServerBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreServerBase/ChemConnectCoreServerBase">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="ChemConnectCoreOntologyBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreOntologyBase/ChemConnectCoreOntologyBase">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="ChemConnectCoreClientServerCommonBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreClientServerCommonBase/ChemConnectCoreClientServerCommonBase">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="ChemConnectCoreDataBase-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreDataBase/ChemConnectCoreDataBase">
+        <dependent-module archiveName="ChemConnectCoreServerExpData-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ChemConnectCoreServerExpData/ChemConnectCoreServerExpData">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="ChemConnectApplicationExpData"/>

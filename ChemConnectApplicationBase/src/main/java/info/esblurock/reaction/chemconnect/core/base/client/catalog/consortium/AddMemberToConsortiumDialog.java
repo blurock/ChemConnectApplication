@@ -63,7 +63,6 @@ public class AddMemberToConsortiumDialog extends Composite {
 			
 			@Override
 			public void onSuccess(List<String> result) {
-				Window.alert("addAutoCompleteUsers()\n" + result);
 				MultiWordSuggestOracle  oracle = new MultiWordSuggestOracle ();
 				oracle.addAll(result);
 				autocomplete.setSuggestions(oracle);

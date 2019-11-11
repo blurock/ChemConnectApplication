@@ -15,42 +15,42 @@ import com.google.gwt.user.client.ui.RootPanel;
 import info.esblurock.reaction.chemconnect.core.base.client.BaseChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.base.client.ClientEnumerateUtilities;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
-import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppPlaceHistoryMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.SetUpUserCookies;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.InterpretUploadedFileBase;
-import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visualize.VisualizeMediaBase;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.visualize.VisualizeMediaBase;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
-import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
+import info.esblurock.reaction.chemconnect.core.common.expdata.async.ExpDataUtilities;
+import info.esblurock.reaction.chemconnect.core.common.expdata.async.ExpDataUtilitiesAsync;
+import info.esblurock.reaction.chemconnect.expdata.client.activity.mapper.ActivityMapperExpData;
+import info.esblurock.reaction.chemconnect.expdata.client.display.SetUpCollapsibleItemExpDataImpl;
 
 public class ChemConnectApplicationExpDataEntry implements EntryPoint {
 
 	ChemConnectApplicationFrame frame;
 	ClientFactoryBase clientFactory;
 	private Place defaultPlace = new FirstSiteLandingPagePlace("First");
-	BaseChemConnectPanel toppanel;
+	ChemConnectApplicationFrame toppanel;
 
 	@Override
 	public void onModuleLoad() {
+		ClientEnumerateUtilities.setUpCollapsible = new SetUpCollapsibleItemExpDataImpl();
 		ClientEnumerateUtilities.interpretUploadedFile = new InterpretUploadedFileBase();
 		ClientEnumerateUtilities.visualizeMedia = new VisualizeMediaBase();
-		LoginServiceAsync async = LoginService.Util.getInstance();
+		ExpDataUtilitiesAsync async = ExpDataUtilities.Util.getInstance();
 		async.initializeBaseSystem(new AsyncCallback<UserSessionData>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				StandardWindowVisualization.errorWindowMessage("Module Initialization: SERIOUS ERRIR system abort", 
+				StandardWindowVisualization.errorWindowMessage("Module Initialization: SERIOUS ERROR system abort", 
 						caught.toString());
 			}
 
 			@Override
 			public void onSuccess(UserSessionData user) {
-				Window.alert("Session: " + user.toString());
-				
 				setUpModuleAfterInitialization(user);
 			}
 		});
@@ -59,7 +59,7 @@ public class ChemConnectApplicationExpDataEntry implements EntryPoint {
 
 	private void setUpModuleAfterInitialization(UserSessionData user) {
 		clientFactory = GWT.create(ClientFactoryBase.class);
-		toppanel = new BaseChemConnectPanel(clientFactory);
+		toppanel = new ChemConnectApplicationFrame(clientFactory);
 		setUpInterface(clientFactory);			
 		toppanel.loginCallback(user);
 		toppanel.setLoginVisibility(user.getUserName().compareTo("guest")== 0);
@@ -70,7 +70,7 @@ public class ChemConnectApplicationExpDataEntry implements EntryPoint {
 		PlaceController placeController = clientFactory.getPlaceController();
 				
 		// Start ActivityManager for the main widget with our ActivityMapper
-		ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
+		ActivityMapper activityMapper = new ActivityMapperExpData(clientFactory);
 		ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
 		activityManager.setDisplay(toppanel.getContentPanel());
 		

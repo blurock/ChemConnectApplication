@@ -19,9 +19,10 @@ import gwt.material.design.client.ui.table.MaterialInfiniteDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.data.infinite.InfiniteDataView;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.DeleteObjectCallback;
-import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
-import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.common.expdata.async.SpreadSheetServices;
+import info.esblurock.reaction.chemconnect.core.common.expdata.async.SpreadSheetServicesAsync;
+import info.esblurock.reaction.chemconnect.expdata.client.observations.spreadsheet.SpreadSheetDataSource;
+import info.esblurock.reaction.core.data.expdata.observations.ObservationValueRow;
 
 import javax.inject.Inject;
 

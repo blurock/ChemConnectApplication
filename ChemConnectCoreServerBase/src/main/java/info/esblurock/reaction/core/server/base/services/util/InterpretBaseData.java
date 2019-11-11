@@ -45,6 +45,13 @@ import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBa
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryFileStaging;
 import info.esblurock.reaction.chemconnect.core.base.gcs.RepositoryDataFile;
 import info.esblurock.reaction.chemconnect.core.base.gcs.InitialStagingRepositoryFile;
+import info.esblurock.reaction.chemconnect.core.base.dataset.SimpleCatalogObject;
+import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionIDAndType;
+import info.esblurock.reaction.chemconnect.core.base.transaction.ActivityInformationRecordIDAndType;
+import info.esblurock.reaction.chemconnect.core.base.transaction.OutputTransactionIDAndType;
+import info.esblurock.reaction.chemconnect.core.base.transaction.RequiredTransactionIDAndType;
+import info.esblurock.reaction.chemconnect.core.base.transaction.TransactionEventObject;
+
 
 public enum InterpretBaseData implements InterpretDataInterface {
 
@@ -436,6 +443,372 @@ public enum InterpretBaseData implements InterpretDataInterface {
 			return RepositoryDataFile.class.getCanonicalName();
 		}
 		
+	}, SimpleCatalogObject {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.simpleCatalogObject);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			
+			DatabaseObjectHierarchy cathier = InterpretBaseData.DataCatalogID.createEmptyObject(obj);
+
+			SimpleCatalogObject simple = new SimpleCatalogObject(refobj, cathier.getObject().getIdentifier());
+			simple.setIdentifier(catid);
+			DatabaseObjectHierarchy simplehier = new DatabaseObjectHierarchy(simple);
+			simplehier.addSubobject(cathier);
+			
+			return simplehier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			SimpleCatalogObject simple = null;
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
+			interpret.fillFromYamlString(top, yaml, sourceID);
+			String dataCatalogID = (String) yaml.get(StandardDataKeywords.DataCatalogIDID);			
+			simple = new SimpleCatalogObject(top,dataCatalogID);
+			return simple;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject object) throws IOException {
+			SimpleCatalogObject simple = (SimpleCatalogObject) object;
+			InterpretBaseData interpret = InterpretBaseData.DatabaseObject;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDataKeywords.DataCatalogIDID, simple.getCatalogDataID());
+
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.base.DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(SimpleCatalogObject.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return SimpleCatalogObject.class.getCanonicalName();
+		}
+		
+	}, TransactionIDAndType {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.transactionIDAndType);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			refobj.nullKey();
+			
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(refobj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehier.getObject();
+			
+			TransactionIDAndType transactionidandtype = new TransactionIDAndType(structure,"","");
+			transactionidandtype.setIdentifier(refobj.getIdentifier());
+			DatabaseObjectHierarchy repositoryinfohier = new DatabaseObjectHierarchy(transactionidandtype);
+			repositoryinfohier.transferSubObjects(structurehier);
+			
+			return repositoryinfohier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			TransactionIDAndType transactionidandtype = null;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			ChemConnectCompoundDataStructure objdata = 
+					(ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String transactionid = (String) yaml.get(StandardDataKeywords.transactionID);
+			String transationtype = (String) yaml.get(StandardDataKeywords.transactionType);
+			transactionidandtype = new TransactionIDAndType(objdata, 
+					transactionid, transationtype);
+			
+			return transactionidandtype;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			TransactionIDAndType transactionidandtype = (TransactionIDAndType) object;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDataKeywords.transactionID, transactionidandtype.getDatabaseIDTransaction());
+			map.put(StandardDataKeywords.transactionType, transactionidandtype.getTransactionInfoType());
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.base.DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(TransactionIDAndType.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return TransactionIDAndType.class.getCanonicalName();
+		}
+		
+	}, OutputTransactionIDAndType {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.outputTransactionIDAndType);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			
+			InterpretBaseData interpret = InterpretBaseData.TransactionIDAndType;
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(refobj);
+			TransactionIDAndType transidandtype = (TransactionIDAndType) structurehier.getObject();
+			
+			OutputTransactionIDAndType output = new OutputTransactionIDAndType(transidandtype);
+			output.setIdentifier(catid);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(output);
+			
+			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			OutputTransactionIDAndType transactionidandtype = null;
+			InterpretBaseData interpret = InterpretBaseData.TransactionIDAndType;
+			TransactionIDAndType objdata = (TransactionIDAndType) interpret.fillFromYamlString(top, yaml, sourceID);					
+			transactionidandtype = new OutputTransactionIDAndType(objdata);
+			
+			return transactionidandtype;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			//OutputTransactionIDAndType transactionidandtype = (OutputTransactionIDAndType) object;
+			InterpretBaseData interpret = InterpretBaseData.TransactionIDAndType;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.base.DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(TransactionIDAndType.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return TransactionIDAndType.class.getCanonicalName();
+		}
+		
+	}, RequiredTransactionIDAndType {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.outputTransactionIDAndType);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			
+			InterpretBaseData interpret = InterpretBaseData.TransactionIDAndType;
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(refobj);
+			TransactionIDAndType transidandtype = (TransactionIDAndType) structurehier.getObject();
+			
+			RequiredTransactionIDAndType input = new RequiredTransactionIDAndType(transidandtype);
+			input.setIdentifier(catid);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(input);
+			
+			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			OutputTransactionIDAndType transactionidandtype = null;
+			InterpretBaseData interpret = InterpretBaseData.TransactionIDAndType;
+			RequiredTransactionIDAndType objdata = (RequiredTransactionIDAndType) interpret.fillFromYamlString(top, yaml, sourceID);					
+			transactionidandtype = new OutputTransactionIDAndType(objdata);
+			
+			return transactionidandtype;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InterpretBaseData interpret = InterpretBaseData.TransactionIDAndType;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.base.DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(RequiredTransactionIDAndType.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return RequiredTransactionIDAndType.class.getCanonicalName();
+		}
+		
+	}, ActivityInformationRecordIDAndType {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.activityInformationRecordIDAndType);
+			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			refobj.setIdentifier(catid);
+			refobj.nullKey();
+			
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(refobj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehier.getObject();
+			
+			ActivityInformationRecordIDAndType activityinfoidandtype = new ActivityInformationRecordIDAndType(structure,"","");
+			activityinfoidandtype.setIdentifier(refobj.getIdentifier());
+			DatabaseObjectHierarchy repositoryinfohier = new DatabaseObjectHierarchy(activityinfoidandtype);
+			repositoryinfohier.transferSubObjects(structurehier);
+			
+			return repositoryinfohier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ActivityInformationRecordIDAndType activityinfoidandtype = null;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			ChemConnectCompoundDataStructure objdata = 
+					(ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String activityinfoid = (String) yaml.get(StandardDataKeywords.activityInfoID);
+			String activityinfotype = (String) yaml.get(StandardDataKeywords.activityInfoType);
+			activityinfoidandtype = new ActivityInformationRecordIDAndType(objdata, 
+					activityinfoid, activityinfotype);
+			
+			return activityinfoidandtype;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject object) throws IOException {
+			ActivityInformationRecordIDAndType activityinfoidandtype = (ActivityInformationRecordIDAndType) object;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDataKeywords.activityInfoID, activityinfoidandtype.getActivityInformationRecordID());
+			map.put(StandardDataKeywords.activityInfoType, activityinfoidandtype.getActivityInformationRecordType());
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.base.DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ActivityInformationRecordIDAndType.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ActivityInformationRecordIDAndType.class.getCanonicalName();
+		}
+		
+	}, TransactionEventObject {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.base.DatabaseObject obj) {
+			DatabaseObject descrobj = new DatabaseObject(obj);
+			descrobj.nullKey();
+			DataElementInformation element = DatasetOntologyParseBase
+					.getSubElementStructureFromIDObject(StandardDataKeywords.descriptionDataData);
+			String descrid = InterpretBaseDataUtilities.createSuffix(obj, element);
+			descrobj.setIdentifier(descrid);
+
+			DatabaseObjectHierarchy simplehier = InterpretBaseData.SimpleCatalogObject.createEmptyObject(obj);
+			SimpleCatalogObject simple = (SimpleCatalogObject) simplehier.getObject();
+
+			DatabaseObjectHierarchy activityhier = InterpretBaseData.ActivityInformationRecordIDAndType.createEmptyObject(descrobj);
+			PurposeConceptPair activity = (PurposeConceptPair) activityhier.getObject();
+
+			DatabaseObjectHierarchy outputhier = InterpretBaseData.OutputTransactionIDAndType.createEmptyObject(descrobj);
+			PurposeConceptPair output = (PurposeConceptPair) outputhier.getObject();
+
+			DatabaseObjectHierarchy requiredhier = InterpretBaseData.ChemConnectCompoundMultiple.createEmptyObject(descrobj);
+			InterpretBaseDataUtilities.setChemConnectCompoundMultipleType(requiredhier,
+					StandardDataKeywords.requiredTransactionIDAndType);
+			ChemConnectCompoundMultiple required = (ChemConnectCompoundMultiple) requiredhier.getObject();
+
+			TransactionEventObject event = new TransactionEventObject(simple, 
+					required.getIdentifier(), output.getIdentifier(),activity.getIdentifier());
+			event.setIdentifier(descrid);
+			DatabaseObjectHierarchy eventhier = new DatabaseObjectHierarchy(event);
+			eventhier.transferSubObjects(simplehier);
+			eventhier.addSubobject(activityhier);
+			eventhier.addSubobject(outputhier);
+			eventhier.addSubobject(requiredhier);
+
+			return eventhier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			TransactionEventObject event = null;
+			InterpretBaseData interpret = InterpretBaseData.SimpleCatalogObject;
+			SimpleCatalogObject objdata = 
+					(SimpleCatalogObject) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String activityinfoid = (String) yaml.get(StandardDataKeywords.activityInformationRecordIDAndTypeID);
+			String requiredinfoid = (String) yaml.get(StandardDataKeywords.requiredTransactionIDAndTypeID);
+			String outputinfotype = (String) yaml.get(StandardDataKeywords.outputTransactionIDAndTypeID);
+			event = new TransactionEventObject(objdata, 
+					requiredinfoid, outputinfotype,activityinfoid);
+			
+			return event;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			TransactionEventObject event = (TransactionEventObject) object;
+			InterpretBaseData interpret = InterpretBaseData.ChemConnectCompoundDataStructure;
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDataKeywords.outputTransactionIDAndTypeID, event.getOutputTransaction());
+			map.put(StandardDataKeywords.requiredTransactionIDAndTypeID, event.getRequiredTransaction());
+			map.put(StandardDataKeywords.activityInformationRecordIDAndTypeID, event.getActivityInfo());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier)
+				throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(TransactionEventObject.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return TransactionEventObject.class.getCanonicalName();
+		}
+		
 	}, RepositoryFileStaging {
 
 		@Override
@@ -446,7 +819,7 @@ public enum InterpretBaseData implements InterpretDataInterface {
 					.getSubElementStructureFromIDObject(StandardDataKeywords.repositoryFileStaging);
 			String catid = InterpretBaseDataUtilities.createSuffix(obj, element);
 			refobj.setIdentifier(catid);
-			
+
 			InterpretBaseData blobinterpret = InterpretBaseData.GCSBlobFileInformation;
 			DatabaseObjectHierarchy blobhier = blobinterpret.createEmptyObject(refobj);
 			
@@ -458,6 +831,7 @@ public enum InterpretBaseData implements InterpretDataInterface {
 					blobhier.getObject().getIdentifier(),
 					filehier.getObject().getIdentifier(),
 					MetaDataKeywords.stagedFileNotProcessed);
+			refobj.setIdentifier(catid);
 			
 			DatabaseObjectHierarchy stagehier = new DatabaseObjectHierarchy(stageinfo);
 			stagehier.addSubobject(blobhier);

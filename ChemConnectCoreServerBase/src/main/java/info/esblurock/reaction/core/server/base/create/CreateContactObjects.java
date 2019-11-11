@@ -86,7 +86,9 @@ public class CreateContactObjects {
 		
 		System.out.println("createNewUser: after fill, before write" + usercat.toString());
 		
-		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(usercat);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(usercat,
+				MetaDataKeywords.createUserCatagoryTransaction);
+				
 
 		System.out.println("createNewUser: after fill, after write");
 		System.out.println(usercat.toString("createNewUser: "));
@@ -104,8 +106,10 @@ public class CreateContactObjects {
 		useraccount.setAuthorizationName(uaccount.getAuthorizationName());
 		useraccount.setAuthorizationType(uaccount.getAuthorizationType());
 		useraccount.setAccountPrivilege(uaccount.getAccountPrivilege());
-		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(user);
-		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(acchier);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(user,
+				MetaDataKeywords.createDatabasePersonTransaction);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(acchier,
+				MetaDataKeywords.createUserAccountTransaction);
 		return acchier;
 	}
 
@@ -324,7 +328,8 @@ public class CreateContactObjects {
 		setPurposeConceptPair(cathierarchy, catagorytype, DatabaseKeys.purposeDefineSubCatagory);
 
 		connectInCatalogHierarchy(topcatalog, catalog);
-		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(cathierarchy);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(cathierarchy,
+				MetaDataKeywords.createCatagoryTransaction);
 		return cathierarchy;
 	}
 
@@ -355,7 +360,8 @@ public class CreateContactObjects {
 
 		String sourceID = childcatalog.getSourceID();
 		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multi, sourceID, childcatalog.getIdentifier());
-		WriteBaseCatalogObjects.writeDatabaseObjectHierarchy(subcatalog);
+		WriteBaseCatalogObjects.writeDatabaseObjectHierarchyWithTransaction(subcatalog,
+				MetaDataKeywords.createCatagoryTransaction);
 		DatabaseWriteBase.writeDatabaseObject(multi);
 	}
 
@@ -512,6 +518,15 @@ public class CreateContactObjects {
 		CompoundDataStructure substructures = null;
 		substructures = DatasetOntologyParseBase.subElementsOfStructure(dataElementName);
 		return substructures;
+	}
+	public static int linkStructure(DatabaseObject obj,DatabaseObjectHierarchy multihierarchy, 
+			int numlinks, String linkconcept, String id) {
+		numlinks++;
+		String numlinkS = Integer.toString(numlinks);
+		DatabaseObjectHierarchy link = fillDataObjectLink(obj, numlinkS, 
+				linkconcept,id);
+		multihierarchy.addSubobject(link);
+		return numlinks;
 	}
 
 }

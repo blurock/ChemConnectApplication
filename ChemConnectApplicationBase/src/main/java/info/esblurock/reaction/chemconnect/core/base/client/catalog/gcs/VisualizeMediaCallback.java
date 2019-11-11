@@ -5,8 +5,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.base.client.ClientEnumerateUtilities;
-import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visualize.VisualizeMediaBase;
-import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visualize.VisualizeMediaInterface;
+import info.esblurock.reaction.chemconnect.core.base.client.visualize.VisualizationOfBlobStorage;
+import info.esblurock.reaction.chemconnect.core.base.client.visualize.VisualizeMediaBase;
+import info.esblurock.reaction.chemconnect.core.base.client.visualize.VisualizeMediaInterface;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
 public class VisualizeMediaCallback implements AsyncCallback<DatabaseObjectHierarchy> {

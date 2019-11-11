@@ -24,9 +24,9 @@ import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserIma
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
+import info.esblurock.reaction.core.data.expdata.observations.ObservationValueRowTitle;
+import info.esblurock.reaction.core.data.expdata.observations.ObservationsFromSpreadSheet;
 
 public class MatrixSpecificationCorrespondenceSetHeader extends Composite 
 	implements  UpdateDataObjectHeaderInterface {

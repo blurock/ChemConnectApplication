@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.ClientEnumerateUtilities;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
@@ -66,10 +67,10 @@ public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStagi
 		String structure = object.getClass().getSimpleName();
 		SetUpCollapsibleItemInterface setup = null;
 		try {
-			setup = SetUpCollapsibleItemBase.valueOf(structure);
+			setup = ClientEnumerateUtilities.setUpCollapsible.valueOf(structure);
 		} catch (Exception ex) {
 			String message = structure + " has not been not found: " + ex.getClass().getSimpleName() + "\n"
-					+ structure + " not found: " + SetUpCollapsibleItemBase.values();
+					+ structure + " not found: " + ClientEnumerateUtilities.setUpCollapsible.values();
 			StandardWindowVisualization.errorWindowMessage("DatasetHierarchyStaging", message);
 		}
 		return setup;

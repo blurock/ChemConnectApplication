@@ -38,8 +38,8 @@ import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
+import info.esblurock.reaction.core.data.expdata.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 
 public class StandardDatasetObservationCorrespondenceSpecificationHeader extends Composite 
 	implements HierarchyNodeCallbackInterface, ChooseFromHierarchyTreeInterface, 

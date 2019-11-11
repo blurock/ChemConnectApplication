@@ -159,8 +159,11 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		collapsible.clear();
 		getUploadedFiles();		
 	}
-	
-	private void getUploadedFiles() {
+	/*
+	 * Gets the set of RepositoryFileStaging available for the user (determined at the server).
+	 * 
+	 */
+	public void getUploadedFiles() {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		UploadedFilesCallback callback = new UploadedFilesCallback(this,false);
 		async.getUploadedStagedFiles(callback);

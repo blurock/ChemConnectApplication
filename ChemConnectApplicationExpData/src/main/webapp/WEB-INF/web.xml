@@ -26,13 +26,37 @@
 		<!-- Servlets -->
 	<servlet>
 		<servlet-name>gcsfileupload</servlet-name>
-		<servlet-class>info.esblurock.reaction.core.server.base.db.FileUploadServlet</servlet-class>
+		<servlet-class>info.esblurock.reaction.core.server.base.activity.repositoryfile.FileUploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>gcsfileupload</servlet-name>
 		<url-pattern>/gcsfileupload</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>expdatautilities</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.expdata.initialize.ExpDataUtilitiesImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>expdatautilities</servlet-name>
+		<url-pattern>/chemconnectapplicationexpdata/expdatautilities</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>observationservices</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.expdata.observation.ObservationServicesImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>observationservices</servlet-name>
+		<url-pattern>/chemconnectapplicationexpdata/observationservices</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>spreadsheet</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.expdata.observation.spreadsheet.SpreadSheetServicesImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spreadsheet</servlet-name>
+		<url-pattern>/chemconnectapplicationexpdata/spreadsheet</url-pattern>
+	</servlet-mapping>
+				<servlet>
 		<servlet-name>callbackservlet</servlet-name>
 		<servlet-class>info.esblurock.reaction.core.server.base.authentification.Oauth2CallbackServlet</servlet-class>
 	</servlet>

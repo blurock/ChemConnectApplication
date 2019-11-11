@@ -184,10 +184,18 @@ public class DatabaseWriteBase {
 
 	public static void deleteTransactionInfo(TransactionInfo info, String datatype) throws IOException {
 		String ID = info.getIdentifier();
+		System.out.println("deleteTransactionInfo");
 		DeleteBaseCatalogStructures.deleteObject(datatype, ID);
+		System.out.println("deleteTransactionInfo after: DeleteBaseCatalogStructures.deleteObject(");
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(info.getIdentifier(), datatype);
-		WriteReadDatabaseObjects.deleteHierarchy(hierarchy);
-		ObjectifyService.ofy().delete().entity(info);
+		if(hierarchy != null) {
+			WriteReadDatabaseObjects.deleteHierarchy(hierarchy);
+		} else {
+			System.out.println("deleteTransactionInfo: no hierarchy: " +  info.getIdentifier() + ": " + datatype);
+		}
+		if(info != null) {
+			ObjectifyService.ofy().delete().entity(info);
+		}
 	}
 
 	/**

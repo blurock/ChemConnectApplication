@@ -147,5 +147,21 @@ public class MetaDataKeywords {
 	
 	public static String consortiumTypeChoice = "dataset:ConsortiumTypeChoice";
 	public static String consortium = "dataset:Consortium";
+	
+	// Transaction Repository files
+	public static String initalReadFromYamlFile = "dataset:InitalReadFromYamlFile";
+	
+	
+	// Transaction DatasetCatalogHierarchy
+	public static String createUserCatagoryTransaction = "dataset:CreateUserCatagoryTransaction";
+	public static String createCatagoryTransaction = "dataset:CreateCatagoryTransaction";
+	
+	// UserAccount
+	public static String createUserAccountTransaction = "dataset:CreateUserAccountTransaction";
+	
+	// DatabaseUser
+	public static String createDatabasePersonTransaction = "dataset:CreateDatabasePersonTransaction";
+	
+
 
 }

@@ -16,13 +16,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.base.client.activity.mapper.AppPlaceHistoryMapper;
-import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.SetUpUserCookies;
+import info.esblurock.reaction.chemconnect.core.base.client.catalog.SetUpCollapsibleItemBase;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.InterpretUploadedFileBase;
-import info.esblurock.reaction.chemconnect.core.base.client.catalog.gcs.visualize.VisualizeMediaBase;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.pages.first.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.base.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.base.client.visualize.VisualizeMediaBase;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.common.base.client.async.LoginServiceAsync;
@@ -38,6 +38,7 @@ public class ChemConnectApplicationBase implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		ClientEnumerateUtilities.setUpCollapsible = new SetUpCollapsibleItemBase();
 		ClientEnumerateUtilities.interpretUploadedFile = new InterpretUploadedFileBase();
 		ClientEnumerateUtilities.visualizeMedia = new VisualizeMediaBase();
 		LoginServiceAsync async = LoginService.Util.getInstance();
@@ -51,8 +52,6 @@ public class ChemConnectApplicationBase implements EntryPoint {
 
 			@Override
 			public void onSuccess(UserSessionData user) {
-				Window.alert("Session: " + user.toString());
-				
 				setUpModuleAfterInitialization(user);
 			}
 		});

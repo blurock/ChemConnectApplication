@@ -29,7 +29,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBl
 
 
 public class AppActivityMapper implements ActivityMapper  {
-	private ClientFactoryBase clientFactory;
+	protected ClientFactoryBase clientFactory;
 	
 	/**
 	 * AppActivityMapper associates each Place with its corresponding

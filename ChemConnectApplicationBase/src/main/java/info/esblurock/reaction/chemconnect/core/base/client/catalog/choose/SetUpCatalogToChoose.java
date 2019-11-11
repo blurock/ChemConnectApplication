@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 
 public class SetUpCatalogToChoose implements AsyncCallback<DatabaseObjectHierarchy> {
@@ -17,8 +18,8 @@ public class SetUpCatalogToChoose implements AsyncCallback<DatabaseObjectHierarc
 	}
 	@Override
 	public void onFailure(Throwable arg0) {
+		StandardWindowVisualization.errorWindowMessage("ERROR: In catalog chosen\n", arg0.toString());
 		MaterialLoader.loading(false);
-		Window.alert("ERROR: In catalog chosen\n" + arg0.toString());
 	}
 
 	@Override

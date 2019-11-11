@@ -1,13 +1,12 @@
 package info.esblurock.reaction.core.server.base.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.base.create.CreateBaseCatalogObjects;
+import info.esblurock.reaction.core.server.base.activity.repositoryfile.util.CreateRepositoryCatagoryFiles;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
 class RepositoryDataFileTest {
@@ -37,7 +36,7 @@ class RepositoryDataFileTest {
 		InterpretBaseData interpretcatid = InterpretBaseData.DataCatalogID;
 		DatabaseObjectHierarchy cathierarchy = interpretcatid.createEmptyObject(obj);
 		DataCatalogID catid = (DataCatalogID) cathierarchy.getObject();
-		DatabaseObjectHierarchy rephierarchy = CreateBaseCatalogObjects.createRepositoryDataFile(hierarchy, 
+		DatabaseObjectHierarchy rephierarchy = CreateRepositoryCatagoryFiles.createRepositoryDataFile(hierarchy, 
 				catid);
 		
 		System.out.println(hierarchy.toString("RepositoryDataFile Created: "));

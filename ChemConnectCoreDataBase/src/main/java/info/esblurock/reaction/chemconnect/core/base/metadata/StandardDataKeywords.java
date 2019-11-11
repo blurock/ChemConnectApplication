@@ -14,7 +14,7 @@ public class StandardDataKeywords {
 	public static String descriptionDataDataS = "dc:description";
 	public static String dataSetReferenceS = "terms:BibliographicResource";
 	public static String parameterObjectLinkS = "skos:mappingRelation";
-	public static String DataCatalogIDID = "qb:ObservationGroup";
+	//public static String DataCatalogIDID = "qb:ObservationGroup";
 	public static String ContactHasSiteID = "foaf:page";
 
 	public static String chemConnectDataStructure = "dataset:ChemConnectDataStructure";
@@ -45,6 +45,10 @@ public class StandardDataKeywords {
 	public static String bucketName = "dataset:GCSBucketName";
 	public static String fileTypeS = "dataset:fileType";
 	public static String descriptionKeyS = "dcterms:description";
+	
+	// SimpleDatabaseObject
+	public static String simpleCatalogObject = "dataset:SimpleCatalogObject";
+	public static String DataCatalogIDID = "qb:ObservationGroup";
 	
 	// RepositoryFileStaging
 	public static String repositoryFileStaging = "dataset:RepositoryFileStaging";
@@ -186,5 +190,41 @@ public class StandardDataKeywords {
 	public static String noPurposeS = "no purpose";
 	public static String noConceptS = "no concept";
 
+	// TransactionIDAndType
+	public static String transactionIDAndType = "dataset:TransactionIDAndType";
+	public static String outputTransactionIDAndType = "dataset:OutputTransactionIDAndType";
+	public static String requiredTransactionIDAndType = "dataset:RequiredTransactionIDAndType";
+	public static String transactionIDAndTypeID = "dataset:transactionidandtype";
+	public static String requiredTransactionIDAndTypeID = "dataset:requiredtransactionidandtype";
+	public static String outputTransactionIDAndTypeID = "dataset:outputtransactionidandtype";
+	public static String transactionID = "datasettransactionid";
+	public static String transactionType = "dataset:transactionidandtype";
+	
+	// ActivityInformationRecordIDAndType
+	public static String activityInformationRecordIDAndType = "dataset:ActivityInformationRecordIDAndType";
+	public static String activityInformationRecordIDAndTypeID = "dataset:ActivityInformationRecordID";
+	public static String activityInformationRecordIDAndTypeType = "dataset:ActivityInformationRecordType";
+	public static String activityInfoID = "dataset:activityinfoid";
+	public static String activityInfoType = "dataset:activityinfotype";
+	
+	// ActivityInformationRecord
+	public static String activityInformationRecord = "dataset:ActivityInformationRecord";
+	public static String activityInformationRecordBase = "dataset:ActivityInformationRecordBase";
+	public static String activityRepositoryInformation = "dataset:ActivityRepositoryInformation";
+	
+	// ActivityRepositoryInitialReadInfo
+	public static String activityRepositoryInitialReadInfo = "dataset:ActivityRepositoryInitialReadInfo";
+	public static String descriptionTitle = "dataset:ActivityRepositoryInitialReadInfo";
+	
+	// ActivityRepositoryInitialReadLocalFile
+	public static String activityRepositoryInitialReadLocalFile = "dataset:ActivityRepositoryInitialReadLocalFile";
+	
+	// ActivityRepositoryInitialReadStringContent
+	public static String activityRepositoryInitialReadStringContent = "dataset:ActivityRepositoryInitialReadStringContent";
+	
+	// ActivityRepositoryInitialReadURL
+	public static String activityRepositoryInitialReadURL = "dataset:ActivityRepositoryInitialReadURL";
+	
+	
 
 }

@@ -21,6 +21,7 @@ import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.client.ui.MaterialDialogFooter;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.hierarchy.ConvertToMaterialTree;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.base.client.util.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
@@ -93,7 +94,7 @@ public class ChooseFromConceptHierarchies extends Composite {
 			String concept = choices.get(0);
 			treeHierarchyCall(concept);
 		} else {
-			Window.alert("No choices given");
+			StandardWindowVisualization.errorWindowMessage("No choices given","");
 		}
 
 	}

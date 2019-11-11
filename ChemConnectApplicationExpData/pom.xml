@@ -46,6 +46,36 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
+			<groupId>info.esblurock</groupId>
+			<artifactId>ChemConnectCoreClientServerCommonBase</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>info.esblurock</groupId>
+			<artifactId>ChemConnectCoreClientServerCommonExpData</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>info.esblurock</groupId>
+			<artifactId>ChemConnectCoreDataBase</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>info.esblurock</groupId>
+			<artifactId>ChemConnectCoreDataExpData</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>info.esblurock</groupId>
+			<artifactId>ChemConnectCoreServerBase</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>info.esblurock</groupId>
+			<artifactId>ChemConnectCoreServerExpData</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>

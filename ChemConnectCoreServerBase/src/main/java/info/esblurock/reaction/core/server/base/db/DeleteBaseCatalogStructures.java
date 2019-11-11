@@ -93,11 +93,16 @@ public enum DeleteBaseCatalogStructures {
 	public static String deleteObject(String datatype, String ID) throws IOException {
 		DataElementInformation element = DatasetOntologyParseBase.getSubElementStructureFromIDObject(datatype);
 		String chemconnecttype = element.getChemconnectStructure();
-		DeleteBaseCatalogStructures deletedata = valueOf(chemconnecttype);
 		String ans = "No special delete";
-		if (deletedata != null) {
-			ans = deletedata.deleteStructure(ID);
+		try {
+			DeleteBaseCatalogStructures deletedata = valueOf(chemconnecttype);
+			if (deletedata != null) {
+				ans = deletedata.deleteStructure(ID);
+			}
+		} catch(IllegalArgumentException ex) {
+			
 		}
+		
 		return ans;
 	}
 

@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.base.client.catalog;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;

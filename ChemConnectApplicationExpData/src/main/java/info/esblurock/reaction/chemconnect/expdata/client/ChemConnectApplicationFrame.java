@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,6 +23,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.authentication.Faceb
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.GoogleAuthentification;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LinkedInAuthentification;
 import info.esblurock.reaction.chemconnect.core.base.client.authentication.LoginAsGuest;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 import info.esblurock.reaction.chemconnect.core.base.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.ConsortiumManagementPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.DatabasePersonDefinitionPlace;
@@ -31,6 +33,7 @@ import info.esblurock.reaction.chemconnect.core.base.client.place.OrganizationDe
 import info.esblurock.reaction.chemconnect.core.base.client.place.RepositoryFileManagerPlace;
 import info.esblurock.reaction.chemconnect.core.base.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
+import info.esblurock.reaction.chemconnect.expdata.client.place.IsolateMatrixBlockPlace;
 
 public class ChemConnectApplicationFrame extends Composite implements AuthentificationTopPanelInterface {
 
@@ -62,6 +65,8 @@ public class ChemConnectApplicationFrame extends Composite implements Authentifi
 	@UiField
 	MaterialLink repository;
 	@UiField
+	MaterialLink isolate;
+	@UiField
 	MaterialLink people;
 	@UiField
 	MaterialLink organizations;
@@ -86,11 +91,13 @@ public class ChemConnectApplicationFrame extends Composite implements Authentifi
 	}
 	private void init() {
 		catalog.setText("Manage Data Catalog Structure");
-		upload.setText("file staging and interpretation");
-		people.setText("researchers in database");
-		organizations.setText("organizations in database");
+		upload.setText("File staging and interpretation");
+		repository.setText("Manage repository");
+		isolate.setText("Isolate");
+		people.setText("Researchers in database");
+		organizations.setText("Organizations in database");
 		consortia.setText("Consortia");
-		repository.setText("manage repository");
+		
 		logout.setText("Logout");
 		logouttooltip.setText("Log out current user (to Guest");
 		logintooltip.setText("Choose method of login");
@@ -141,6 +148,7 @@ public class ChemConnectApplicationFrame extends Composite implements Authentifi
 
 	@Override
 	public void loginCallback(UserSessionData account) {
+		StandardWindowVisualization.successWindowMessage("loginCallback\n" + account.toString());
 		setLoginVisibility(false);
 		userSessionAccount = account;
 		username.setText(account.getUserName());
@@ -181,6 +189,12 @@ public class ChemConnectApplicationFrame extends Composite implements Authentifi
 		goTo(new UploadFileToBlobStoragePlace("File staging"));
 	}
 
+	@UiHandler("isolate")
+	public void onIsolateClick(ClickEvent event) {
+		setSubTitle("Isolate Block");
+		goTo(new IsolateMatrixBlockPlace("Isolate Matrix Block"));
+	}
+
 	@UiHandler("repository")
 	public void onRepositoryClick(ClickEvent event) {
 		setSubTitle("Repository Manager");
@@ -210,7 +224,8 @@ public class ChemConnectApplicationFrame extends Composite implements Authentifi
 	public void setSubTitle(String subtitletext) {
 		subtitle.setText(subtitletext);
 	}
-
-
+	public SimplePanel getContentPanel() {
+		return contentPanel;
+	}
 	
 }

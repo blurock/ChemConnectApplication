@@ -168,6 +168,7 @@ implements RepositoryFileManagerView,ChooseFromConceptHeirarchy,HierarchyNodeCal
 	}
 	
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		objectpanel.clear();
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null, subs, modalpanel);
 		objectpanel.add(item);
 	}

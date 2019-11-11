@@ -6,7 +6,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.core.data.expdata.observations.ObservationValueRow;
 
 public class SpreadSheetSectionCallback implements AsyncCallback<ArrayList<ObservationValueRow>>{
 

@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
+import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
 
 public class SetObjectTypeCallback  implements AsyncCallback<String>  {
 
@@ -16,7 +17,7 @@ public class SetObjectTypeCallback  implements AsyncCallback<String>  {
 	
 	@Override
 	public void onFailure(Throwable err) {
-		Window.alert("ERROR: Set object type\n" + err.toString());
+		StandardWindowVisualization.errorWindowMessage("ERROR: Set object type\n", err.toString());
 		MaterialLoader.loading(false);		
 	}
 

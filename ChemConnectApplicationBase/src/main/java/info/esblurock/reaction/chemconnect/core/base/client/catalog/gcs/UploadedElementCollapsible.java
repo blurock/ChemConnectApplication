@@ -12,7 +12,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
@@ -41,7 +40,7 @@ import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 
 public class UploadedElementCollapsible extends Composite implements ObjectVisualizationInterface,
-		VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
+		ChooseFromConceptHeirarchy, InsertBlobContentInterface {
 
 	private static UploadedElementCollapsibleUiBinder uiBinder = GWT.create(UploadedElementCollapsibleUiBinder.class);
 
@@ -58,8 +57,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	MaterialLink path;
 	@UiField
 	MaterialLink delete;
-	@UiField
-	HTMLPanel imagepanel;
 	@UiField
 	MaterialLink url;
 	@UiField
@@ -97,12 +94,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		init();
 		fill(content);
 		String object = null;
-		if (isText()) {
-			object = MetaDataKeywords.observationsFromSpreadSheetFull;
-		}
-		if (isImage()) {
-			object = MetaDataKeywords.datasetImage;
-		}
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.dataFileInformationStructure);
 		String user = Cookies.getCookie("user");
@@ -137,40 +128,8 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			typetooltip.setText(info.getFiletype());
 			identifiertooltip.setText(info.getGSFilename());
 			path.setText(info.getFilename());
-			// textDescription.setText(info.getDescription());
-			setContentVisual();
 		}
 
-	}
-
-	public void setContentVisual() {
-		if (isImage()) {
-			image = new MaterialImage(linkUrl);
-			imagepanel.add(image);
-		} else if (isText()) {
-			textobject = new UploadedTextObject(this.content, modalpanel);
-			imagepanel.add(textobject);
-		}
-	}
-
-	public boolean isImage() {
-		boolean ans = false;
-		if (typeClass != null) {
-			if (typeClass.compareTo(imageClassS) == 0) {
-				ans = true;
-			}
-		}
-		return ans;
-	}
-
-	public boolean isText() {
-		boolean ans = false;
-		if (typeClass != null) {
-			if (typeClass.compareTo(textClassS) == 0) {
-				ans = true;
-			}
-		}
-		return ans;
 	}
 
 	void parseType(String type) {
@@ -221,11 +180,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		return this.identifier;
 	}
 
-	@Override
-	public void insertVisualization(Widget panel) {
-		imagepanel.add(panel);
-	}
-
 	public String getPath() {
 		return path.getText();
 	}
@@ -266,15 +220,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		}
 	}
 
-	@Override
-	public void insertBlobInformation(GCSBlobContent content) {
-		if (isImage()) {
-			linkUrl = content.getUrl();
-			imagepanel.clear();
-			MaterialImage image = new MaterialImage(linkUrl);
-			imagepanel.add(image);
-		}
-	}
 
 	@Override
 	public void createCatalogObject(DatabaseObject obj, DataCatalogID catid) {
@@ -301,4 +246,11 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	public MaterialPanel getModalPanel() {
 		return modalpanel;
 	}
+
+	@Override
+	public void insertBlobInformation(GCSBlobContent insert) {
+		
+	}
+
+
 }

@@ -15,10 +15,12 @@ import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.DeleteCatalogObject;
 import info.esblurock.reaction.chemconnect.core.base.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.base.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.base.contact.OrganizationDescription;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 
 public class StandardDatasetOrganizationHeader extends Composite  implements SetLineContentInterface {
 
@@ -67,7 +69,8 @@ public class StandardDatasetOrganizationHeader extends Composite  implements Set
 	}
 	@UiHandler("delete")
 	public void onClickDelete(ClickEvent event) {
-		MaterialToast.fireToast("Delete not implemented yet");
+		DeleteCatalogObject delete = new DeleteCatalogObject(descr.getIdentifier(), 
+				StandardDataKeywords.organization, item.getModalpanel(), this);
 	}
 
 	public void updateData() {

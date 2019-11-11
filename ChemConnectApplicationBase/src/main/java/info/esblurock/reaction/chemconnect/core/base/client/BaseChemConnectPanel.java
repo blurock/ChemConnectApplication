@@ -64,6 +64,8 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	@UiField
 	MaterialLink repository;
 	@UiField
+	MaterialLink isolate;
+	@UiField
 	MaterialLink people;
 	@UiField
 	MaterialLink organizations;
@@ -182,11 +184,6 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 		goTo(new UploadFileToBlobStoragePlace("File staging"));
 	}
 
-	@UiHandler("repository")
-	public void onRepositoryClick(ClickEvent event) {
-		setSubTitle("Repository Manager");
-		goTo(new RepositoryFileManagerPlace("Manage Repository"));
-	}
 
 	@UiHandler("people")
 	public void onPeopleClick(ClickEvent event) {
@@ -204,6 +201,11 @@ public class BaseChemConnectPanel extends Composite implements AuthentificationT
 	public void onConsortiaClick(ClickEvent event) {
 		setSubTitle("Manage Consortium Info");
 		goTo(new ConsortiumManagementPlace("Manage Consortium Info"));
+	}
+	@UiHandler("repository")
+	public void onRepositoryClick(ClickEvent event) {
+		setSubTitle("Repository Manager");
+		goTo(new RepositoryFileManagerPlace("Manage Repository"));
 	}
 
 	private void goTo(Place place) {

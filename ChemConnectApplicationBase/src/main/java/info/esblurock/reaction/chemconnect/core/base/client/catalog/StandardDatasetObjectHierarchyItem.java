@@ -19,6 +19,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.client.ClientEnumerateUtilities;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.multiple.ChemConnectCompoundMultipleCallback;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.multiple.CreateMultipleItemCallback;
@@ -164,7 +165,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 		if (multipleB) {
 			ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
 			String subtype = TextUtilities.removeNamespace(multiple.getType());
-			SetUpCollapsibleItemInterface setup = SetUpCollapsibleItemBase.valueOf(subtype);
+			SetUpCollapsibleItemInterface setup = ClientEnumerateUtilities.setUpCollapsible.valueOf(subtype);
 			multinfoB = multipleB & setup.isInformation();
 		}
 		ArrayList<DatasetHierarchyStaging> staginglist = DatasetHierarchyStaging.computeStaging(hierarchy);
@@ -184,7 +185,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 						if(submultipleB) {
 							ChemConnectCompoundMultiple m = (ChemConnectCompoundMultiple) sub.getObject();
 							String subtype = TextUtilities.removeNamespace(m.getType());
-							SetUpCollapsibleItemInterface subsetup = SetUpCollapsibleItemBase.valueOf(subtype);
+							SetUpCollapsibleItemInterface subsetup = ClientEnumerateUtilities.setUpCollapsible.valueOf(subtype);
 							if(subsetup.isInformation()) {
 								addInfoItem(item);
 							} else {

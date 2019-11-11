@@ -14,10 +14,12 @@ import info.esblurock.reaction.chemconnect.core.base.client.catalog.SaveDatasetC
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.QueryNameOfPersonInterface;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.contact.QueryNameOfPersonModal;
+import info.esblurock.reaction.chemconnect.core.base.client.modal.DeleteCatalogObject;
 import info.esblurock.reaction.chemconnect.core.base.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.base.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.base.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 
 
 public class StandardDatasetIndividualInformation extends Composite implements QueryNameOfPersonInterface {
@@ -77,6 +79,14 @@ public class StandardDatasetIndividualInformation extends Composite implements Q
 		save.setVisible(allowed);
 		delete.setVisible(allowed);
 	}
+
+	@UiHandler("delete")
+	public void clickDelete(ClickEvent event) {
+		DeleteCatalogObject deleteobject = new DeleteCatalogObject(persondescr.getIdentifier(), 
+				StandardDataKeywords.individualInformation,
+				item.getModalpanel(), this);
+	}
+	
 	@UiHandler("save")
 	public void clickSave(ClickEvent event) {
 		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);

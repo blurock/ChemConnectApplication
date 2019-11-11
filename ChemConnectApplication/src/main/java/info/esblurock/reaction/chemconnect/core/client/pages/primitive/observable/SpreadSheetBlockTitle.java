@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialRow;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
+import info.esblurock.reaction.core.data.expdata.observations.SpreadSheetBlockInformation;
 
 public class SpreadSheetBlockTitle extends Composite  {
 

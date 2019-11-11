@@ -43,8 +43,6 @@ public class FacebookAuthentification extends AuthentificationCall {
 				+ "&grant_type=client_credentials";
 				*/
 		String urlS = authurl + reststr;
-		Window.alert(urlS);
-
 		Window.open(urlS, "_blank", "");
 		
 	}

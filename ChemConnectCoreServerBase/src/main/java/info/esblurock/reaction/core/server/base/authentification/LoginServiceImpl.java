@@ -16,6 +16,7 @@ import info.esblurock.reaction.core.server.base.create.CreateContactObjects;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.base.db.WriteBaseCatalogObjects;
 import info.esblurock.reaction.core.server.base.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.base.db.interpret.FileInterpretationBase;
 import info.esblurock.reaction.core.server.base.queries.QueryBase;
 import info.esblurock.reaction.core.server.base.queries.QueryFactory;
 import info.esblurock.reaction.core.server.base.services.ServerBase;
@@ -41,6 +42,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	
 	public UserSessionData initializeBaseSystem() throws IOException {
 		InitializationBase.interpretDataBase = new InterpretDataBase();
+		InitializationBase.fileInterpretationBase = new FileInterpretationBase();
+		
 		AuthorizationIDs.readInAuthorizationIDs(getServletContext());
 		String sessionid = getThreadLocalRequest().getSession().getId();
 		UserSessionData user = LoginUtilities.isSessionActive(sessionid);
