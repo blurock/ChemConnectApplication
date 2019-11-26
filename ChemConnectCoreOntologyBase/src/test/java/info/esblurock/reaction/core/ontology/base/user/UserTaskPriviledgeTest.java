@@ -1,7 +1,6 @@
 package info.esblurock.reaction.core.ontology.base.user;
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
-import java.util.Set;
 
 import org.junit.Test;
 

@@ -1,14 +1,11 @@
 package info.esblurock.reaction.core.ontology.base;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 
-import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
-import info.esblurock.reaction.core.ontology.base.authentification.UserQueries;
 
 public class GenericSimpleTest {
 

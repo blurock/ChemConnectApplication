@@ -3,7 +3,11 @@ package info.esblurock.reaction.chemconnect.core.base.utilities;
 import java.io.Serializable;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+
+
 /*
+ * 
+ * This has all the annotated information about a concept object
  * 
  * idName:       dataset:ContactLocationInformation: 
  * identifier:   The identifier of the class 
@@ -33,17 +37,32 @@ public class ClassificationInformation implements Serializable {
 	String identifier;
 	String dataType;
 	String link;
+	String label;
+	String comment;
 	DatabaseObject top;
 	
 	public ClassificationInformation() {
 	}
-	public ClassificationInformation(DatabaseObject top, String link, String idName, String identifier, String dataType) {
+	public ClassificationInformation(DatabaseObject top, 
+			String link, String idName, String identifier, String dataType) {
 		super();
 		this.idName = idName;
 		this.identifier = identifier;
 		this.dataType = dataType;
 		this.top = top;
 		this.link = link;
+	}
+	public ClassificationInformation(DatabaseObject top, 
+			String link, String idName, String identifier, String dataType,
+			String label, String comment) {
+		super();
+		this.idName = idName;
+		this.identifier = identifier;
+		this.dataType = dataType;
+		this.top = top;
+		this.link = link;
+		this.label = label;
+		this.comment = comment;
 	}
 	public String getIdName() {
 		return idName;
@@ -60,13 +79,44 @@ public class ClassificationInformation implements Serializable {
 	}
 	
 	
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public void setIdName(String idName) {
+		this.idName = idName;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	public void setTop(DatabaseObject top) {
+		this.top = top;
+	}
 	public String getLink() {
 		return link;
 	}
+	
 	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		
-		build.append("ID: ");
+		build.append(prefix + "ID: ");
 		build.append(idName);
 		if(link != null) {
 			build.append("(");
@@ -77,7 +127,8 @@ public class ClassificationInformation implements Serializable {
 		build.append(identifier);
 		build.append("  (");
 		build.append(dataType);
-		build.append(")");
+		build.append(")\n");
+		build.append(prefix + "Label: '" + label + "' (" + comment + ")");
 		
 		return build.toString();
 	}

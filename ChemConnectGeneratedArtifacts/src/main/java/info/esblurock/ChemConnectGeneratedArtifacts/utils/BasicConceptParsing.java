@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.ontology.base.generation;
+package info.esblurock.ChemConnectGeneratedArtifacts.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,22 +14,29 @@ import info.esblurock.reaction.core.ontology.base.OntologyBase;
 
 public class BasicConceptParsing {
 	
+
+	
 	public static Set<String> completeConceptListWithRecordsAndSuperClass(String concept) {
 		Set<String> total = new HashSet<String>();
 		List<String> lst = getAllSubElementsInclusive(concept);
 		completeConceptListWithRecordsAndSuperClass(lst,total);
 		return total;
 	}
-	/** This lists all the subclasses of the top concept
+	/** This lists all the subclasses of the top concept (with an identifier)
 	 * 
 	 * @param structure: The top level concept
-	 * @return a list of subclasses
+	 * @return a list of subclasses (with an identifer)
+	 * 
+	 * The requirement that it has an identifier is to differentiate between properties and sub concepts.
+	 * All concepts should have an identifer, properties as subclasses do not.
 	 * 
 	 */
 	static public List<String> getAllSubElementsInclusive(String concept) {
 		String query = "SELECT ?subclass\n" 
 				+ "	WHERE {\n" 
-				+ "   ?subclass rdfs:subClassOf " + concept + "}\n";
+				+ "   ?subclass rdfs:subClassOf " + concept + " ."
+						+ " ?subclass <http://purl.org/dc/terms/identifier> ?identifier"
+						+ "}\n";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		List<String> sublist = new ArrayList<String>();
@@ -39,6 +46,64 @@ public class BasicConceptParsing {
 		}
 		return sublist;
 	}
+	
+	/** Get the direct subclasses of a concept (concept must have an identifier)
+	 * 
+	 * @param concept The concept
+	 * @return The list of subclasses of the concept (that have an identifier)
+	 * 
+	 * The concept is not listed among the subclasses
+	 */
+	public static List<String> directSubConceptOfConcept(String concept) {
+		String query = "SELECT ?object ?id\n" 
+		        + "	WHERE {"
+				+ "?object <" + ReasonerVocabulary.directSubClassOf +"> " + concept + " . \n"
+						+ "?object <http://purl.org/dc/terms/identifier> ?id"
+						+ "}";
+		
+		System.out.println("directSubConceptOfConcept: \n" + query);
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+
+		System.out.println(stringlst);
+		
+		ArrayList<String> subcls = new ArrayList<String>();
+		for (Map<String, String> map : stringlst) {
+			String sup = map.get("object");
+			if(!sup.matches(concept)) {
+			System.out.println("Object: " + sup + "\t    label: '" + map.get("id") + "'");
+			subcls.add(sup);
+			}
+		}
+		return subcls;
+		
+	}
+	
+	/** This finds the direct super concept of a given concept (with an identifier)
+	 * @param concept The concept for which to find super class
+	 * @return (one of the) super classes of the concept (having an identifier)
+	 * 
+	 * This routine implicitely assumes that there is only one superclass.
+	 * If there is more than one superclass, then this routine should not be used.
+	 * 
+	 */
+	public static String findSuperClass(String concept) {
+		String query = "SELECT ?super\n" 
+		        + "	WHERE {"
+		        + concept + "  <" + ReasonerVocabulary.directSubClassOf +"> ?super ."
+		        		+ "?super <http://purl.org/dc/terms/identifier> ?id"
+				+ " }\n";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String superS = "";
+		for(Map<String, String> map : stringlst) {
+			String sS = map.get("super");
+			superS = sS;
+		}
+		return superS;
+	}
+
+
 	
 	/** This retrieves the standard set of annotations
 	 * @param concept: The concept
@@ -58,7 +123,7 @@ public class BasicConceptParsing {
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		StandardConceptAnnotations annotations = null;
 		if(stringlst.isEmpty()) {
-			
+			System.out.println("StandardConceptAnnotations getAnnotations: " + concept);
 		} else {
 		for(Map<String, String> map : stringlst) {
 			String typeS = map.get("type");
@@ -71,10 +136,12 @@ public class BasicConceptParsing {
 		}
 		return annotations;
 	}
+	
+	
 
-	/** Find the subobjects with the qualifications of link type and whether singlet or multiple
+	/** Find the properties with the qualifications of link type and whether singlet or multiple
 	 * 
-	 * @param concept: The concept to find sub objects  
+	 * @param concept: The concept to find sub object properties
 	 * @param link  The type of link to sub object
 	 * @param multiple true: find multiple links, otherwise single links
 	 * @return A list of subobjects having the criteria
@@ -135,25 +202,6 @@ public class BasicConceptParsing {
 		}
 	}
 	
-	public static String findSuperClass(String concept) {
-
-		String query = "SELECT ?super\n" 
-		        + "	WHERE {"
-		        + concept + "  <" + ReasonerVocabulary.directSubClassOf +"> ?super \n"
-				+ " }\n";
-		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
-		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		String superS = "";
-		for(Map<String, String> map : stringlst) {
-			String sS = map.get("super");
-			if(sS.compareTo(concept) != 0) {
-				if(sS.startsWith("dataset:")) {
-					superS = sS;
-				}
-			}
-		}
-		return superS;
-	}
 
 	public static StandardInformation findStandardInformation(String concept) {
 		String superClass = findSuperClass(concept);
@@ -192,5 +240,15 @@ public class BasicConceptParsing {
 		return information;
 	}
 	
+	public static Set<String> findDependentModules(String module) {
+		String query = "SELECT ?object\n" + 
+				"	WHERE { " + module + " rdfs:subClassOf ?object  .\n" + 
+				"	?object rdfs:subClassOf dataset:ChemConnectModule\n" + 
+				"}";
+		System.out.println("findDependentModules\n" + query);
+		List<String> depsL = OntologyBase.isolateProperty(query, "object");
+		Set<String> depsS = new HashSet<String>(depsL);
+		return depsS;
+	}
 
 }

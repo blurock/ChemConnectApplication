@@ -349,6 +349,20 @@ public class OntologyBase {
 
 		return lst;
 	}
+	
+	public static List<String> isolateProperty(String query, String property) {
+		
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+
+		ArrayList<String> props = new ArrayList<String>();
+		for (Map<String, String> map : stringlst) {
+			String sup = map.get(property);
+			props.add(sup);
+		}
+		return props;
+		
+	}
 
 	/**
 	 * @param namespace The full namespace name (from Resource.getNamespace())

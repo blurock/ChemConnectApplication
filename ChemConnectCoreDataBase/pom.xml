@@ -39,7 +39,17 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-codeserver</artifactId>
-			</dependency>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.googlecode.objectify/objectify -->
 		<dependency>
 			<groupId>com.googlecode.objectify</groupId>

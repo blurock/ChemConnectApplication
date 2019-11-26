@@ -9,7 +9,6 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
 
-import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
@@ -17,43 +16,93 @@ import info.esblurock.reaction.chemconnect.core.base.transfer.CompoundDataStruct
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.OntologyBase;
-import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectDataElementInformation;
 
 public class DatasetOntologyParseBase {
 	/**
 	 * @param structure The ID structure object (subclass of ID)
-	 * @return The object the ID refers to
+	 * @return The data element information (annotated properties of the concept filled in).
 	 * 
-	 *         ?type: The actual object type ?id: The identifier of the object
-	 *         ?super: The superclass of the object
+	 * The DataElementInformation has all the standard annotated information of the concept
 	 * 
-	 *         SELECT ?id ?type ?super WHERE { dataset:OrganizationID Concept
-	 *         <http://purl.org/dc/terms/references> ?type . ?type
-	 *         <http://purl.org/dc/terms/identifier> ?id . ?type rdfs:subClassOf
-	 *         ?super . ?super rdfs:subClassOf dcat:Dataset }
 	 * @throws IOException
 	 */
 	static public DataElementInformation getSubElementStructureFromIDObject(String structure) {
-		String query = "SELECT ?id ?type ?super ?altl\n" + "	WHERE {\n" + "   " + structure
-				+ " <http://purl.org/dc/elements/1.1/type> ?type .\n" + "	" + structure
-				+ " <http://purl.org/dc/terms/identifier> ?id .\n" + "	" + structure + " rdfs:subClassOf ?super .\n"
-				+ " " + structure + " <http://www.w3.org/2004/02/skos/core#altLabel> ?altl\n" + "  }";
+		String query = "SELECT ?id ?type ?altl ?comment ?label\n" 
+				+ "	WHERE {\n" 
+				+ "   " + structure + " <http://purl.org/dc/elements/1.1/type> ?type .\n" 
+				+ "	  " + structure + " <http://purl.org/dc/terms/identifier> ?id .\n" + "	" 
+				+ "   " + structure + " <http://www.w3.org/2004/02/skos/core#altLabel> ?altl .\n" 
+				+ "   " + structure + " rdfs:label ?label .\n" 
+				+ "   " + structure + " rdfs:comment ?comment\n" 
+				+ "  }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		
 		DataElementInformation info = null;
 		if (stringlst.size() > 0) {
 			String idS = stringlst.get(0).get("id");
 			String typeS = stringlst.get(0).get("type");
-			// String superS = stringlst.get(0).get("super");
+			String labelS = stringlst.get(0).get("label");
+			String commentS = stringlst.get(0).get("comment");
 			String altlabelS = stringlst.get(0).get("altl");
-			info = new DataElementInformation(structure, null, true, 1, typeS, idS, altlabelS);
+			info = new DataElementInformation(structure, null, true, 1, typeS, idS, altlabelS, labelS, commentS);
 		}
 		if (info == null) {
 			System.out.println("Structural information not found: " + structure);
 		}
 		return info;
 	}
+	
+	/**
+	 * @param dataElementName The concept
+	 * @return The information with the annotation information (DatabaseObject is null)
+	 * 
+	 * The concept must have all the annotated information.
+	 */
+	public static ClassificationInformation getIdentificationInformation(String dataElementName) {
+		DataElementInformation dataelement = getSubElementStructureFromIDObject(dataElementName);
+		
+		/*
+		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,
+				null);
+				*/
+		return getIdentificationInformation(null, dataelement);
+	}
+
+	/**
+	 * @param top The base DatabaseObject
+	 * @param element The data element information filled in (with at least the annotation information).
+	 * 
+	 * @return The classification information with the annotation information filled in
+	 */
+	public static ClassificationInformation getIdentificationInformation(DatabaseObject top,
+			DataElementInformation element) {
+		ClassificationInformation classification = null;
+		if(element != null) {
+		String id = element.getDataElementName();
+		String query = "SELECT ?identifier ?datatype\n" 
+		+ "	WHERE {\n" 
+				+ id + " <http://purl.org/dc/terms/identifier> ?identifier .\n" 
+				+ "	{  " + id + " <http://purl.org/dc/elements/1.1/type>  ?datatype } \n" 
+				+ "UNION\n" 
+				+ "	{ " + id + " <" + ReasonerVocabulary.directSubClassOf + "> ?subclass .\n"
+				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
+
+		
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		if (lst.size() > 0) {
+			List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+			Map<String, String> map = stringlst.get(0);
+			String identifier = map.get("identifier");
+			String datatype = map.get("datatype");
+			classification = classification = new ClassificationInformation(top, element.getSuffix(), id, identifier,
+					datatype,element.getLabel(),element.getComment());
+		}
+		}
+		return classification;
+	}
+
 
 	public static String getTypeFromCanonicalDataType(String candatatype) {
 		// System.out.println("getTypeFromCanonicalDataType: '" + candatatype);
@@ -106,39 +155,7 @@ public class DatasetOntologyParseBase {
 
 		return top;
 	}
-
-	public static ClassificationInformation getIdentificationInformation(String dataElementName) {
-		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,
-				null);
-		return getIdentificationInformation(null, dataelement);
-	}
-
-	/**
-	 * @param id
-	 * @return
-	 */
-	public static ClassificationInformation getIdentificationInformation(DatabaseObject top,
-			DataElementInformation element) {
-
-		String id = element.getDataElementName();
-		String query = "SELECT ?identifier ?datatype\n" + "	WHERE {\n" + id
-				+ " <http://purl.org/dc/terms/identifier> ?identifier .\n" + "	{  " + id
-				+ " <http://purl.org/dc/elements/1.1/type>  ?datatype } \n" + "UNION\n" + "	{ " + id + " <"
-				+ ReasonerVocabulary.directSubClassOf + "> ?subclass .\n"
-				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
-
-		ClassificationInformation classification = null;
-		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
-		if (lst.size() > 0) {
-			List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-			Map<String, String> map = stringlst.get(0);
-			String identifier = map.get("identifier");
-			String datatype = map.get("datatype");
-			classification = new ClassificationInformation(top, element.getLink(), id, identifier, datatype);
-		}
-		return classification;
-	}
-
+	
 	public static ArrayList<String> asSubObject(String object) {
 
 		String query = "SELECT ?object ?sub ?type\n" + "	WHERE { ?sub <http://purl.org/dc/elements/1.1/type> \""
@@ -262,6 +279,8 @@ public class DatasetOntologyParseBase {
 		}
 		return objname;
 	}
+	
+	
 
 	/**
 	 * @param query query with the object
@@ -667,5 +686,112 @@ public class DatasetOntologyParseBase {
 		return type;
 
 	}
+	
+	public static ArrayList<String> rolesOfConcept(String concept) {
+		ArrayList<String> rolelst = new ArrayList<String>();
+		String query = "SELECT ?role\n" + 
+				"	WHERE { "
+				+ "          " + concept + " <http://www.linkedmodel.org/schema/vaem#hasRole> ?role\n" + 
+				"	      }";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		for (Map<String, String> maptype : stringlst) {
+			String roletype = maptype.get("role");
+			rolelst.add(roletype);
+		}
+		return rolelst;
+	}
+	
+	/** Determines the module of the concept, if it defined within the concept (otherwise null)
+	 * 
+	 * @param concept: The concept to determine the module.
+	 * @return module of the concept, if it defined within the concept (otherwise null)
+	 * 
+	 * For getModuleDirectFromConcept, the module has to be found within the concept (not inhiereted).
+	 * 
+	 */
+	public static String getModuleDirectFromConcept(String concept) {
+		String query = "SELECT ?module\n" + 
+				"	WHERE { " + concept + "  <" + ReasonerVocabulary.directSubClassOf +">  ?modprop  .\n" + 
+				"	?modprop owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> .\n" + 
+				"	?modprop owl:onClass ?module\n" + 
+				"	}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String module = null;
+		for (Map<String, String> map : stringlst) {
+			String compmodule = map.get("module");
+			if(module != null) {
+				if(isSubModuleOf(compmodule,module)) {
+					module = compmodule;
+				}
+			} else {
+				module = compmodule;
+			}
+		}
+		return module;
+	}
+	
+	/** Determine the module of the concept
+	 * @param concept The concept to determine module
+	 * @return The module of the concept.
+	 * 
+	 * This determines the module of the concept. A concept can have several modules (linked by skos:inScheme).
+	 * This routine finds the 'lowest' submodule (using isSubModuleOf) 
+	 * 
+	 * For getModuleMembershipFromConcept the module does not have to be defined within the concept, it can be inhiereted
+	 * 
+	 */
+	public static String getModuleMembershipFromConcept(String concept) {
+		String query = "SELECT ?module\n" + 
+				"	WHERE { " + concept + "  rdfs:subClassOf  ?modprop  .\n" + 
+				"	?modprop owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> .\n" + 
+				"	?modprop owl:onClass ?module\n" + 
+				"	}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String module = null;
+		for (Map<String, String> map : stringlst) {
+			String compmodule = map.get("module");
+			if(module != null) {
+				if(isSubModuleOf(compmodule,module)) {
+					module = compmodule;
+				}
+			} else {
+				module = compmodule;
+			}
+		}
+		return module;
+	}
+	
+	/** Determine whether module1 is a sub module of module2
+	 * @param module1 The module to compare
+	 * @param module2 The module to determine is a sub module of module2
+	 * @return true module1 is a submodule of module2
+	 * 
+	 * This determine
+	 * 
+	 */
+	public static boolean isSubModuleOf(String module1, String module2) {
+		String query = "ASK {" 
+				+ "	" + module1 + " rdfs:subClassOf " + module2 + "\n }";
+		boolean result = OntologyBase.datasetASK(query);
+		return result;
+	}
+	
+	public static String getDomainFromModule(String module) {
+		String query = "SELECT ?domain\n" + 
+				"			WHERE { " + module + " <http://www.linkedmodel.org/schema/vaem#hasDomainScope>  ?domain\n" + 
+				"			}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String domain = null;
+		for (Map<String, String> map : stringlst) {
+			domain = map.get("domain");
+		}
+		return domain;
+	}
+
+	
 
 }

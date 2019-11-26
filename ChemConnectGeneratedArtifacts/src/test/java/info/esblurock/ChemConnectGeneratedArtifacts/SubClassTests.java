@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import info.esblurock.ChemConnectGeneratedArtifacts.utils.BasicConceptParsing;
+
 public class SubClassTests {
 
 	@Test

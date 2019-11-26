@@ -57,7 +57,16 @@ public class HierarchyNode implements Serializable {
 		this.identifier = identifier;
 		subNodes = new ArrayList<HierarchyNode>();
 		this.info = info;
-		this.identifier = identifier;
+		this.identifier = info.getLabel();
+	}
+	
+	public HierarchyNode(ClassificationInformation info) {
+		super();
+		this.identifier = info.getIdentifier();
+		subNodes = new ArrayList<HierarchyNode>();
+		this.info = info;
+		this.label = info.getLabel();
+		
 	}
 	
 	public void addSubNode(HierarchyNode subnode) {
@@ -107,7 +116,7 @@ public class HierarchyNode implements Serializable {
 	protected String stringInfo(String prefix) {
 		StringBuilder build = new StringBuilder();
 		if(info != null) {
-			build.append(prefix + info.toString());
+			build.append(info.toString(prefix));
 			build.append(":\n");
 		}
 		return build.toString();		
@@ -115,7 +124,8 @@ public class HierarchyNode implements Serializable {
 	protected String stringSubNodes(String prefix) {
 		StringBuilder build = new StringBuilder();
 		for(HierarchyNode subnode : subNodes) {
-			String subnodeS = subnode.toString(prefix);
+			String subprefix = "    :  " + prefix;
+			String subnodeS = subnode.toString(subprefix);
 			build.append(subnodeS);
 		}
 		return build.toString();		

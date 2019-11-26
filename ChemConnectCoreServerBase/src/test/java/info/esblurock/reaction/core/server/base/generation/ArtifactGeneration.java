@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import info.esblurock.reaction.core.ontology.base.generation.GenerateClassDefinitions;
-import info.esblurock.reaction.core.ontology.base.generation.GeneratedClassObjects;
+import info.esblurock.ChemConnectGeneratedArtifacts.utils.GenerateClassDefinitions;
+import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratedClassObjects;
 import info.esblurock.reaction.core.server.base.services.util.InterpretBaseData;
 
 class ArtifactGeneration {

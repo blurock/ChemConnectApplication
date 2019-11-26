@@ -23,6 +23,8 @@ public class DataElementInformation implements Serializable,Comparable<DataEleme
 	String identifier;
 	String link;
 	String suffix;
+	String comment;
+	String label;
 
 	public DataElementInformation() {
 	}
@@ -36,6 +38,19 @@ public class DataElementInformation implements Serializable,Comparable<DataEleme
 		this.identifier = identifier;
 		this.link = link;
 		this.suffix = suffix;
+	}
+	public DataElementInformation(String dataElementName, String link, boolean singlet, int numberOfElements, 
+			String chemconnectStructure, String identifier, String suffix, String label, String comment) {
+		super();
+		this.dataElementName = dataElementName;
+		this.singlet = singlet;
+		this.numberOfElements = numberOfElements;
+		this.chemconnectStructure = chemconnectStructure;
+		this.identifier = identifier;
+		this.link = link;
+		this.suffix = suffix;
+		this.label = label;
+		this.comment = comment;
 	}
 	public String getDataElementName() {
 		return dataElementName;
@@ -75,10 +90,45 @@ public class DataElementInformation implements Serializable,Comparable<DataEleme
 	public String getSuffix() {
 		return suffix;
 	}
+	
+	
+	public int getNumberOfElements() {
+		return numberOfElements;
+	}
+	public void setNumberOfElements(int numberOfElements) {
+		this.numberOfElements = numberOfElements;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	public void setDataElementName(String dataElementName) {
+		this.dataElementName = dataElementName;
+	}
+	public void setSinglet(boolean singlet) {
+		this.singlet = singlet;
+	}
+	public void setChemconnectStructure(String chemconnectStructure) {
+		this.chemconnectStructure = chemconnectStructure;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
 	public String toString() {
 		return toString("");
 	}
-		public String toString(String prefix) {
+	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(prefix + dataElementName);
 		if(link != null) {
@@ -101,6 +151,8 @@ public class DataElementInformation implements Serializable,Comparable<DataEleme
 		if(numberOfElements > 1) {
 			build.append("# " + numberOfElements);
 		}
+		build.append("  " + label + "(" + comment + ")");
+		
 		return build.toString();
 	}
 		@Override

@@ -1,9 +1,28 @@
-package info.esblurock.reaction.core.ontology.base.generation;
+package info.esblurock.ChemConnectGeneratedArtifacts.utils;
 
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 
+/** Generate a class definition
+ * 
+ * generation:
+ * <ul>
+ * <li> The name of the class
+ * <li> The package name
+ * <li> The list of package names of files
+ * <ul>
+ * 
+ * @author edwardblurock
+ *
+ */
 public class GenerateSingleClassDefinition {
 	
+	/** Generate the class definition
+	 * 
+	 * @param name The name of the class
+	 * @param packagename The package name of the class
+	 * @param generated The list of package names to be used for imports
+	 * @return The class file definition as a string
+	 */
 	public static String generation(String name, String packagename, GeneratedClassObjects generated) {
 		StandardInformation standardinfo = BasicConceptParsing.findStandardInformation(name);
 		String datastructure = ChemConnectCompoundDataStructure.removeNamespace(standardinfo.getConceptname());
