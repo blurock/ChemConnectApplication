@@ -25,7 +25,7 @@ public class WriteModuleFileToSystem {
 	 * @param data The contents of the file
 	 * @throws IOException Problems writing the file
 	 */
-	public void writeModuleFile(String rootDir, String module, String packagename, String filename, String data) throws IOException {
+	public static void writeModuleFile(String rootDir, String module, String packagename, String filename, String data) throws IOException {
 		String moduleRootDirS = generateModulePath(rootDir,module);
 		String packageRootS = generateAbsolutePackageRoot(moduleRootDirS);
 	  	String packageS = convertPackageToDirectory(packagename);
@@ -41,7 +41,7 @@ public class WriteModuleFileToSystem {
      * @param data
      * @throws IOException
      */
-    public void writeUsingOutputStream(String rootDir, String filename, String data) throws IOException {
+    public static void writeUsingOutputStream(String rootDir, String filename, String data) throws IOException {
 
         Path pathP = Paths.get(rootDir);
         

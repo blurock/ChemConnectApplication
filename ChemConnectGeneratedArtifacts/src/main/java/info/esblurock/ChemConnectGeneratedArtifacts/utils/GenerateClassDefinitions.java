@@ -41,6 +41,7 @@ public class GenerateClassDefinitions {
 			String rootDir,
 			String packagename,
 			GeneratedClassObjects generated) {
+		/*
 		
 		Set<String> lst = BasicConceptParsing.completeConceptListWithRecordsAndSuperClass(structure);		
 		for (String name : lst) {
@@ -49,12 +50,13 @@ public class GenerateClassDefinitions {
 		        String rootnameS = ChemConnectCompoundDataStructure.removeNamespace(name);
 		        String filename = rootnameS + ".java";				
 				try {
-					writeUsingOutputStream(rootDir, packagename, filename, classS);
+					WriteModuleFileToSystem.writeUsingOutputStream(rootDir, packagename, filename, classS);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		*/
 	}
 	
 

@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.ontology.base.generation;
+package info.esblurock.ChemConnectGeneratedArtifacts.utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;

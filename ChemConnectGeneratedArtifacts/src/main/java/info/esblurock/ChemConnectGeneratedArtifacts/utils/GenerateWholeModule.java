@@ -11,8 +11,8 @@ public class GenerateWholeModule {
 			String module, 
 			ArrayList<String> topconcepts,
 			GeneratedClassObjects alreadygenerated) throws IOException {
-		generateGWTModule(rootDir,module);
 		generateModulePom(rootDir,module);
+		generateGWTModule(rootDir,module);
 		for(String topconcept : topconcepts) {
 			GeneratedClassObjects generated = GeneratePackageInformation.generatePackage(topconcept, 
 				module, alreadygenerated);

@@ -49,10 +49,11 @@ public class BasicTests {
 			System.out.println("Multiple HasPart    : " + multipleHasPart + "\n");
 			System.out.println("Single Record       : " + singleRecord + "\n");
 			System.out.println("Multiple Record     : " + multipleRecord + "\n");
-			
+			/*
 			StandardInformation info = BasicConceptParsing.findStandardInformation(name);
 			StandardInformationGeneration gen = new StandardInformationGeneration(info,packageNames);
 			System.out.println(gen.toString(name + "  "));
+			*/
 		}
 				
 	}

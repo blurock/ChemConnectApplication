@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.junit.Test;
 
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.GenerateObjectHierarchy;
-import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratePackageInformation;
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratedClassObjects;
 
 public class GeneratePackageHierarchyClasses {
@@ -27,7 +26,6 @@ public class GeneratePackageHierarchyClasses {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
 	}
 
 }

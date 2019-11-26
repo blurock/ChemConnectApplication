@@ -11,7 +11,12 @@ public class GenerateChemConnectModules {
 		basePackageNames.addClassAndPackage(
 				"dataset:ChemConnectCompoundDataStructure", 
 				"info.esblurock.reaction.chemconnect.data");
-		basePackageNames.addClassAndPackage("ActivityInformationRecord", "info.esblurock.reaction.chemconnect.data");
+		basePackageNames.addClassAndPackage(
+				"ActivityInformationRecord", 
+				"info.esblurock.reaction.chemconnect.data");
+		basePackageNames.addClassAndPackage(
+				"SimpleCatalogObject", 
+				"info.esblurock.reaction.chemconnect.data");
 		
 		ArrayList<String> topconcepts = new ArrayList<String>();
 		topconcepts.add("dataset:ActivityInformationRecord");

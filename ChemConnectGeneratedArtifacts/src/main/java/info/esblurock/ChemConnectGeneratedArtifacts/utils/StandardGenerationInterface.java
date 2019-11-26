@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.ontology.base.generation;
+package info.esblurock.ChemConnectGeneratedArtifacts.utils;
 
 public interface StandardGenerationInterface {
 

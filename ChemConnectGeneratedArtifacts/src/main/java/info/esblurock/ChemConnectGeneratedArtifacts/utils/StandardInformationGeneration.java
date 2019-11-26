@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.ontology.base.generation;
+package info.esblurock.ChemConnectGeneratedArtifacts.utils;
 
 
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
