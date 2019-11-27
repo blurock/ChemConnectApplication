@@ -36,7 +36,7 @@ public class GeneratedClassObjects {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		for(String name : packageNameCorrespondence.keySet()) {
-			build.append(prefix + name + ":\t\t " + packageNameCorrespondence.get(name));
+			build.append(prefix + name + ":\t\t " + packageNameCorrespondence.get(name) + "\n");
 		}
 		return build.toString();
 	}

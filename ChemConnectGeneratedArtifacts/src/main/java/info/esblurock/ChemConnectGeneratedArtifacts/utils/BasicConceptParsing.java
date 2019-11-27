@@ -245,9 +245,9 @@ public class BasicConceptParsing {
 				"	WHERE { " + module + " rdfs:subClassOf ?object  .\n" + 
 				"	?object rdfs:subClassOf dataset:ChemConnectModule\n" + 
 				"}";
-		System.out.println("findDependentModules\n" + query);
 		List<String> depsL = OntologyBase.isolateProperty(query, "object");
 		Set<String> depsS = new HashSet<String>(depsL);
+		depsS.remove(module);
 		return depsS;
 	}
 

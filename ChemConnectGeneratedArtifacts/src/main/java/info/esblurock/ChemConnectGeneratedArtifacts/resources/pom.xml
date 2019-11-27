@@ -4,10 +4,10 @@
       <modelVersion>4.0.0</modelVersion>
       <groupId>info.esblurock</groupId>
       <artifactId>XXXXXX</artifactId>
-      <version>0</version>
+      <version>1.0</version>
       <packaging>jar</packaging>
 
-      <name>ChemConnectGeneratedArtifacts</name>
+      <name>YYYYY</name>
       <url>http://maven.apache.org</url>
 
       <properties>

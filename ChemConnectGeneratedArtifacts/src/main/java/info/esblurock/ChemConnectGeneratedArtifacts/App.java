@@ -16,6 +16,7 @@ public class App
 		String rootDir = "/Users/edwardblurock/ChemConnectGenerated";
 		GeneratedClassObjects generated;
 		try {
+			System.out.println("GenerateChemConnectModules");
 			generated = GenerateChemConnectModules.generate(rootDir);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -45,22 +45,13 @@ public class WriteModuleFileToSystem {
 
         Path pathP = Paths.get(rootDir);
         
-        System.out.println("writeUsingOutputStream\n" + pathP.toString());
-        
         if (!Files.exists(pathP)) {
-            System.out.println("Directory to be created");
             Files.createDirectories(pathP);
-            System.out.println("Directory created");
         } else {
-        	System.out.println("Directory exists");
         }
 
-        System.out.println("writeUsingOutputStream\n" + pathP.toString());
-                
         String fileS =  rootDir + "/" + filename;
         File fileF = new File(fileS);
-        System.out.println(fileF.toString());
-        
         OutputStream os = null;
         try {
             os = new FileOutputStream(fileF);

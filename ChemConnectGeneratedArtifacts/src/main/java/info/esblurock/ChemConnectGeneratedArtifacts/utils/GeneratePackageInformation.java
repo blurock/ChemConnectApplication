@@ -141,6 +141,10 @@ public class GeneratePackageInformation {
 				String simpmodule = ChemConnectCompoundDataStructure.removeNamespace(module);
 				line = "      <artifactId>" + simpmodule + "</artifactId>";
 				build.append(line).append("\n");
+			} else 	if(line.contains("YYYYY")) {
+				String simpmodule = ChemConnectCompoundDataStructure.removeNamespace(module);
+				line = "      <name>" + simpmodule + "</name>";
+				build.append(line).append("\n");
 			} else if(line.contains("DDDDDD")){
 				for(String dep : dependences) {
 					String simpdep = ChemConnectCompoundDataStructure.removeNamespace(dep);

@@ -11,9 +11,17 @@ public class GenerateWholeModule {
 			String module, 
 			ArrayList<String> topconcepts,
 			GeneratedClassObjects alreadygenerated) throws IOException {
-		generateModulePom(rootDir,module);
+		System.out.println("GeneratedClassObjects generate GWT:" + module);
 		generateGWTModule(rootDir,module);
+		System.out.println("GeneratedClassObjects generate POM:" + module);
+		generateModulePom(rootDir,module);
+		
+		System.out.println("GeneratedClassObjects generate concepts:" + module);
+		
 		for(String topconcept : topconcepts) {
+			
+			System.out.println(alreadygenerated.toString("GeneratedClassObjects: " + topconcept + ": "));
+			
 			GeneratedClassObjects generated = GeneratePackageInformation.generatePackage(topconcept, 
 				module, alreadygenerated);
 			GenerateObjectHierarchy.generate(topconcept, module, rootDir,alreadygenerated);
@@ -25,7 +33,7 @@ public class GenerateWholeModule {
 	public static void generateModulePom(String rootDir, String module) {
 		String gwtS;
 		try {
-			gwtS = GeneratePackageInformation.generateGWTFile(module);
+			gwtS = GeneratePackageInformation.generatePom(module);
 			String filename = "pom.xml";
 			String moduleRoot = WriteModuleFileToSystem.generateModulePath(rootDir, module);
 			WriteModuleFileToSystem.writeUsingOutputStream(moduleRoot, filename, gwtS);
