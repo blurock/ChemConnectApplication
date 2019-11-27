@@ -1981,7 +1981,7 @@ xsd:date rdf:type rdfs:Datatype .
                    rdfs:comment "This is the ID of a catalog object" ;
                    rdfs:isDefinedBy :DataTypeDataStructure ;
                    rdfs:label "Catalog Object Type" ;
-                   <http://www.w3.org/2004/02/skos/core#altLabel> "catobjid" .
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "catobjtype" .
 
 
 ###  http://www.esblurock.info/dataset#CatalogPathElement
@@ -1989,6 +1989,7 @@ xsd:date rdf:type rdfs:Datatype .
                     rdfs:subClassOf :ShortStringLabel ;
                     <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                     <http://purl.org/dc/terms/identifier> "dataset:CatalogPath" ;
+                    rdfs:comment "The path of the catalog element" ;
                     rdfs:label "Catalog Path Element" ;
                     <http://www.w3.org/2004/02/skos/core#prefLabel> "catpath" .
 
@@ -3496,8 +3497,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
             <http://purl.org/dc/elements/1.1/type> "ShortString" ;
             <http://purl.org/dc/terms/identifier> "vcard:Contact" ;
             rdfs:comment "The type of contact" ;
-            <http://www.w3.org/2004/02/skos/core#altLabel> "contact" ,
-                                                           "contactkey" .
+            rdfs:label "Contact key" ;
+            <http://www.w3.org/2004/02/skos/core#altLabel> "contact" .
 
 
 ###  http://www.esblurock.info/dataset#ContactLocationInformation
@@ -4771,7 +4772,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      <http://purl.org/dc/elements/1.1/type> "ShortName"^^xsd:string ;
                      <http://purl.org/dc/terms/identifier> "datset:FileSourceShortName"^^xsd:string ;
                      rdfs:comment "This is the shorter name of the staged file. The staged file source (name) could be long with subdirectories, source sites, etc."^^xsd:string ;
-                     rdfs:label "FileSourceShortName"^^xsd:string .
+                     rdfs:label "FileSourceShortName"^^xsd:string ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "fileshortname" .
 
 
 ###  http://www.esblurock.info/dataset#FileSourceType
@@ -5534,11 +5536,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             rdfs:comment "Google Cloud Storage Input File Interpretation"@en ;
                             rdfs:label "GCSInputFileInterpretation"@en ;
                             <http://www.w3.org/2004/02/skos/core#altLabel> "gcsfileinterpret"@en .
-
-
-###  http://www.esblurock.info/dataset#GPS
-:GPS rdf:type owl:Class ;
-     rdfs:subClassOf :ChemConnectCompoundBase .
 
 
 ###  http://www.esblurock.info/dataset#GPSData
@@ -8758,11 +8755,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                    <http://www.w3.org/2004/02/skos/core#altLabel> "observation" .
 
 
-###  http://www.esblurock.info/dataset#ObservationLabel
-:ObservationLabel rdf:type owl:Class ;
-                  rdfs:subClassOf :ShortStringLabel .
-
-
 ###  http://www.esblurock.info/dataset#ObservationMatrixValues
 :ObservationMatrixValues rdf:type owl:Class ;
                          rdfs:subClassOf :ObservationEntity ,
@@ -10771,14 +10763,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      <http://purl.org/dc/elements/1.1/type> "SpeciesMoleFraction" .
 
 
-###  http://www.esblurock.info/dataset#SpeciesName
-:SpeciesName rdf:type owl:Class ;
-             rdfs:subClassOf :ShortStringLabel ;
-             <http://purl.org/dc/elements/1.1/type> "ShortString" ;
-             <http://purl.org/dc/terms/identifier> "dataset:SpeciesName"^^xsd:string ;
-             <http://www.w3.org/2004/02/skos/core#altLabel> "species"^^xsd:string .
-
-
 ###  http://www.esblurock.info/dataset#SpeciesParameter
 :SpeciesParameter rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectDynamicParameter .
@@ -11107,7 +11091,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                rdfs:comment "This is the subsystem type, it points to a device or a subsystem of a device" ;
                rdfs:isDefinedBy :DataTypeSystem ;
                rdfs:label "SubSystem Type" ;
-               <http://www.w3.org/2004/02/skos/core#altLabel> "dataset:systype" .
+               <http://www.w3.org/2004/02/skos/core#altLabel> "systype" .
 
 
 ###  http://www.esblurock.info/dataset#SubsystemGeometryAndConfiguration
@@ -11785,8 +11769,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                   <http://purl.org/dc/terms/identifier> "qudt:standardUncertainty" ;
                   rdfs:comment "A uncertainty value of a parameter or observation as a numeric value" ;
-                  <http://www.w3.org/2004/02/skos/core#altLabel> "standardUncertainty" ,
-                                                                 "uncertain" .
+                  rdfs:label "Uncertainty" ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "uncertain" .
 
 
 ###  http://www.esblurock.info/dataset#ValueUnits
@@ -13679,7 +13663,9 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 :DescriptionKeyword <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "keyword"^^xsd:string ;
-                    <http://purl.org/dc/terms/identifier> "dcat:keyword"^^xsd:string .
+                    rdfs:comment "A keyword describing the entity" ;
+                    <http://purl.org/dc/terms/identifier> "dcat:keyword"^^xsd:string ;
+                    rdfs:label "Description Keyword" .
 
 
 :DescriptionTitle <http://purl.org/dc/elements/1.1/type> "OneLine" ;
@@ -13735,8 +13721,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                  <http://www.w3.org/2004/02/skos/core#altLabel> "country"^^xsd:string .
 
 
-:LocationPostcode rdfs:comment "Location Postcode" ;
-                  <http://www.w3.org/2004/02/skos/core#altLabel> "postcode"^^xsd:string ;
+:LocationPostcode <http://www.w3.org/2004/02/skos/core#altLabel> "postcode"^^xsd:string ;
+                  rdfs:label "Location Postcode" ;
                   rdfs:comment "The post code. The form depends on the country." ;
                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                   <http://purl.org/dc/terms/identifier> "vcard:postal-code"^^xsd:string .
@@ -13771,13 +13757,15 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                          rdfs:comment "This is the basic informtion about an organization" .
 
 
-:OrganizationName <http://www.w3.org/2004/02/skos/core#altLabel> "orgname"^^xsd:string ;
+:OrganizationName rdfs:label "Organization Name" ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "orgname"^^xsd:string ;
                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                   rdfs:comment "This is the organizational unit which this class describes. This is for example an institute of a university or a department of a company."^^xsd:string ;
                   <http://purl.org/dc/terms/identifier> "org:FormalOrganization"^^xsd:string .
 
 
-:OrganizationalUnit <http://purl.org/dc/terms/identifier> "org:OrganizationalUnit"^^xsd:string ;
+:OrganizationalUnit rdfs:label "Organizational Unit" ;
+                    <http://purl.org/dc/terms/identifier> "org:OrganizationalUnit"^^xsd:string ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "orgunit"^^xsd:string ;
                     <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                     rdfs:comment "This is a sub-division of the organization. Within a larger institute of a university, there are often thematic groups (usually headed by a professor)."^^xsd:string .
@@ -13806,6 +13794,7 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 :SubOrganizationOf <http://www.w3.org/2004/02/skos/core#altLabel> "suborg"^^xsd:string ;
                    <http://purl.org/dc/terms/identifier> "org:unitOf"^^xsd:string ;
+                   rdfs:label "Suborganization of" ;
                    <http://purl.org/dc/elements/1.1/type> "ShortString" ;
                    rdfs:comment "This describes the main organization governing organiation, for example the university or company"^^xsd:string .
 
