@@ -81,8 +81,6 @@
             <goals>
               <goal>import-sources</goal>
               <goal>compile</goal>
-              <goal>import-test-sources</goal>
-              <goal>test</goal>
             </goals>
           </execution>
         </executions>
