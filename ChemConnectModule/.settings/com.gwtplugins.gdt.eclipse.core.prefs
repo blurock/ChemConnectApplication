@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+gwtMavenModuleName=info.esblurock.reaction.chemconnect.ChemConnectModule
+gwtMavenModuleShortName=ChemConnectModule
+lastWarOutDir=/Users/edwardblurock/ChemConnectWorkspace/ChemConnectModule/target/ChemConnectModule-1.0-SNAPSHOT
+warSrcDir=src/main/webapp
+warSrcDirIsOutput=false
