@@ -9,14 +9,16 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
 
-import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.base.transfer.CompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
+import info.esblurock.reaction.chemconnect.data.DatabaseObject;
+import info.esblurock.reaction.chemconnect.data.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.data.dataset.ChemConnectDataElementInformation;
+import info.esblurock.reaction.chemconnect.data.dataset.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.data.dataset.CompoundDataStructure;
+import info.esblurock.reaction.chemconnect.data.dataset.DataElementInformation;
+import info.esblurock.reaction.chemconnect.data.dataset.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.OntologyBase;
-import info.esblurock.reaction.chemconnect.core.base.transfer.ChemConnectDataElementInformation;
+
+
 
 public class DatasetOntologyParseBase {
 	/**

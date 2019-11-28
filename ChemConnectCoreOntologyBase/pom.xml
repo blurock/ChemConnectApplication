@@ -35,7 +35,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>info.esblurock</groupId>
-			<artifactId>ChemConnectCoreDataBase</artifactId>
+			<artifactId>ChemConnectModule</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>

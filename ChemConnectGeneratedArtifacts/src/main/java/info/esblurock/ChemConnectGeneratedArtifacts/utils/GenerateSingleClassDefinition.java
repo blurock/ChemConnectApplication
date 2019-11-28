@@ -34,6 +34,8 @@ public class GenerateSingleClassDefinition {
 		
 		String import1 = "import com.googlecode.objectify.annotation.Entity;\n" + 
 				"import com.googlecode.objectify.annotation.Index;\n" + 
+				"import java.util.HashMap;\n" + 
+				"import java.util.Map;\n" + 
 				"\n";
 		subbuild.append(import1);
 
@@ -70,7 +72,45 @@ public class GenerateSingleClassDefinition {
 					+ info.retrieveName() + ";\n" + "   }\n" + "\n";
 			subbuild.append(getset);
 		}
-
+		subbuild.append("   public void fillMapOfValues(Map<String,String> map) {\n");
+		subbuild.append("      super.fillMapOfValues(map);\n");
+		for (StandardGenerationInterface info : standardinfo.getInformation()) {
+			String elementname = info.retrieveName();
+			subbuild.append("      map.put(\"");
+			subbuild.append(elementname);
+			subbuild.append("\", this.get" + info.getClassName() +"());\n");			
+		}
+		subbuild.append("      return map;\n");
+		subbuild.append("   }\n");
+		
+		subbuild.append("   public void retrieveFromMap(Map<String,String> map) {\n");
+		subbuild.append("      super.retrieveFromMap(map);\n");
+		for (StandardGenerationInterface info : standardinfo.getInformation()) {
+			String elementname = info.retrieveName();
+			subbuild.append("      this.set" + info.getClassName() + "( ");
+			subbuild.append("map.get(\"" + elementname + "\"));\n");
+		}
+		subbuild.append("   }\n");
+		
+		
+		subbuild.append("	@Override\n" + 
+				"	public String toString() {\n" + 
+				"		return toString(\"\");\n" + 
+				"	}\n" + 
+				"\n");
+		
+		subbuild.append("   @Override\n");
+		subbuild.append("   public String toString(String prefix) {\n");
+		subbuild.append("      StringBuilder build = new StringBuilder();\n");
+		subbuild.append("      build.append(super.toString(prefix));\n");
+		for (StandardGenerationInterface info : standardinfo.getInformation()) {
+			subbuild.append("      build.append(prefix + \"" + info.getClassName() + ":  \" + ");
+			subbuild.append("this.get" + info.getClassName() +"() + \"\\n\");\n");	
+		}
+		subbuild.append("      return build.toString();\n");
+		subbuild.append("   }\n");
+		
+		
 		subbuild.append("\n}\n");
 		
 		return subbuild.toString();
