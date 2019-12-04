@@ -1,19 +1,22 @@
-package info.esblurock.reaction.chemconnect.data;
+package info.esblurock.reaction.chemconnect.data.structure;
+
+import java.util.Map;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.data.DatabaseObject;
+import info.esblurock.reaction.chemconnect.data.SimpleCatalogObject;
+
 @SuppressWarnings("serial")
 @Entity
-public class ChemConnectDataStructure extends DatabaseObject {
+public class ChemConnectDataStructure extends SimpleCatalogObject {
 	@Index
 	String dataSetReference;
 	@Index
 	String descriptionDataData;
 	@Index
 	String chemConnectObjectLink;
-	@Index
-	String catalogDataID;
 	@Index
 	String contactHasSite;
 	
@@ -22,16 +25,14 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		this.descriptionDataData = "";
 		this.dataSetReference = "";
 		this.chemConnectObjectLink = "";
-		this.catalogDataID = "";
 		this.contactHasSite = "";
 	}
 	
 	public ChemConnectDataStructure(ChemConnectDataStructure datastructure) {
-		super(datastructure.getIdentifier(),datastructure.getAccess(),datastructure.getOwner(),datastructure.getSourceID());
+		super(datastructure);
 		this.dataSetReference = datastructure.getDataSetReference();
 		this.descriptionDataData = datastructure.getDescriptionDataData();
 		this.chemConnectObjectLink = datastructure.getChemConnectObjectLink();
-		this.catalogDataID = datastructure.getCatalogDataID();
 		this.contactHasSite = datastructure.getContactHasSite();
 	}
 
@@ -40,51 +41,9 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		this.descriptionDataData = "";
 		this.dataSetReference = "";
 		this.chemConnectObjectLink = "";
-		this.catalogDataID = "";
 		this.contactHasSite = "";
 	}
 	
-	public ChemConnectDataStructure(DatabaseObject obj, String descriptionDataDataID) {
-		super(obj);
-		this.descriptionDataData = descriptionDataDataID;
-		this.dataSetReference = "";
-		this.chemConnectObjectLink = "";
-		this.catalogDataID = "";
-		this.contactHasSite = "";
-	}
-	
-	public ChemConnectDataStructure(String identifier, String sourceID) {
-		super(identifier,sourceID);
-		this.descriptionDataData = "";
-		this.dataSetReference = "";
-		this.chemConnectObjectLink = "";
-		this.catalogDataID = "";
-		this.contactHasSite = "";
-	}
-
-	public ChemConnectDataStructure(DatabaseObject obj,
-			String descriptionDataData, String dataSetReference, 
-			String ChemConnectObjectLink,String catalogDataID,
-			String contactHasSite) {
-		super(obj);
-		this.descriptionDataData = descriptionDataData;
-		this.dataSetReference = dataSetReference;
-		this.chemConnectObjectLink = ChemConnectObjectLink;
-		this.catalogDataID = catalogDataID;
-		this.contactHasSite = contactHasSite;
-	}
-	
-	public ChemConnectDataStructure(String identifier, String access, String owner, String sourceID,
-			String descriptionDataData, String dataSetReference, 
-			String ChemConnectObjectLink,String catalogDataID,
-			String contactHasSite) {
-		super(identifier, access, owner,sourceID);
-		this.descriptionDataData = descriptionDataData;
-		this.dataSetReference = dataSetReference;
-		this.chemConnectObjectLink = ChemConnectObjectLink;
-		this.catalogDataID = catalogDataID;
-		this.contactHasSite = contactHasSite;
-	}
 	@Override
 	public void fill(DatabaseObject object) {
 		super.fill(object);
@@ -92,9 +51,24 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		this.dataSetReference = datastructure.getDataSetReference();
 		this.descriptionDataData = datastructure.getDescriptionDataData();
 		this.chemConnectObjectLink = datastructure.getChemConnectObjectLink();
-		this.catalogDataID = datastructure.getCatalogDataID();
 		this.contactHasSite = datastructure.getContactHasSite();
 	}
+	
+	public void fillMapOfValues(Map<String,String> map) {
+		super.fillMapOfValues(map);
+	      map.put("linkS", this.getChemConnectObjectLink());
+	      map.put("httpcontactS", this.getContactHasSite());
+	      map.put("descrS", this.getDescriptionDataData());
+	      map.put("refS", this.getDataSetReference());
+	   }
+public void retrieveFromMap(Map<String,String> map) {
+	super.retrieveFromMap(map);
+	      this.setChemConnectObjectLink( map.get("linkS"));
+	      this.setContactHasSite( map.get("httpcontactS"));
+	      this.setDescriptionDataData( map.get("descrS"));
+	      this.setDataSetReference( map.get("refS"));
+	   }
+	
 	
 	
 	public String getDataSetReference() {
@@ -109,12 +83,24 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		return chemConnectObjectLink;
 	}
 	
-	public String getCatalogDataID() {
-		return catalogDataID;
-	}
-	
 	public String getContactHasSite() {
 		return contactHasSite;
+	}
+
+	public void setDataSetReference(String dataSetReference) {
+		this.dataSetReference = dataSetReference;
+	}
+
+	public void setDescriptionDataData(String descriptionDataData) {
+		this.descriptionDataData = descriptionDataData;
+	}
+
+	public void setChemConnectObjectLink(String chemConnectObjectLink) {
+		this.chemConnectObjectLink = chemConnectObjectLink;
+	}
+
+	public void setContactHasSite(String contactHasSite) {
+		this.contactHasSite = contactHasSite;
 	}
 
 	@Override
@@ -136,8 +122,8 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		builder.append(prefix + "ObjectLink: ");
 		builder.append(chemConnectObjectLink);
 		builder.append("\n");
-		builder.append(prefix + "Catalog ID: ");
-		builder.append(catalogDataID);
+		builder.append(prefix + "ContactHasSite: ");
+		builder.append(contactHasSite);
 		builder.append("\n");
 		return builder.toString();
 	}

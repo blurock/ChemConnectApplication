@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.data;
 
+import java.util.Map;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
@@ -53,6 +55,15 @@ public class ChemConnectCompoundDataStructure  extends DatabaseObject {
 		}
 		return ans;
 	}
+
+	   public void fillMapOfValues(Map<String,String> map) {
+		      super.fillMapOfValues(map);
+		      map.put("parent", this.getParentLink());
+		   }
+		   public void retrieveFromMap(Map<String,String> map) {
+		      super.retrieveFromMap(map);
+		      setParentLink(map.get("parent"));
+		   }
 
 	public String toString() {
 		return toString("");

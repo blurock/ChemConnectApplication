@@ -1,19 +1,13 @@
 package info.esblurock.ChemConnectGeneratedArtifacts;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
-import info.esblurock.ChemConnectGeneratedArtifacts.utils.GenerateObjectHierarchy;
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratePackageInformation;
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratedClassObjects;
-import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
+import info.esblurock.reaction.chemconnect.data.dataset.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 
 public class GeneratePackageHierrchy {

@@ -12,12 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
-import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
-import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.chemconnect.data.DatabaseObject;
+import info.esblurock.reaction.chemconnect.data.dataset.DataElementInformation;
+
 
 public class InterpretBaseDataUtilities {
 	
@@ -54,7 +51,7 @@ public class InterpretBaseDataUtilities {
 				Set<String> keyset = map.keySet();
 				for(String mapkey : keyset) {
 					HashMap<String, Object> submap = (HashMap<String, Object>) map.get(mapkey);
-					String identifier = (String) submap.get(StandardDataKeywords.identifierKeyS);
+					String identifier = (String) submap.get("identifierS");
 					answers.add(identifier);
 				}
 			} else {
@@ -71,14 +68,6 @@ public class InterpretBaseDataUtilities {
 			yaml.put(key, new ArrayList<String>());
 		}
 		
-	}
-	public static void setChemConnectCompoundMultipleType(DatabaseObjectHierarchy hierarchy, String dataType) {
-		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
-		multiple.setType(dataType);
-		DataElementInformation refelement = DatasetOntologyParseBase
-				.getSubElementStructureFromIDObject(dataType);
-		String refid = InterpretBaseDataUtilities.createSuffix(multiple, refelement);
-		multiple.setIdentifier(refid);
 	}
 	public static String dateToString(Date dateD) {
 		String formatS = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";

@@ -20,8 +20,6 @@ public class GenerateWholeModule {
 		
 		for(String topconcept : topconcepts) {
 			
-			System.out.println(alreadygenerated.toString("GeneratedClassObjects: " + topconcept + ": "));
-			
 			GeneratedClassObjects generated = GeneratePackageInformation.generatePackage(topconcept, 
 				module, alreadygenerated);
 			GenerateObjectHierarchy.generate(topconcept, module, rootDir,alreadygenerated);

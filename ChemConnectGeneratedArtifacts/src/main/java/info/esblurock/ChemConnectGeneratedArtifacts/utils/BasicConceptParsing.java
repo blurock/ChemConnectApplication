@@ -11,6 +11,7 @@ import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 import info.esblurock.reaction.chemconnect.core.base.concepts.StandardConceptAnnotations;
 import info.esblurock.reaction.core.ontology.base.OntologyBase;
+import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 
 public class BasicConceptParsing {
 	
@@ -139,37 +140,6 @@ public class BasicConceptParsing {
 	
 	
 
-	/** Find the properties with the qualifications of link type and whether singlet or multiple
-	 * 
-	 * @param concept: The concept to find sub object properties
-	 * @param link  The type of link to sub object
-	 * @param multiple true: find multiple links, otherwise single links
-	 * @return A list of subobjects having the criteria
-	 * 
-	 * The sub objects found are those defined within the concept. Those that are inheireted are not given.
-	 * 
-	 */
-	public static List<String> subObjectsOfConcept(String concept, String link, boolean multiple) {
-
-		String query = "SELECT ?sub\n" 
-		        + "	WHERE {"
-				+ "     " + concept + "<" + ReasonerVocabulary.directSubClassOf +"> ?subobject . \n"
-				+ "		?subobject  owl:onProperty " + link + " .\n";
-		String app = "     ?subobject  owl:onClass ?sub";
-		if(multiple) {
-			app = "     ?subobject  owl:someValuesFrom ?sub";
-		}
-		query += app + "\n}\n";
-		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
-		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-
-		ArrayList<String> supers = new ArrayList<String>();
-		for (Map<String, String> map : stringlst) {
-			String sup = map.get("sub");
-			supers.add(sup);
-		}
-		return supers;
-	}
 	
 	public static void completeConceptListWithRecordsAndSuperClass(List<String> objs, Set<String> total) {
 		int origsize = total.size();
@@ -193,8 +163,8 @@ public class BasicConceptParsing {
 				}
 				ArrayList<String> sublst = new ArrayList<String>();
 				sublst.add(concept);
-				List<String> records = subObjectsOfConcept(concept, "<http://www.w3.org/ns/dcat#record>", false);
-				List<String> multrecords = subObjectsOfConcept(concept, "<http://www.w3.org/ns/dcat#record>", true);
+				List<String> records = DatasetOntologyParseBase.subObjectsOfConcept(concept, "<http://www.w3.org/ns/dcat#record>", false);
+				List<String> multrecords = DatasetOntologyParseBase.subObjectsOfConcept(concept, "<http://www.w3.org/ns/dcat#record>", true);
 				sublst.addAll(records);
 				sublst.addAll(multrecords);
 				completeConceptListWithRecordsAndSuperClass(sublst,total);
@@ -216,21 +186,21 @@ public class BasicConceptParsing {
 			compSuperClass = "DatabaseObject";
 		}
 		
-		List<String> singlets = subObjectsOfConcept(concept, "<http://purl.org/dc/terms/hasPart>", false);
+		List<String> singlets = DatasetOntologyParseBase.subObjectsOfConcept(concept, "<http://purl.org/dc/terms/hasPart>", false);
 		for(String sing : singlets) {
 			StandardConceptAnnotations compannotations = getAnnotations(sing);
 			StandardStandardHasPartComponent haspart = new StandardStandardHasPartComponent(compannotations, compSuperClass);
 			information.addInformation(haspart);
 		}
 		
-		List<String> records = subObjectsOfConcept(concept,"<http://www.w3.org/ns/dcat#record>",false);
+		List<String> records = DatasetOntologyParseBase.subObjectsOfConcept(concept,"<http://www.w3.org/ns/dcat#record>",false);
 		for(String record : records) {
 			StandardConceptAnnotations compannotations = getAnnotations(record);
 			StandardStandardRecord recordgen = new StandardStandardRecord(compannotations, compSuperClass);
 			information.addInformation(recordgen);
 		}
 		
-		List<String> multrecords = subObjectsOfConcept(concept,"<http://www.w3.org/ns/dcat#record>",true);
+		List<String> multrecords = DatasetOntologyParseBase.subObjectsOfConcept(concept,"<http://www.w3.org/ns/dcat#record>",true);
 		for(String multrecord : multrecords) {
 			StandardConceptAnnotations compannotations = getAnnotations(multrecord);
 			StandardStandardRecordMultiple recordgen = new StandardStandardRecordMultiple(compannotations, compSuperClass);

@@ -1148,8 +1148,7 @@ public enum InterpretBaseData implements InterpretDataInterface {
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			InterpretBaseData interpret = InterpretBaseData.ChemConnectDataStructure;
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			

@@ -9,9 +9,9 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.io.IOUtils;
 
-import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.base.utilities.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
+import info.esblurock.reaction.chemconnect.data.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.data.dataset.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.data.dataset.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 
 /** The static classes within this class are used to generate the mapping between the concept and the package name
@@ -80,11 +80,15 @@ public class GeneratePackageInformation {
 			if(alreadygenerated.getPackageName(concept) == null) {
 				if(currentmodule.matches(module)) {
 					packageNames.addClassAndPackage(concept,toppackage);
+				} else {
+					System.out.println("packageHierarchy: modules: " + module + " =/= " + currentmodule);
 				}
 			}
 			for(HierarchyNode subnode : node.getSubNodes()) {
 				packageHierarchy(subnode,packageNames,subclslst,module,alreadygenerated);
 			}
+		} else {
+			System.out.println("info null: " + node.getIdentifier());
 		}
 	}
 	

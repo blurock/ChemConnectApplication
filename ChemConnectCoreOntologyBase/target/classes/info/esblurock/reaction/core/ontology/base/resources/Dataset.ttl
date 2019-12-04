@@ -16,6 +16,7 @@
                                                  <http://www.w3.org/ns/ssn/> ,
                                                  <http://xmlns.com/foaf/0.1/> ,
                                                  <http://www.w3.org/2004/02/skos/core> ;
+                                     <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> ;
                                      <http://purl.org/dc/terms/title> "DCMI Type Vocabulary"@en ;
                                      <http://purl.org/dc/terms/modified> "2012-06-14"^^xsd:date ;
                                      <http://purl.org/dc/terms/title> "DCMI Metadata Terms - other"@en .
@@ -1262,7 +1263,7 @@ xsd:date rdf:type rdfs:Datatype .
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                             owl:onClass :ChemConnectBaseModule
+                                             owl:onClass :ChemConnectModule
                                            ] ;
                            <http://purl.org/dc/elements/1.1/type> "ActivityInformationRecord" ;
                            <http://purl.org/dc/terms/identifier> "dataset:activityinfo" ;
@@ -4153,7 +4154,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:onClass :DescriptionTitle
                                      ] ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :PurposeConceptPair
                                      ] .
@@ -9171,7 +9172,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ParentLinkToDataStructure
 :ParentLinkToDataStructure rdf:type owl:Class ;
                            rdfs:subClassOf :LinkToDataStructure ;
-                           <http://purl.org/dc/elements/1.1/type> "LinkToDataStructure" ;
+                           <http://purl.org/dc/elements/1.1/type> "ParentLinkToDataStructure" ;
                            <http://purl.org/dc/terms/identifier> "dcterms:CatalogRecord" ;
                            rdfs:comment "The link to the parent structure" ;
                            rdfs:label "Identifier to parent data structure" ;
@@ -10338,6 +10339,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :RepositoryFileStaging rdf:type owl:Class ;
                        rdfs:subClassOf :ChemConnectStructureRepository ,
                                        [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :StagingFilePresent
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :GCSBlobFileInformation
@@ -10346,11 +10352,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :InitialStagingRepositoryFile
-                                       ] ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                         owl:onClass :StagingFilePresent
                                        ] ;
                        <http://purl.org/dc/elements/1.1/type> "RepositoryFileStaging"^^xsd:string ;
                        <http://purl.org/dc/terms/identifier> "dataset:RepositoryFileStaging"^^xsd:string ;
@@ -10984,7 +10985,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#StagingFilePresent
 :StagingFilePresent rdf:type owl:Class ;
                     rdfs:subClassOf :Classification ;
-                    <http://purl.org/dc/elements/1.1/type> "StagedFileProcessed"^^xsd:string ;
+                    <http://purl.org/dc/elements/1.1/type> "StagedFilePresent"^^xsd:string ;
                     <http://purl.org/dc/terms/identifier> "dataset:stagedFileProcessed"^^xsd:string ;
                     rdfs:comment "This indicates whether the file has been processed"^^xsd:string ;
                     rdfs:label "StagingFilePresent"^^xsd:string ;
@@ -11416,7 +11417,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#TransactionBase
 :TransactionBase rdf:type owl:Class ;
-                 rdfs:subClassOf :TransactionEvent ;
+                 rdfs:subClassOf :TransactionEvent ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :ChemConnectBaseModule
+                                 ] ;
                  <http://purl.org/dc/elements/1.1/type> "TransactionBase" ;
                  <http://purl.org/dc/terms/identifier> "dataset:transactionbase" ;
                  rdfs:comment "This is the top class of the transaction events of the Base Module" ;
@@ -11430,7 +11436,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> ;
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :ChemConnectBaseModule
+                                    owl:onClass :ChemConnectModule
                                   ] ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#mappingRelation> ;
@@ -12463,8 +12469,7 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 
 ###  http://www.esblurock.info/dataset
-<http://www.esblurock.info/dataset> rdf:type owl:NamedIndividual ;
-                                    <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> .
+<http://www.esblurock.info/dataset> rdf:type owl:NamedIndividual .
 
 
 ###  http://www.esblurock.info/dataset#AMU
@@ -13504,8 +13509,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -13513,8 +13518,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

@@ -105,17 +105,50 @@ public class DatasetOntologyParseBase {
 		return classification;
 	}
 
+	
+	public static ClassificationInformation getClassificationInformationFromType(String type) {
+		String structure = getDataTypeFromType(type);
+		return getIdentificationInformation(structure);
+	}
+	
 
+	/** The ontology data type from the JAVA canonical class name
+	 * 
+	 * @param candatatype The canonical type of a class
+	 * @return The ontology data type of the class
+	 */
 	public static String getTypeFromCanonicalDataType(String candatatype) {
-		// System.out.println("getTypeFromCanonicalDataType: '" + candatatype);
 		int pos = candatatype.lastIndexOf('.');
 		String datatype = candatatype.substring(pos + 1);
 		String type = getTypeFromDataType(datatype);
-		// System.out.println("getTypeFromCanonicalDataType: '" + datatype + "' '" +
-		// type);
 		return type;
 	}
+	
+	/**Get the ontology structure name from the type (<http://purl.org/dc/elements/1.1/type>) in the annotation
+	 * 
+	 * @param type The type of the data structure
+	 * @return The ontology name of the structure
+	 */
+	public static String getDataTypeFromType(String type) {
+		String query = "SELECT ?structure\n" 
+				+ "	WHERE { ?structure <http://purl.org/dc/elements/1.1/type> \"" + type
+				+ "\"^^xsd:string\n" + "}";
+		
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		String structure = null;
+		if (lst.size() > 0) {
+			List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+			Map<String, String> map = stringlst.get(0);
+			structure = map.get("structure");
+		}
+		return structure;
+	}
 
+	/** Get the type from the ontology structure name
+	 * 
+	 * @param datatype The ontology structure name
+	 * @return the type of the structure
+	 */
 	public static String getTypeFromDataType(String datatype) {
 		String query = "SELECT ?type\n" 
 				+ "	WHERE { ?type <http://purl.org/dc/elements/1.1/type> \"" + datatype
@@ -168,8 +201,6 @@ public class DatasetOntologyParseBase {
 				+ "		  {?subobject  owl:onProperty dcat:record }\n" + "		} .\n" + "		{\n"
 				+ "		  { ?subobject  owl:onClass ?sub }\n" + "                                             UNION\n"
 				+ "		  { ?subobject  owl:someValuesFrom ?sub }\n" + "                                   }\n" + "}";
-
-		// System.out.println(query);
 
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
@@ -230,7 +261,6 @@ public class DatasetOntologyParseBase {
 				+ "		   ?sub ?pred ?substructure .\n" + "        ?sub owl:onProperty ?link .\n"
 				+ "        ?substructure" + " <http://purl.org/dc/terms/identifier> ?id .\n"
 				+ "        ?substructure <http://www.w3.org/2004/02/skos/core#altLabel> ?altl \n" + "       }";
-		// System.out.println(query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		CompoundDataStructure info = new CompoundDataStructure(structure);
@@ -718,6 +748,7 @@ public class DatasetOntologyParseBase {
 				"	?modprop owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> .\n" + 
 				"	?modprop owl:onClass ?module\n" + 
 				"	}";
+		//System.out.println("getModuleDirectFromConcept\n" + query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		String module = null;
@@ -733,7 +764,32 @@ public class DatasetOntologyParseBase {
 		}
 		return module;
 	}
-	
+	/*
+	public static String getModuleDirectFromConceptTest(String concept) {
+		String query = "SELECT ?module\n" + 
+				"	WHERE { " + concept + "  <" + ReasonerVocabulary.directSubClassOf +">  ?modprop  .\n" + 
+				//"	WHERE { " + concept + "  <rdfs:subClassOf>  ?modprop  .\n" + 
+				"	?modprop owl:onProperty <http://www.w3.org/2004/02/skos/core#inScheme> .\n" + 
+				"	?modprop owl:onClass ?module\n" + 
+				"	}";
+		//System.out.println("getModuleDirectFromConcept\n" + query);
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		System.out.println("getModuleDirectFromConcept: " + concept + "\n" + stringlst);
+		String module = null;
+		for (Map<String, String> map : stringlst) {
+			String compmodule = map.get("module");
+			if(module != null) {
+				if(isSubModuleOf(compmodule,module)) {
+					module = compmodule;
+				}
+			} else {
+				module = compmodule;
+			}
+		}
+		return module;
+	}
+	*/
 	/** Determine the module of the concept
 	 * @param concept The concept to determine module
 	 * @return The module of the concept.
@@ -794,6 +850,100 @@ public class DatasetOntologyParseBase {
 		return domain;
 	}
 
+	public static String getCanonicalClassName(String structure) {
+		ArrayList<String> lst = new ArrayList<String>();
+		String superclass = getDirectSuperClass(structure);
+		String module = getModuleDirectFromConcept(structure);
+		if(module != null) {
+			getClassList(structure,lst);
+		} else {
+			//HierarchyNode hierarchy = findClassHierarchy(structure);
+			List<String> subs = getSubClasses(structure);
+			if(subs.size() > 0) {
+				getClassList(structure,lst);
+			} else {
+				getClassList(superclass,lst);
+			}
+		}
+		StringBuilder build = new StringBuilder();
+		for(String name : lst) {
+			build.append(name);
+			build.append(".");
+		}
+		build.append(ChemConnectCompoundDataStructure.removeNamespace(structure));
+		return build.toString();
+	}
 	
+	public static void getClassList(String structure, ArrayList<String> lst) {
+		String module = getModuleDirectFromConcept(structure);
+		DataElementInformation info = DatasetOntologyParseBase.getSubElementStructureFromIDObject(structure);
+		if(module == null) {
+			String superclass = getDirectSuperClass(structure);
+			getClassList(superclass,lst);
+			lst.add(info.getSuffix());
+		} else {
+			String packagename = DatasetOntologyParseBase.getDomainFromModule(module);
+			lst.add(packagename);
+			lst.add("data");
+		}
+	}
+	
+	/** Find the direct (in the hierarchy) super class of a concept
+	 * 
+	 * @param concept The concept to find the super class
+	 * @return The direct (in the hierarchy) super class of the concept
+	 * 
+	 * This direct super class is a direct super class of the concept having an identifier
+	 * (otherwise it could be other annotated or subclass information).
+	 * 
+	 */
+	public static String getDirectSuperClass(String concept) {
+		String query = "SELECT ?modprop\n" + 
+				"	WHERE { " + concept + "  <" + ReasonerVocabulary.directSubClassOf +">  ?modprop  .\n" + 
+				"	   ?modprop <http://purl.org/dc/terms/identifier> ?id \n" +
+				"	}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String superclass = null;
+		for (Map<String, String> map : stringlst) {
+			String sup = map.get("modprop");
+			if(!sup.matches(concept)) {
+				superclass = sup;
+			}
+		}
+		return superclass;
+	}
+	/** Find the properties with the qualifications of link type and whether singlet or multiple
+	 * 
+	 * @param concept: The concept to find sub object properties
+	 * @param link  The type of link to sub object
+	 * @param multiple true: find multiple links, otherwise single links
+	 * @return A list of subobjects having the criteria
+	 * 
+	 * The sub objects found are those defined within the concept. Those that are inheireted are not given.
+	 * 
+	 */
+	public static List<String> subObjectsOfConcept(String concept, String link, boolean multiple) {
+
+		String query = "SELECT ?sub\n" 
+		        + "	WHERE {"
+				+ "     " + concept + "<" + ReasonerVocabulary.directSubClassOf +"> ?subobject . \n"
+				+ "		?subobject  owl:onProperty " + link + " .\n";
+		String app = "     ?subobject  owl:onClass ?sub";
+		if(multiple) {
+			app = "     ?subobject  owl:someValuesFrom ?sub";
+		}
+		query += app + "\n}\n";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+
+		ArrayList<String> supers = new ArrayList<String>();
+		for (Map<String, String> map : stringlst) {
+			String sup = map.get("sub");
+			supers.add(sup);
+		}
+		return supers;
+	}
+
 
 }

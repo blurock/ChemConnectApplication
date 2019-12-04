@@ -27,6 +27,13 @@ public class GenerateSingleClassDefinition {
 		StandardInformation standardinfo = BasicConceptParsing.findStandardInformation(name);
 		String datastructure = ChemConnectCompoundDataStructure.removeNamespace(standardinfo.getConceptname());
 		String supercls = ChemConnectCompoundDataStructure.removeNamespace(standardinfo.getSuperClass());
+		
+		System.out.println("---------------------------------------------------------");
+		System.out.println("GenerateSingleClassDefinition   name:          " + name);
+		System.out.println("GenerateSingleClassDefinition   packagename:   " + packagename);
+		System.out.println("GenerateSingleClassDefinition   datastructure: " + datastructure);
+		System.out.println("GenerateSingleClassDefinition   supercls:      " + supercls);
+		System.out.println("---------------------------------------------------------");
 
 		StringBuilder subbuild = new StringBuilder();
 		String packageS = "package " + packagename + ";\n";
@@ -80,7 +87,6 @@ public class GenerateSingleClassDefinition {
 			subbuild.append(elementname);
 			subbuild.append("\", this.get" + info.getClassName() +"());\n");			
 		}
-		subbuild.append("      return map;\n");
 		subbuild.append("   }\n");
 		
 		subbuild.append("   public void retrieveFromMap(Map<String,String> map) {\n");

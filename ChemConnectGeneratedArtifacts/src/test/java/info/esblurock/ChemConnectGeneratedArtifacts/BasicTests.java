@@ -14,6 +14,7 @@ import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratedClassObjects;
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.StandardInformation;
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.StandardInformationGeneration;
 import info.esblurock.reaction.chemconnect.core.base.concepts.StandardConceptAnnotations;
+import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
 
 public class BasicTests {
 
@@ -40,10 +41,10 @@ public class BasicTests {
 				System.out.println(annotations.toString());
 			}
 			
-			List<String> singleHasPart = BasicConceptParsing.subObjectsOfConcept(name, "<http://purl.org/dc/terms/hasPart>", false);
-			List<String> multipleHasPart = BasicConceptParsing.subObjectsOfConcept(name, "<http://purl.org/dc/terms/hasPart>", true);
-			List<String> singleRecord = BasicConceptParsing.subObjectsOfConcept(name, "<http://www.w3.org/ns/dcat#record>", false);
-			List<String> multipleRecord = BasicConceptParsing.subObjectsOfConcept(name, "<http://www.w3.org/ns/dcat#record>", true);
+			List<String> singleHasPart = DatasetOntologyParseBase.subObjectsOfConcept(name, "<http://purl.org/dc/terms/hasPart>", false);
+			List<String> multipleHasPart = DatasetOntologyParseBase.subObjectsOfConcept(name, "<http://purl.org/dc/terms/hasPart>", true);
+			List<String> singleRecord = DatasetOntologyParseBase.subObjectsOfConcept(name, "<http://www.w3.org/ns/dcat#record>", false);
+			List<String> multipleRecord = DatasetOntologyParseBase.subObjectsOfConcept(name, "<http://www.w3.org/ns/dcat#record>", true);
 			
 			System.out.println("Single HasPart      : " + singleHasPart + "\n");
 			System.out.println("Multiple HasPart    : " + multipleHasPart + "\n");

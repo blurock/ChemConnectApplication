@@ -16,7 +16,7 @@ public class GenerateObjectHierarchy {
 		newgenerated.mergeCorrespondences(generated);
 		
 		Set<String> previous = generated.getClassNames();
-
+		
 		for(String classname : classnames) {
 			if(!previous.contains(classname)) {
 				String packageS = newgenerated.getPackageName(classname);

@@ -14,6 +14,7 @@ import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.data.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.data.DatabaseObject;
+import info.esblurock.reaction.chemconnect.data.dataset.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.data.dataset.DataElementInformation;
 import info.esblurock.reaction.chemconnect.data.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
@@ -24,6 +25,10 @@ public class InterpretBaseDataUtilities {
 	
 	public static String createSuffix(DatabaseObject obj, DataElementInformation element) {
 		return obj.getIdentifier() + "-" + element.getSuffix();
+	}
+
+	public static String createSuffix(DatabaseObject obj, ClassificationInformation element) {
+		return obj.getIdentifier() + "-" + element.getLink();
 	}
 
 

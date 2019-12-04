@@ -1,7 +1,10 @@
 package info.esblurock.reaction.chemconnect.data;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -107,6 +110,23 @@ public class DatabaseObject  implements Serializable {
 	public void nullKey() {
 		key = null;
 	}
+	
+	public void fillMapOfValues(Map<String,String> map) {
+		      map.put("identifier", this.getIdentifier());
+		      map.put("access", this.getAccess());
+		      map.put("sourceID", this.getSourceID());
+		      //map.put("creationDate", this.getCreationDate());
+		      map.put("owner", this.getOwner());
+		   }
+	public void retrieveFromMap(Map<String,String> map) {
+		      this.setIdentifier( map.get("identifier"));
+		      this.setAccess( map.get("access"));
+		      this.setSourceID( map.get("sourceID"));
+		      this.setOwner( map.get("owner"));
+		   }
+
+	
+	
 	@Override
 	public String toString() {
 		return toString("");

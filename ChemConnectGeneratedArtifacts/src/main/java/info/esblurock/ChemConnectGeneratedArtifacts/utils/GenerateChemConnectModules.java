@@ -19,6 +19,9 @@ public class GenerateChemConnectModules {
 				"info.esblurock.reaction.chemconnect.data");
 		basePackageNames.addClassAndPackage(
 				"dataset:ChemConnectDataStructure", 
+				"info.esblurock.reaction.chemconnect.data.structure");
+		basePackageNames.addClassAndPackage(
+				"dataset:TransactionEvent", 
 				"info.esblurock.reaction.chemconnect.data");
 		
 		
@@ -27,6 +30,7 @@ public class GenerateChemConnectModules {
 		topconcepts.add("dataset:ActivityInformationRecord");
 		topconcepts.add("dataset:ChemConnectCompoundDataStructure");
 		topconcepts.add("dataset:SimpleCatalogObject");
+		topconcepts.add("dataset:TransactionEvent");
 		
 		
 		String module = "dataset:ChemConnectBaseModule";
@@ -37,10 +41,11 @@ public class GenerateChemConnectModules {
 		module = "dataset:ChemConnectExpDataModule";
 		System.out.println("GeneratedClassObjects generate:" + module);
 		GeneratedClassObjects expgen = GenerateWholeModule.generate(rootDir, module, topconcepts, basegen);
-		
+	
 		System.out.println(expgen);
 		
 		return expgen;
+		//return basegen;
 	}
 
 }
