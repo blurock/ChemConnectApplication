@@ -24,6 +24,18 @@ import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBa
 
 public class CreateYamlFromObject {
 	
+	/** Create hierarchy
+	 * 
+	 * @param hierarchy The hierarchy to convert
+	 * @return The Map of the yaml object
+	 * 
+	 * <ul>
+	 * <li> The isolate the classname of the top object and find the ontology type
+	 * <li> Create the map from the top object
+	 * <li> Go through sub objects of the hierarchy and recursive call to this
+	 * <ul>
+	 * 
+	 */
 	public static Map<String, Object> createYamlFromHierarchy(DatabaseObjectHierarchy hierarchy) {
 		String classname = hierarchy.getObject().getClass().getCanonicalName();
 		String structure = DatasetOntologyParseBase.getTypeFromCanonicalDataType(classname);
@@ -37,6 +49,18 @@ public class CreateYamlFromObject {
 		return map;
 	}
 
+	/** Create a map with the elements of the object
+	 * 
+	 * @param structure The ontology type of the object
+	 * @param obj The object to convert
+	 * @return The yaml map of the object
+	 * 
+	 * <ul>
+	 * <li> Fill a simple map with the object elements
+	 * <li> Create the map and fill with the elements
+	 * <ul>
+	 * 
+	 */
 	public static Map<String, Object> createYamlFromObject(String structure, DatabaseObject obj) {
 		
 		Map<String, Object> objmap = new HashMap<String, Object>();
@@ -51,7 +75,19 @@ public class CreateYamlFromObject {
 		return objmap;
 	}
 	
-	@SuppressWarnings("unchecked")
+	/** Create the DatabaseObjectHierarchy using the yaml map
+	 * 
+	 * @param baseinfo The base information for the new object hierarchy
+	 * @param yaml The yaml string to convert to hierarchy
+	 * @return The total hierarchy
+	 * @throws IOException 
+	 * 
+	 * <ul>
+	 * <li> Create the top object with the top level yaml map
+	 * <li> Put the object in a hierarchy object
+	 * <li> Fill the sub-objects in the hierarchy (after determining the structure)
+	 * <ul>
+	 */
 	public static DatabaseObjectHierarchy fillHierarchyFromYamlString(DatabaseObject baseinfo, 
 			Map<String, Object> yaml)
 			throws IOException {
@@ -68,25 +104,25 @@ public class CreateYamlFromObject {
 		
 	/** This creates the empty object and fill in the base information and the immediate fields from yaml
 	 * 
-	 * <ul> 
-	 * <li> Get the ontology name from "structure" of the current yaml hierarchy
-	 * <li> Create the empty object from the canonical name
-	 * <li> Retrieve the part and structure information of this object (not subclass info)
-	 * <li> Fill in base information
-	 * <ul>
-	 * 
 	 * @param top The base object (to get the base information)
 	 * @param yaml The yaml information
 	 * @param sourceID The new sourceID
-	 * @return
+	 * @return The object
 	 * @throws IOException
+	 * 
+	 * <ul> 
+	 * <li> Get the ontology name from "structure" of the current yaml hierarchy
+	 * <li> Create the empty object from the canonical name (getObjectClassFromOntologyStructureType)
+	 * <li> Retrieve the part and structure information of this object (not subclass info)
+	 * <li> Fill in base information
+	 * <ul>
 	 */
 	public static DatabaseObject createAndFillFromYamlString(DatabaseObject top, 
 			Map<String, Object> yaml)
 			throws IOException {
 		Map<String, String> map = new HashMap<String, String>();
 		String structure = (String) yaml.get("structure");
-		DatabaseObject topclass = GenericCreateEmptyObject.getObjectClassFromCanonicalName(structure);
+		DatabaseObject topclass = GenericCreateEmptyObject.getObjectClassFromOntologyStructureType(structure);
 		top.fillMapOfValues(map);
 		topclass.retrieveFromMap(map);
 		fillBaseDatabaseObject(top,topclass);		
@@ -94,7 +130,8 @@ public class CreateYamlFromObject {
 	}
 	
 	
-	/**
+	/** Top level of creating yaml map from hierarchy
+	 * 
 	 * @param hierarchy The current hierarchy
 	 * @param topobj The top object of the hierarchy
 	 * @param structure The ontology data type
@@ -102,10 +139,13 @@ public class CreateYamlFromObject {
 	 * @param sourceID The new source ID
 	 * @throws IOException
 	 * 
-	 * 
 	 * <ul> 
 	 * <li> Fill in the immediate fields from yaml (retrieveFromMap) into a map
 	 * <li> Put the values of the map into the object (retrieveFromMap) 
+	 * <li> Get the superclass type from the structure type
+	 * <li> If there is a superclass exists recursive call to fill in superclass information
+	 * <li> Fill in the record (sub-object) information
+	 * <ul>
 	 * 
 	 */
 	public static void fillFromYamlString(DatabaseObjectHierarchy hierarchy, 
@@ -125,6 +165,26 @@ public class CreateYamlFromObject {
 		fillInRecordsToHierarchy(hierarchy,structure,yaml);
 	}
 	
+	/** Loop through records and set in hierarchy
+	 * 
+	 * @param hierarchy The current hierarchy
+	 * @param structure The ontology structure type
+	 * @param yaml The current yaml map 
+	 * @throws IOException
+	 * 
+	 * Determine the records (single and multiple) for the structure and for each record:
+	 * <ul>
+	 * <li> Determine parameter (yaml identifier) from record type
+	 * <li> Get the record identifier for the subobject
+	 * <li> Get annotation information from record
+	 * <li> Create an object from the annotation information
+	 * <li> Retrieve the map record information (using the id)
+	 * <li> Set the identifier (from the yaml map) in the object
+	 * <li> Fill in the sub-records (fillHierarchyFromYamlString)
+	 * <ul>
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
 	public static void fillInRecordsToHierarchy(DatabaseObjectHierarchy hierarchy,
 			String structure,
 			Map<String, Object> yaml) throws IOException {
@@ -151,10 +211,6 @@ public class CreateYamlFromObject {
 			if(subyaml != null) {
 				DatabaseObjectHierarchy subhier = fillHierarchyFromYamlString(subobj,subyaml);
 				hierarchy.addSubobject(subhier);
-			} else {
-				System.out.println("fillHierarchyFromYamlString not found subhierarchy: " + name);
-				System.out.println("fillHierarchyFromYamlString not found subhierarchy: " + structure);
-				System.out.println("fillHierarchyFromYamlString not found subhierarchy:\n " + records);
 			}
 		}
 
@@ -216,6 +272,11 @@ public class CreateYamlFromObject {
 		}
 	}
 	
+	/** Fills in the base information from the top element
+	 * 
+	 * @param top The source of the base information
+	 * @param yamlobj put information in this object
+	 */
 	public static void fillBaseDatabaseObject(DatabaseObject top, DatabaseObject yamlobj) {
 		yamlobj.setIdentifier(top.getIdentifier());
 		yamlobj.setAccess(top.getAccess());
@@ -223,6 +284,12 @@ public class CreateYamlFromObject {
 		yamlobj.setCreationDate(top.getCreationDate());
 	}
 	
+	/** To pretty print of the map as a yaml
+	 * 
+	 * @param map The map
+	 * @return The string with the map (as a yaml string)
+	 * @throws YamlException
+	 */
 	public static String yamlMapToString(Map<String,Object> map) throws YamlException {
 		StringWriter wS = new StringWriter(1000000);
 		YamlWriter writer = new YamlWriter(wS);
@@ -232,12 +299,24 @@ public class CreateYamlFromObject {
 		return yaml;
 	}
 	
+	/** Convert the yaml string to a map
+	 * 
+	 * @param yaml The yaml string
+	 * @return The map of the string
+	 * @throws YamlException
+	 */
 	@SuppressWarnings("deprecation")
 	public static Map<String, Object> stringToYamlMap(String yaml) throws YamlException {
 		InputStream modin = IOUtils.toInputStream(yaml);
 		return stringToYamlMap(modin);
 	}
 		
+	/** Convert the yaml string to a map
+	 * 
+	 * @param modin The yaml string as a input stream
+	 * @return The map of the string
+	 * @throws YamlException
+	 */
 	public static Map<String, Object> stringToYamlMap(InputStream modin) throws YamlException {
 		Reader targetReader = new InputStreamReader(modin);
 		YamlReader reader = new YamlReader(targetReader);

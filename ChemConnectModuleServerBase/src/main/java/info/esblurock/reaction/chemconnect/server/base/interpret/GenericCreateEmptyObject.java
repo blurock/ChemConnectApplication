@@ -65,7 +65,7 @@ public class GenericCreateEmptyObject {
 	public static DatabaseObjectHierarchy createEmptyObject(String structure, DatabaseObject obj) throws IOException {
 		DataElementInformation info = DatasetOntologyParseBase.getSubElementStructureFromIDObject(structure);
 		
-		DatabaseObject topclass = getObjectClassFromCanonicalName(structure);
+		DatabaseObject topclass = getObjectClassFromOntologyStructureType(structure);
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(topclass);
 		
 		DatabaseObject compobj = determineDatabaseObjectWithID(obj, info);
@@ -96,7 +96,7 @@ public class GenericCreateEmptyObject {
 	 * 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	static DatabaseObject getObjectClassFromCanonicalName(String structure) throws IOException {
+	static DatabaseObject getObjectClassFromOntologyStructureType(String structure) throws IOException {
 		String classname = DatasetOntologyParseBase.getCanonicalClassName(structure);
 		Class myClass;
 		DatabaseObject topclass = null;
