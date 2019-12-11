@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import info.esblurock.reaction.chemconnect.data.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.data.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.data.DatabaseObject;
 import info.esblurock.reaction.chemconnect.data.dataset.DataElementInformation;
@@ -70,15 +71,19 @@ public class GenericCreateEmptyObject {
 		DatabaseObject compobj = determineDatabaseObjectWithID(obj, info);
 		Map<String,String> map = new HashMap<String,String>();
 		compobj.fillMapOfValues(map);
+		topclass.setIdentifier(compobj.getIdentifier());
+		
+		DatabaseObjectHierarchy subclasshierarchy = fillInSubClassObjects(structure,compobj,map);
+		if(subclasshierarchy != null) {
+			hierarchy.transferSubObjects(subclasshierarchy);
+		}
 		
 		generateSingleRecordObjects(structure, compobj, hierarchy, map);
 		generateMultipleRecordObjects(structure, compobj, hierarchy, map);
 				
-		DatabaseObjectHierarchy subclasshierarchy = fillInSubClassObjects(structure,obj,map);
-		if(subclasshierarchy != null) {
-			hierarchy.transferSubObjects(subclasshierarchy);
-		}
 		topclass.retrieveFromMap(map);
+		topclass.setIdentifier(compobj.getIdentifier());
+
 		return hierarchy;
 	}
 		
@@ -124,10 +129,11 @@ public class GenericCreateEmptyObject {
 	 * @param info The ontology information about the class
 	 * @return The object with the proper id
 	 */
-	static DatabaseObject determineDatabaseObjectWithID(DatabaseObject obj, DataElementInformation info) {
+	public static DatabaseObject determineDatabaseObjectWithID(DatabaseObject obj, DataElementInformation info) {
 		DatabaseObject compobj = new DatabaseObject(obj);
 		compobj.nullKey();
 		String compid = InterpretBaseDataUtilities.createSuffix(obj, info);
+		
 		compobj.setIdentifier(compid);
 		return compobj;
 	}
@@ -155,6 +161,8 @@ public class GenericCreateEmptyObject {
 		List<String> records = DatasetOntologyParseBase.subObjectsOfConcept(structure,"<http://www.w3.org/ns/dcat#record>",false);
 		for(String record : records) {
 			DatabaseObjectHierarchy rechier = createEmptyObject(record,compobj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) rechier.getObject();
+			compound.setParentLink(hierarchy.getObject().getIdentifier());
 			DataElementInformation recinfo = DatasetOntologyParseBase.getSubElementStructureFromIDObject(record);
 			hierarchy.addSubobject(rechier);
 			String id = rechier.getObject().getIdentifier();
@@ -186,7 +194,9 @@ public class GenericCreateEmptyObject {
 		List<String> multrecords = DatasetOntologyParseBase.subObjectsOfConcept(structure,"<http://www.w3.org/ns/dcat#record>",true);
 		for(String multrecord : multrecords) {
 			DataElementInformation recinfo = DatasetOntologyParseBase.getSubElementStructureFromIDObject(multrecord);
-			ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(compobj,multrecord);
+			ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(compobj,
+					hierarchy.getObject().getIdentifier());
+			ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(compound,multrecord);
 			DatabaseObjectHierarchy multhierarchy = new DatabaseObjectHierarchy(multiple);
 			setChemConnectCompoundMultipleType(multhierarchy,multrecord);
 			hierarchy.addSubobject(multhierarchy);

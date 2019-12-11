@@ -36,7 +36,7 @@ public class TransactionConceptParsing {
 					"	WHERE { " + transaction + " rdfs:subClassOf ?object .\n" + 
 					"                                 ?object  owl:onProperty <http://purl.org/dc/terms/requires>  .\n" + 
 					"                                  ?object  owl:onClass ?requires .\n" + 
-					"                                  ?subobject rdfs:subClassOf ?requires  .\n" + 
+					"                                  ?subobject rdfs:subClassOf ?requires\n" + 
 					"}";
 			System.out.println(query);
 			List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);

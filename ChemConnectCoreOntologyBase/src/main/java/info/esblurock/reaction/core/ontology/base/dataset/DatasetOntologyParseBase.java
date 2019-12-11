@@ -934,6 +934,7 @@ public class DatasetOntologyParseBase {
 			app = "     ?subobject  owl:someValuesFrom ?sub";
 		}
 		query += app + "\n}\n";
+		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 

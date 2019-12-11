@@ -91,10 +91,14 @@ public class GenerateSingleClassDefinition {
 		
 		subbuild.append("   public void retrieveFromMap(Map<String,String> map) {\n");
 		subbuild.append("      super.retrieveFromMap(map);\n");
+		int i = 0;
 		for (StandardGenerationInterface info : standardinfo.getInformation()) {
 			String elementname = info.retrieveName();
-			subbuild.append("      this.set" + info.getClassName() + "( ");
-			subbuild.append("map.get(\"" + elementname + "\"));\n");
+			subbuild.append("      String param" + i + " = map.get(\"" + elementname + "\");\n");
+			subbuild.append("      if(param" + i + " != null) {\n");
+			subbuild.append("         this.set" + info.getClassName() + "(param" + i + ");\n");
+			subbuild.append("      }\n");
+			i++;
 		}
 		subbuild.append("   }\n");
 		

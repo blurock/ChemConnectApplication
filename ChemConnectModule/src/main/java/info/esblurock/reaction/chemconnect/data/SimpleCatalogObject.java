@@ -38,7 +38,10 @@ public class SimpleCatalogObject extends DatabaseObject {
 	   }
 public void retrieveFromMap(Map<String,String> map) {
 		super.retrieveFromMap(map);
-	      this.setCatalogDataID( map.get("catidS"));
+		String param = map.get("catidS");
+		if(param != null) {
+	      this.setCatalogDataID(param );
+		}
 	   }
 @Override
 public String toString() {
@@ -48,7 +51,6 @@ public String toString() {
 public String toString(String prefix) {
 	StringBuilder builder = new StringBuilder();
 	builder.append(super.toString(prefix));
-	builder.append(prefix);
 	builder.append(prefix + "Catalog ID: ");
 	builder.append(catalogDataID);
 	builder.append("\n");

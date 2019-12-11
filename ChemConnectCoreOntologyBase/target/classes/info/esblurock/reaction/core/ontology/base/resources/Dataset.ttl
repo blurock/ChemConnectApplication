@@ -1964,6 +1964,16 @@ xsd:date rdf:type rdfs:Datatype .
                  <http://www.w3.org/2004/02/skos/core#altLabel> "base" .
 
 
+###  http://www.esblurock.info/dataset#CatalogElementType
+:CatalogElementType rdf:type owl:Class ;
+                    rdfs:subClassOf :ShortStringLabel ;
+                    <http://purl.org/dc/elements/1.1/type> "CatalogElementType" ;
+                    <http://purl.org/dc/terms/identifier> "dataset:catalogtype" ;
+                    rdfs:comment "The catalog ontology type" ;
+                    rdfs:label "Catalog Element Type" ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "catalogtype" .
+
+
 ###  http://www.esblurock.info/dataset#CatalogObjectID
 :CatalogObjectID rdf:type owl:Class ;
                  rdfs:subClassOf :DatabaseID ;
@@ -2214,6 +2224,26 @@ xsd:date rdf:type rdfs:Datatype .
                             rdfs:comment "The top concept of Experimental Data" ;
                             rdfs:label "ChemConnectCompoundExpData" ;
                             <http://www.w3.org/2004/02/skos/core#altLabel> "expdata" .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectCompoundMultiple
+:ChemConnectCompoundMultiple rdf:type owl:Class ;
+                             rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :CatalogObjectID
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :ElementCount
+                                             ] ;
+                             <http://purl.org/dc/elements/1.1/type> "ChemConnectCompoundMultiple" ;
+                             <http://purl.org/dc/terms/identifier> "dataset:compoundmultiple" ;
+                             rdfs:comment "Multiple record objects" ;
+                             rdfs:label "ChemConnect Compound Multiple" ;
+                             <http://www.w3.org/2004/02/skos/core#altLabel> "compoundmultiple" .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectConceptComponent
@@ -4350,6 +4380,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DynamicParameter
 :DynamicParameter rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectParameterTypeChoice .
+
+
+###  http://www.esblurock.info/dataset#ElementCount
+:ElementCount rdf:type owl:Class ;
+              rdfs:subClassOf :ShortStringAsInteger ;
+              <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+              <http://purl.org/dc/terms/identifier> "dataset:elementcount" ;
+              rdfs:comment "The number of elements" ;
+              rdfs:label "ElementCount" ;
+              <http://www.w3.org/2004/02/skos/core#altLabel> "elementcount" .
 
 
 ###  http://www.esblurock.info/dataset#Email
@@ -10518,7 +10558,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ShortStringAsInteger rdf:type owl:Class ;
                       rdfs:subClassOf :ShortStringAsNumber ;
                       <http://purl.org/dc/elements/1.1/type> "Integer" ;
-                      <http://purl.org/dc/terms/identifier> "dataset:integer" .
+                      <http://purl.org/dc/terms/identifier> "dataset:stringinteger" ;
+                      rdfs:comment "An integer as a string" ;
+                      rdfs:label "Short String As Integer" ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "stringinteger" .
 
 
 ###  http://www.esblurock.info/dataset#ShortStringAsNumber

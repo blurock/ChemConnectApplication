@@ -23,8 +23,9 @@ public class GenerateChemConnectModules {
 		basePackageNames.addClassAndPackage(
 				"dataset:TransactionEvent", 
 				"info.esblurock.reaction.chemconnect.data");
-		
-		
+		basePackageNames.addClassAndPackage(
+				"dataset:ChemConnectCompoundMultiple", 
+				"info.esblurock.reaction.chemconnect.data");
 		
 		ArrayList<String> topconcepts = new ArrayList<String>();
 		topconcepts.add("dataset:ActivityInformationRecord");

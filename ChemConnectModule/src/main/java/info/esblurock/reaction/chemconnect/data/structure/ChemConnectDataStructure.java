@@ -63,10 +63,23 @@ public class ChemConnectDataStructure extends SimpleCatalogObject {
 	   }
 public void retrieveFromMap(Map<String,String> map) {
 	super.retrieveFromMap(map);
-	      this.setChemConnectObjectLink( map.get("linkS"));
-	      this.setContactHasSite( map.get("httpcontactS"));
-	      this.setDescriptionDataData( map.get("descrS"));
-	      this.setDataSetReference( map.get("refS"));
+	String param = map.get("linkS");
+	if(param != null) {
+		this.setChemConnectObjectLink(param);
+	}
+	param = map.get("httpcontactS");
+	if(param != null) {
+		this.setContactHasSite(param);
+	}
+	param = map.get("descrS");
+	if(param != null) {
+		this.setDescriptionDataData(param);
+	}
+	param = map.get("refS");
+	if(param != null) {
+		this.setDataSetReference(param);
+	}
+	
 	   }
 	
 	

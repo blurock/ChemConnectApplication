@@ -110,7 +110,7 @@ public class DatabaseObject  implements Serializable {
 	public void nullKey() {
 		key = null;
 	}
-	
+		
 	public void fillMapOfValues(Map<String,String> map) {
 		      map.put("identifier", this.getIdentifier());
 		      map.put("access", this.getAccess());
@@ -119,10 +119,25 @@ public class DatabaseObject  implements Serializable {
 		      map.put("owner", this.getOwner());
 		   }
 	public void retrieveFromMap(Map<String,String> map) {
-		      this.setIdentifier( map.get("identifier"));
-		      this.setAccess( map.get("access"));
-		      this.setSourceID( map.get("sourceID"));
-		      this.setOwner( map.get("owner"));
+		String param = map.get("identifier");
+		if(param != null) {
+		     this.setIdentifier(param);
+		}
+		param =  map.get("access");
+		if(param != null) {
+			this.setAccess(param);
+		}
+		param =  map.get("sourceID");
+		if(param != null) {
+			this.setSourceID(param);
+		}
+		param =  map.get("owner");
+		if(param != null) {
+			this.setOwner(param);
+		}
+		      
+		      
+		      
 		   }
 
 	
