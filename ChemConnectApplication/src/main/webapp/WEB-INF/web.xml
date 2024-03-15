@@ -7,14 +7,6 @@
 		<param-name>callback</param-name>
 		<param-value>http://localhost:8080/oauth2callback</param-value>
 	</context-param>
-	<context-param>
-		<param-name>clientID</param-name>
-		<param-value>664636228487-pbsb9lh39tvi2ec1rg0lqk4uq371bhr9.apps.googleusercontent.com</param-value>
-	</context-param>
-	<context-param>
-		<param-name>clientSecret</param-name>
-		<param-value>4wIPmOOKBTqgbSSkbvbzCjE9</param-value>
-	</context-param>
 
 	<servlet>
 		<servlet-name>gcsfileupload</servlet-name>
