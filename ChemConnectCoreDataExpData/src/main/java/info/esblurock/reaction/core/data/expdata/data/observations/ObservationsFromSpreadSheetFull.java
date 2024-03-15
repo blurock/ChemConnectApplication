@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.base.ChemConnectDataStructure;
 
+
 @SuppressWarnings("serial")
 @Entity
 public class ObservationsFromSpreadSheetFull extends ChemConnectDataStructure {

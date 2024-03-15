@@ -156,6 +156,13 @@ public class StandardDatabaseRepositoryFileStaging extends Composite
 		createRepositoryDataFile(obj,catid,"");
 	}
 
+	/** createRepositoryDataFile
+	 * 
+	 * 
+	 * @param obj
+	 * @param catid
+	 * @param description This is a text description
+	 */
 	public void createRepositoryDataFile(DatabaseObject obj, DataCatalogID catid, String description) {
 		gcsblob.setDescription(description);
 		UserImageServiceAsync async = GWT.create(UserImageService.class);

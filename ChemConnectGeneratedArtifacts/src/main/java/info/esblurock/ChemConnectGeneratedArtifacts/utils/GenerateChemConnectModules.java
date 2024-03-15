@@ -37,15 +37,16 @@ public class GenerateChemConnectModules {
 		String module = "dataset:ChemConnectBaseModule";
 		System.out.println("GeneratedClassObjects generate:" + module);
 		GeneratedClassObjects basegen = GenerateWholeModule.generate(rootDir, module, topconcepts, basePackageNames);
-		
-		
+		System.out.println(basegen);
+		/*
 		module = "dataset:ChemConnectExpDataModule";
 		System.out.println("GeneratedClassObjects generate:" + module);
 		GeneratedClassObjects expgen = GenerateWholeModule.generate(rootDir, module, topconcepts, basegen);
-	
 		System.out.println(expgen);
+	*/
 		
-		return expgen;
+		
+		return basegen;
 		//return basegen;
 	}
 

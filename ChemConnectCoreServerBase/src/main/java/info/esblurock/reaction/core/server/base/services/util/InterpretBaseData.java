@@ -25,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.StandardDataKeywords;
 import info.esblurock.reaction.chemconnect.core.base.metadata.UserAccountKeys;
 import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
+//import info.esblurock.reaction.chemconnect.server.base.interpret.InterpretBaseDataUtilities;
 import info.esblurock.reaction.chemconnect.core.base.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.base.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.base.image.ImageInformation;
@@ -940,7 +941,7 @@ public enum InterpretBaseData implements InterpretDataInterface {
 
 		@Override
 		public String canonicalClassName() {
-			return InitialStagingRepositoryFile.canonicalClassName();
+			return InitialStagingRepositoryFile.class.getCanonicalName();
 		}
 		
 	}, GCSBlobFileInformation {
@@ -2412,5 +2413,7 @@ public enum InterpretBaseData implements InterpretDataInterface {
 	public abstract DatabaseObject readElementFromDatabase(String identifier) throws IOException;
 
 	public abstract String canonicalClassName();
+	
+
 
 }

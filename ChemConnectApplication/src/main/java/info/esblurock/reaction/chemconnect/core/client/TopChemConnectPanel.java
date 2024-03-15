@@ -192,7 +192,7 @@ public class TopChemConnectPanel extends Composite {
 	}
 	
 	private String callbackWithServer() {
-		String redirect = "http://blurock-chemconnect.appspot.com/oauth2callback";
+		String redirect = "https://blurock-chemconnect.appspot.com/oauth2callback";
 		if(Window.Location.getHostName().compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/oauth2callback";
 		}

@@ -68,17 +68,17 @@ public class InputLineModal extends Composite  {
 		init();
 		if(ftype.compareTo(textField) == 0) {
 			textbox.setPlaceholder(placeholder);
-			textbox.getLabel().setTextColor(Color.BLACK);
+			//textbox.getLabel().setTextColor(Color.BLACK);
 			textbox.setLabel(label);
 			textbox.setVisible(true);
 		} else if(ftype.compareTo(integerField) == 0) {
 			integerbox.setPlaceholder(placeholder);
-			integerbox.getLabel().setTextColor(Color.BLACK);
+			//integerbox.getLabel().setTextColor(Color.BLACK);
 			integerbox.setLabel(label);
 			integerbox.setVisible(true);
 		} else if(ftype.compareTo(floatField) == 0) {
 			floatbox.setPlaceholder(placeholder);
-			floatbox.getLabel().setTextColor(Color.BLACK);
+			//floatbox.getLabel().setTextColor(Color.BLACK);
 			floatbox.setLabel(label);
 			floatbox.setVisible(true);
 		};

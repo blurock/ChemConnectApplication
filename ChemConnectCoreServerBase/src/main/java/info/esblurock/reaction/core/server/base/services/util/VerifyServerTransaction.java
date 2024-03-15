@@ -6,8 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
+import info.esblurock.reaction.core.ontology.base.UserQueries;
 
-import info.esblurock.reaction.core.ontology.base.authentification.UserQueries;
 
 
 public class VerifyServerTransaction {

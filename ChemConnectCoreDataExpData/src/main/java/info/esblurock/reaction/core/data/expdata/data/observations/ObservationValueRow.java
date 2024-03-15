@@ -9,6 +9,7 @@ import com.googlecode.objectify.annotation.Unindex;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 
 
+
 @Entity
 @SuppressWarnings("serial")
 public class ObservationValueRow extends ChemConnectCompoundDataStructure implements Comparable<ObservationValueRow>{

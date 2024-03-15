@@ -1,10 +1,8 @@
-package info.esblurock.reaction.chemconnect.core.base.client.util;
+package info.esblurock.reaction.chemconnect.core.base.activity;
 
 import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.base.activity.ActivityInformationRecord;
-import info.esblurock.reaction.chemconnect.core.base.activity.ActivityInformationRecordBase;
-import info.esblurock.reaction.chemconnect.core.base.activity.ActivityRepositoryInformation;
 import info.esblurock.reaction.chemconnect.core.base.activity.read.ActivityRepositoryInitialReadInfo;
+import info.esblurock.reaction.chemconnect.core.base.activity.ActivityRepositoryInformation;
 
 public class ActivityUtilities {
 	

@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratePackageInformation;
 import info.esblurock.ChemConnectGeneratedArtifacts.utils.GeneratedClassObjects;
-import info.esblurock.reaction.chemconnect.data.dataset.HierarchyNode;
 import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+import info.esblurock.reaction.chemconnect.core.base.utilities.HierarchyNode;
 
 public class GeneratePackageHierrchy {
 

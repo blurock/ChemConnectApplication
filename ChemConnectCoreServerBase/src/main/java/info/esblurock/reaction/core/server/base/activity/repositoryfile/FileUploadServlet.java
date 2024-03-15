@@ -9,6 +9,7 @@ import info.esblurock.reaction.chemconnect.core.base.activity.ActivityInformatio
 import info.esblurock.reaction.chemconnect.core.base.activity.ActivityInformationRecordBase;
 import info.esblurock.reaction.chemconnect.core.base.activity.ActivityRepositoryInformation;
 import info.esblurock.reaction.chemconnect.core.base.activity.read.ActivityRepositoryInitialReadLocalFile;
+import info.esblurock.reaction.chemconnect.core.base.activity.read.ActivityRepositoryInitialReadInfo;
 import info.esblurock.reaction.chemconnect.core.base.session.UserSessionData;
 import info.esblurock.reaction.core.server.base.activity.repositoryfile.util.InitialStagingUtilities;
 import info.esblurock.reaction.core.server.base.db.DatabaseWriteBase;
@@ -51,7 +52,8 @@ public class FileUploadServlet extends HttpServlet {
 				ActivityInformationRecord baseinfo = new ActivityInformationRecord(obj);
 				ActivityInformationRecordBase recordbaseinfo = new ActivityInformationRecordBase(baseinfo);
 				ActivityRepositoryInformation repinfo = new ActivityRepositoryInformation(recordbaseinfo);
-				ActivityRepositoryInitialReadLocalFile info = new ActivityRepositoryInitialReadLocalFile(repinfo,
+				ActivityRepositoryInitialReadInfo repread = new ActivityRepositoryInitialReadInfo(repinfo);
+				ActivityRepositoryInitialReadLocalFile info = new ActivityRepositoryInitialReadLocalFile(repread,
 						InitialStagingUtilities.extractNameFromURL(name),name);
 				InitialStagingUtilities.localFileUpload(info,fileItem,usession,sourceID);
 				

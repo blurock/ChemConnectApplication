@@ -16,14 +16,14 @@
 		<!-- Setting maven.compiler.source to something different to 1.8 needs 
 			that you configure the sourceLevel in gwt-maven-plugin since GWT compiler 
 			2.8 requires 1.8 (see gwt-maven-plugin block below) -->
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 
 		<!-- Don't let your Mac use a crazy non-standard encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<appengine.maven.plugin.version>2.0.0</appengine.maven.plugin.version>
-		<p.type>war</p.type>
+		<p.type>jar</p.type>
 	</properties>
 
 	<dependencyManagement>
@@ -32,7 +32,7 @@
 			<dependency>
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt</artifactId>
-				<version>2.8.1</version>
+				<version>2.10.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -55,39 +55,56 @@
 			<artifactId>ChemConnectCoreDataBase</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-dev</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-addins</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-themes</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-jquery</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-table</artifactId>
-			<version>2.1.1</version>
-		</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.gwt/gwt-servlet -->
+<dependency>
+    <groupId>com.google.gwt</groupId>
+    <artifactId>gwt-servlet</artifactId>
+    <version>2.10.0</version>
+    <scope>runtime</scope>
+</dependency><!-- https://mvnrepository.com/artifact/com.google.gwt/gwt-user -->
+<dependency>
+    <groupId>com.google.gwt</groupId>
+    <artifactId>gwt-user</artifactId>
+    <version>2.10.0</version>
+    <scope>provided</scope>
+</dependency><!-- https://mvnrepository.com/artifact/com.google.gwt/gwt-dev -->
+<dependency>
+    <groupId>com.google.gwt</groupId>
+    <artifactId>gwt-dev</artifactId>
+    <version>2.10.0</version>
+    <scope>provided</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-addins -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-addins</artifactId>
+    <version>2.8.3</version>
+</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.elemental2/elemental2-dom 
+<dependency>
+    <groupId>com.google.elemental2</groupId>
+    <artifactId>elemental2-dom</artifactId>
+    <version>1.2.1</version>
+</dependency>
+-->
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-themes -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-themes</artifactId>
+    <version>2.8.3</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-jquery -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-jquery</artifactId>
+    <version>2.8.3</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-table -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-table</artifactId>
+    <version>2.8.3</version>
+</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -149,105 +166,30 @@
 	</dependencies>
 
 	<build>
-		<!-- Output classes directly into the webapp, so that IDEs and "mvn process-classes" 
-			update them in DevMode -->
-		<!-- for hot reload of the web application -->
-		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/chemconnectcorebase</outputDirectory>
-		<!-- outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory -->
-
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.jpg</include>
+					<include>**/*.png</include>
+					<include>**/*.html</include>
+					<include>**/*.xml</include>
+					<include>**/*.java</include>
+					<include>**/*.gwt.xml</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>display-dependency-updates</goal>
-							<goal>display-plugin-updates</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${appengine.maven.plugin.version}</version>
-			</plugin>
-
-			<!-- GWT Maven Plugin -->
-			<plugin>
-				<groupId>net.ltgt.gwt.maven</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>1.0-rc-6</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>import-sources</goal>
-							<goal>compile</goal>
-							<goal>import-test-sources</goal>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
 				<configuration>
-					<attachClasses>true</attachClasses>
-					<moduleName>info.esblurock.reaction.chemconnect.core.base.ChemConnectApplicationBase</moduleName>
-					<moduleShortName>ChemConnectApplicationExpData</moduleShortName>
-					<failOnError>true</failOnError>
-					<!-- GWT compiler 2.8 requires 1.8, hence define sourceLevel here if 
-						you use a different source language for java compilation -->
-					<sourceLevel>1.8</sourceLevel>
-					<!-- Compiler configuration -->
-					<compilerArgs>
-						<!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
-						<arg>-compileReport</arg>
-						<arg>-XcompilerMetrics</arg>
-					</compilerArgs>
-					<!-- DevMode configuration -->
-					<warDir>${project.build.directory}/${project.build.finalName}</warDir>
-					<classpathScope>compile+runtime</classpathScope>
-					<!-- URL(s) that should be opened by DevMode (gwt:devmode). -->
-					<startupUrls>
-						<startupUrl>ChemConnectApplicationBase.html</startupUrl>
-					</startupUrls>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
 			</plugin>
-
-			<!-- Skip normal test execution, we use gwt:test instead -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.17</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.google.appengine</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>1.9.75</version>
-				<configuration>
-					<enableJarClasses>false</enableJarClasses>
-					<port>8181</port>
-					<address>0.0.0.0</address>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>make-a-jar</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 		</plugins>
 	</build>
 </project>

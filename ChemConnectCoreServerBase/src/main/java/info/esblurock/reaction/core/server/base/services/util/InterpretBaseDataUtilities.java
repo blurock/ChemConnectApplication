@@ -12,8 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import info.esblurock.reaction.chemconnect.data.DatabaseObject;
-import info.esblurock.reaction.chemconnect.data.dataset.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.base.transfer.DataElementInformation;
+import info.esblurock.reaction.core.ontology.base.dataset.DatasetOntologyParseBase;
+
 
 
 public class InterpretBaseDataUtilities {
@@ -110,5 +114,13 @@ public class InterpretBaseDataUtilities {
 		yaml.put(key, arr);
 	}
 
+	public static void setChemConnectCompoundMultipleType(DatabaseObjectHierarchy hierarchy, String dataType) {
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
+		multiple.setType(dataType);
+		DataElementInformation refelement = DatasetOntologyParseBase
+				.getSubElementStructureFromIDObject(dataType);
+		String refid = InterpretBaseDataUtilities.createSuffix(multiple, refelement);
+		multiple.setIdentifier(refid);
+	}
 
 }

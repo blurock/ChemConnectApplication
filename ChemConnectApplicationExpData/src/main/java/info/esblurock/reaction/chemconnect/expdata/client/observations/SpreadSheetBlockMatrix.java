@@ -13,6 +13,7 @@ import gwt.material.design.client.data.ListDataSource;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.pager.MaterialDataPager;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.Column;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import info.esblurock.reaction.chemconnect.core.base.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.base.client.error.StandardWindowVisualization;
@@ -25,6 +26,8 @@ import info.esblurock.reaction.core.data.expdata.data.observations.ObservationMa
 import info.esblurock.reaction.core.data.expdata.data.observations.ObservationValueRow;
 import info.esblurock.reaction.core.data.expdata.data.observations.ObservationValueRowTitle;
 import info.esblurock.reaction.core.data.expdata.data.observations.ObservationsFromSpreadSheetFull;
+
+import gwt.material.design.client.ui.table.cell.ColumnValueProvider;
 
 public class SpreadSheetBlockMatrix extends Composite {
 
@@ -116,7 +119,8 @@ public class SpreadSheetBlockMatrix extends Composite {
 	}
 	void addColumn(int columnnumber, String columnname) {
 		int number = columnnumber;
-		TextColumn<ObservationValueRow> cell = new TextColumn<ObservationValueRow>() {
+		
+		ColumnValueProvider<ObservationValueRow,String> cell = new ColumnValueProvider<ObservationValueRow,String>() {
 			@Override
 			public String getValue(ObservationValueRow object) {
 				String ans = "empty";
@@ -127,6 +131,7 @@ public class SpreadSheetBlockMatrix extends Composite {
 			}
 			
 		};
+		
 		table.addColumn(cell,columnname);
 	}
 }

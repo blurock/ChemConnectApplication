@@ -11,12 +11,11 @@ import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompound
 import info.esblurock.reaction.chemconnect.core.base.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.base.dataset.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.base.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
+//import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
+//import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
+//import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
+//import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
+//import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.core.data.expdata.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.core.data.expdata.data.observations.ObservationMatrixValues;
 import info.esblurock.reaction.core.data.expdata.data.observations.ObservationValueRow;
@@ -98,7 +97,7 @@ public class CreateSpreadSheetObjects {
 
 		return hierarchy;
 	}
-
+/*
 	public static DatabaseObjectHierarchy fillSingleObservationDataset(DatabaseObject obj, 
 			String observationS,
 			String correspondenceSpecification,
@@ -194,7 +193,7 @@ public class CreateSpreadSheetObjects {
 		
 		return hierarchy;
 	}
-
+*/
 	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, 
 			DataCatalogID catid, SpreadSheetInputInformation spreadinfo,
 			int numberOfColumns, int numberOfRows) {
@@ -242,6 +241,7 @@ public class CreateSpreadSheetObjects {
 		valuemult.setNumberOfElements(numberOfRows);
 		return hierarchy;
 	}
+	/*
 	public static void setInParameterValueComponents(
 			DatabaseObjectHierarchy spec,
 			ArrayList<String> titles, ArrayList<String> uncertain,
@@ -272,6 +272,7 @@ public class CreateSpreadSheetObjects {
 		}
 
 	}
+	
 	public static DatabaseObjectHierarchy findParameterSpecification(DatabaseObjectHierarchy specs, String id) {
 		DatabaseObjectHierarchy parameterspechier = null;
 		Iterator<DatabaseObjectHierarchy> iter = specs.getSubobjects().iterator();
@@ -285,5 +286,5 @@ public class CreateSpreadSheetObjects {
 		return parameterspechier;
 		
 	}
-
+*/
 }

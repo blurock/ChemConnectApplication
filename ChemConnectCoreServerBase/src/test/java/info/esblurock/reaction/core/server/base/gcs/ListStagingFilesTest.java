@@ -12,7 +12,7 @@ class ListStagingFilesTest {
 	void test() {
 		System.out.println("ListStagingFilesTest");
 		try {
-			GCSServiceRoutines.listStagingFiles("guest");
+			GCSServiceRoutines.listStagingFiles("EdwardBlurock");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

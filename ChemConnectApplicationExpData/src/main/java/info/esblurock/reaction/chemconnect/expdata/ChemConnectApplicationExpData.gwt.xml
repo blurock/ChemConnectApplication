@@ -30,7 +30,9 @@
 	<inherits
 		name='info.esblurock.reaction.chemconnect.core.ChemConnectCoreDataBase' />
 	<inherits
-		name='info.esblurock.reaction.chemconnect.core.base.ChemConnectApplicationBaseNoEntry' />
+		name='info.esblurock.reaction.chemconnect.core.base.ChemConnectApplicationBase' />
+	<inherits
+		name='info.esblurock.reaction.chemconnect.expdata.ChemConnectApplicationExpDataNoEntry' />
 	<inherits
 		name='info.esblurock.reaction.chemconnect.core.common.expdata.ChemConnectCoreClientServerCommonExpData' />
 	<inherits
@@ -39,7 +41,13 @@
 	<replace-with
 		class="info.esblurock.reaction.chemconnect.expdata.client.activity.ClientFactoryExpDataImpl">
 		<when-type-is
-			class="info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase" />
+			class="info.esblurock.reaction.chemconnect.expdata.client.activity.ClientFactoryExpData" />
+	</replace-with>
+	<replace-with class="info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBaseImpl">
+		<when-type-is class="info.esblurock.reaction.chemconnect.core.base.client.activity.ClientFactoryBase" />
+	</replace-with>
+	<replace-with class="info.esblurock.reaction.chemconnect.expdata.client.display.SetUpCollapsibleItemExpDataImpl">
+		<when-type-is class="info.esblurock.reaction.chemconnect.expdata.client.display.SetUpCollapsibleItemBase" />
 	</replace-with>
 
 	<!-- Other module inherits                                      -->

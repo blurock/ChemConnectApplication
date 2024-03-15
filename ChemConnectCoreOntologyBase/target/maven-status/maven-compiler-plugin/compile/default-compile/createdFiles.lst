@@ -1,4 +1,5 @@
 info/esblurock/reaction/core/ontology/base/dataset/DatasetOntologyParseBase.class
+info/esblurock/reaction/core/ontology/base/UserQueries.class
 info/esblurock/reaction/core/ontology/base/OntologyBase.class
 info/esblurock/reaction/core/ontology/base/GenericSimpleQueries.class
 info/esblurock/reaction/core/ontology/base/transaction/TransactionConceptParsing.class

@@ -4,7 +4,7 @@
 
 	<threadsafe>true</threadsafe>
 	<sessions-enabled>true</sessions-enabled>
-	<runtime>java8</runtime>
+	<runtime>java11</runtime>
 	<application>blurock-chemconnect</application>
 	<system-properties>
 		<property name="java.util.logging.config.file"

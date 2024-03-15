@@ -6,6 +6,7 @@ import com.googlecode.objectify.annotation.Index;
 import info.esblurock.reaction.chemconnect.core.base.dataset.ChemConnectCompoundDataStructure;
 
 
+
 @Entity
 @SuppressWarnings("serial")
 public class ObservationMatrixValues extends ChemConnectCompoundDataStructure {

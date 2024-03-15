@@ -12,8 +12,8 @@
 		<appengine.maven.plugin.version>2.0.0</appengine.maven.plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
 	</properties>
 
@@ -26,102 +26,106 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt</artifactId>
-				<version>2.8.2</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Compile/runtime dependencies -->
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-dev</artifactId>
-		</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.gwt/gwt-user -->
+<dependency>
+    <groupId>com.google.gwt</groupId>
+    <artifactId>gwt-user</artifactId>
+    <version>2.10.0</version>
+    <scope>provided</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.gwt/gwt-dev -->
+<dependency>
+    <groupId>com.google.gwt</groupId>
+    <artifactId>gwt-dev</artifactId>
+    <version>2.10.0</version>
+    <scope>provided</scope>
+</dependency>
 		<dependency>
 			<groupId>info.esblurock</groupId>
-			<artifactId>ChemConnectCoreServer</artifactId>
+			<artifactId>ChemConnectCoreServerBase</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>info.esblurock</groupId>
-			<artifactId>ChemConnectCoreClientServerCommon</artifactId>
+			<artifactId>ChemConnectCoreClientServerCommonBase</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>info.esblurock</groupId>
-			<artifactId>ChemConnectCoreData</artifactId>
+			<artifactId>ChemConnectCoreDataBase</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>info.esblurock</groupId>
-			<artifactId>ChemConnectCoreRegisterData</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
-			<scope>provided</scope>
-		</dependency>
+<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+<dependency>
+    <groupId>javax.servlet.jsp</groupId>
+    <artifactId>javax.servlet.jsp-api</artifactId>
+    <version>2.3.3</version>
+    <scope>provided</scope>
+</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.googlecode.objectify/objectify -->
-		<dependency>
-			<groupId>com.googlecode.objectify</groupId>
-			<artifactId>objectify</artifactId>
-			<version>6.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>1.9.74</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>google-cloud-datastore</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>google-cloud-storage</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-addins</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-themes</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-jquery</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.gwtmaterialdesign</groupId>
-			<artifactId>gwt-material-table</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.gwtd3/gwt-d3-api -->
-		<dependency>
-			<groupId>com.github.gwtd3</groupId>
-			<artifactId>gwt-d3-api</artifactId>
-			<version>1.3.0</version>
-		</dependency>
+<!-- https://mvnrepository.com/artifact/com.googlecode.objectify/objectify -->
+<dependency>
+    <groupId>com.googlecode.objectify</groupId>
+    <artifactId>objectify</artifactId>
+    <version>6.1.1</version>
+</dependency>		
+<!-- https://mvnrepository.com/artifact/com.google.appengine/appengine-api-1.0-sdk -->
+<dependency>
+    <groupId>com.google.appengine</groupId>
+    <artifactId>appengine-api-1.0-sdk</artifactId>
+    <version>2.0.25</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-datastore -->
+<dependency>
+    <groupId>com.google.cloud</groupId>
+    <artifactId>google-cloud-datastore</artifactId>
+    <version>2.18.5</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-storage -->
+<dependency>
+    <groupId>com.google.cloud</groupId>
+    <artifactId>google-cloud-storage</artifactId>
+    <version>2.35.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-addins -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-addins</artifactId>
+    <version>2.8.3</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-themes -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-themes</artifactId>
+    <version>2.8.3</version>
+</dependency>		
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-jquery -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-jquery</artifactId>
+    <version>2.8.3</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtmaterialdesign/gwt-material-table -->
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-table</artifactId>
+    <version>2.8.3</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.gwtd3/gwt-d3-api -->
+<dependency>
+    <groupId>com.github.gwtd3</groupId>
+    <artifactId>gwt-d3-api</artifactId>
+    <version>1.3.0</version>
+</dependency>
 		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -136,16 +140,20 @@
 			<version>1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>27.1-jre</version>
-		</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>33.0.0-jre</version>
+</dependency>
 	</dependencies>
 
 	<build>
+		<!-- Output classes directly into the webapp, so that IDEs and "mvn process-classes" 
+			update them in DevMode -->
 		<!-- for hot reload of the web application -->
-		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/chemconnectcore</outputDirectory>
+		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/chemconnectcorebase</outputDirectory>
+		<!-- outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory -->
 
 		<plugins>
 			<plugin>
@@ -162,26 +170,13 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>${appengine.maven.plugin.version}</version>
 			</plugin>
 
-			<plugin>
-				<groupId>net.ltgt.gwt.maven</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>1.0-rc-10</version>
-				<extensions>true</extensions>
-				<configuration>
-					<moduleName>info.esblurock.reaction.chemconnect.core.ChemConnectCore</moduleName>
-					<moduleShortName>ChemConnectCore</moduleShortName>
-				</configuration>
-			</plugin>
-			
-			
-			
+			<!-- GWT Maven Plugin -->
 			<plugin>
 				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -198,12 +193,12 @@
 				</executions>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					<moduleName>info.esblurock.reaction.chemconnect.core.base.ChemConnectApplicationBase</moduleName>
+					<moduleName>info.esblurock.reaction.chemconnect.core.base.ChemConnectApplication</moduleName>
 					<moduleShortName>ChemConnectApplicationBase</moduleShortName>
 					<failOnError>true</failOnError>
 					<!-- GWT compiler 2.8 requires 1.8, hence define sourceLevel here if 
 						you use a different source language for java compilation -->
-					<sourceLevel>1.8</sourceLevel>
+					<sourceLevel>11</sourceLevel>
 					<!-- Compiler configuration -->
 					<compilerArgs>
 						<!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
@@ -215,12 +210,45 @@
 					<classpathScope>compile+runtime</classpathScope>
 					<!-- URL(s) that should be opened by DevMode (gwt:devmode). -->
 					<startupUrls>
-						<startupUrl>ChemConnectApplicationExpData.html</startupUrl>
+						<startupUrl>ChemConnectApplicationBase.html</startupUrl>
 					</startupUrls>
 				</configuration>
 			</plugin>
-			
-			
+
+			<!-- Skip normal test execution, we use gwt:test instead -->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.appengine</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>1.9.84</version>
+				<configuration>
+					<enableJarClasses>false</enableJarClasses>
+					<port>8080</port>
+					<address>0.0.0.0</address>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>make-a-jar</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

@@ -8,7 +8,7 @@
 <module rename-to='chemconnectmodule'>
   <!-- Inherit our applications main module.                      -->
   <inherits name='info.esblurock.reaction.chemconnect.ChemConnectModule'/>
-
+<inherits name="com.google.gwt.core.Core" />
   <!-- Specify the path to any remote services.                   -->
   <servlet path="/chemconnectmodule/greet" class="info.esblurock.reaction.chemconnect.server.GreetingServiceImpl" />
 

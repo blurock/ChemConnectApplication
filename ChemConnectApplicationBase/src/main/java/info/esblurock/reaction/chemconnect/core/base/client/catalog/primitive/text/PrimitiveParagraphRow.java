@@ -53,7 +53,7 @@ public class PrimitiveParagraphRow extends Composite implements HasText {
 		typeWithNamespace = info.getType();
 		paragraph.setLabel(TextUtilities.removeNamespace(typeWithNamespace));
 		paragraph.setText(info.getValue());
-		paragraph.getLabel().setTextColor(Color.BLACK);
+		//paragraph.getLabel().setTextColor(Color.BLACK);
 	}
 
 	@UiHandler("info")
